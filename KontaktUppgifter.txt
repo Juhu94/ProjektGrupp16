@@ -30,5 +30,7 @@ julian.hultgren@hotmail.com
 Julian Hultgren
 julian.hultgren@hotmail.com
 Hallå
+
+DETTA ÄR GJORT FRÅN HEMSIDAN
 >>>>>>> origin/master
 >>>>>>> origin/master
