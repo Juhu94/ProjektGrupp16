@@ -1,4 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+Lukas Persson
+lukas.persson1@hotmail.com
+Erik Johansson
+Erik.johansson_93@hotmail.com
+=======
+>>>>>>> origin/master
 Lukas Persson
 lukas.persson1@hotmail.com
 Erik Johansson
@@ -14,4 +22,8 @@ simon.b.93@hotmail.com
 Julian Hultgren
 julian.hultgren@hotmail.com
 
+<<<<<<< HEAD
+=======
+Hallå
+>>>>>>> origin/master
 >>>>>>> origin/master
