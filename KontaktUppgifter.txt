@@ -15,7 +15,7 @@ Erik.johansson_93@hotmail.com
 Lukas Persson
 lukas.persson1@hotmail.com
 <<<<<<< HEAD
-Simon Börjesson
+Simon BÃ¶rjesson
 simon.b.93@hotmail.com
 =======
 
@@ -24,6 +24,11 @@ julian.hultgren@hotmail.com
 
 <<<<<<< HEAD
 =======
-Hallå
+Julian Hultgren
+julian.hultgren@hotmail.com
+
+Julian Hultgren
+julian.hultgren@hotmail.com
+HallÃ¥
 >>>>>>> origin/master
 >>>>>>> origin/master
