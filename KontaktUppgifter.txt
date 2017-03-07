@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 Lukas Persson
@@ -7,3 +8,9 @@ Erik Johansson
 Erik.johansson_93@hotmail.com
 
 
+=======
+Erik Johansson
+Erik.johansson_93@hotmail.com
+Från hemsidan! 
+;)
+>>>>>>> origin/master
