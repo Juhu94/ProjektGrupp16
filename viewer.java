@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,10 +19,10 @@ import javax.swing.border.Border;
 /**
  * 
  * @author Julian Hultgren
- * Klass som visar en grov planering för hur spelplanen är tänkt att se ut
+ * Klass som visar en grov planering fÃ¶r hur spelplanen Ã¤r tÃ¤nkt att se ut
  *
  */
-public class viewer extends JPanel{
+public class viewer extends JPanel implements MouseListener, ActionListener{
 	
 	private JFrame frame;
 	
@@ -35,13 +38,15 @@ public class viewer extends JPanel{
 	private JButton connect;
 	private JButton close;
 	
-	private JLabel[][] boardArray = new JLabel[50][50];
+	private JLabel[][] boardArray = new JLabel[10][10];
 	
 	/**
-	 * Konstruktor som skapar ett grafiskt fönster
+	 * Konstruktor som skapar ett grafiskt fÃ¶nster
 	 */
 	public viewer(){
+		
 		frame = new JFrame("BoardGame");
+		
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
 		northPanel = new JPanel();
@@ -52,11 +57,15 @@ public class viewer extends JPanel{
 		connect = new JButton("Connect");
 		close = new JButton("Close");
 		
+		disconnect.addActionListener(this);
+		connect.addActionListener(this);
+		close.addActionListener(this);
+		
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		centerPanel.setPreferredSize(new Dimension(1280,900));
-		centerPanel.setLayout(new GridLayout(50,50,1,1));
+		centerPanel.setLayout(new GridLayout(10,10,1,1));
 		
 		southPanel.setLayout(new GridLayout(1,4,200,200));
 		southPanel.setPreferredSize(new Dimension(20,20));
@@ -65,13 +74,14 @@ public class viewer extends JPanel{
 		southPanel.add(close, BorderLayout.CENTER);
 		
 		
-		for(int i = 0; i < 50; i++){
-			for(int j = 0; j < 50; j++){
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
 				boardArray[i][j] = new JLabel();
 				boardArray[i][j].setBackground(Color.WHITE);
 				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
 				boardArray[i][j].setBorder(blackline);
 				boardArray[i][j].setOpaque(true);
+				boardArray[i][j].addMouseListener(this);
 				centerPanel.add(boardArray[i][j]);
 			}
 		}
@@ -82,40 +92,45 @@ public class viewer extends JPanel{
 		frame.add(northPanel, BorderLayout.NORTH);
 		frame.add(southPanel, BorderLayout.SOUTH);
 		
-		addListeners();
+//		addListeners();
 		
 		frame.pack();
 		frame.setVisible(true);
 	}
-	/**
-	 * Metod som lägger till vilka knappar som ska kunna avlyssnas av actionlistener
-	 */
-	public void addListeners(){
-		buttonlistener listeners = new buttonlistener();
-		connect.addActionListener(listeners);
-		disconnect.addActionListener(listeners);
-		close.addActionListener(listeners);
-	}
-	/**
-	 * Inre klass som implementerar ActionListener
-	 * @author Julian Hultgren
-	 *	Lyssnar på om en användare trycker på någon av de angiva knapparna och utför sedan den angivna koden
-	 */
-	private class buttonlistener implements ActionListener	{
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == disconnect){
-				
-			}
-			if(e.getSource() == connect){
-				
-			}
-			if(e.getSource() == close){
-				System.exit(0);
-			}
+
+	public void mouseClicked(MouseEvent e) {
+		if(e.getButton() == MouseEvent.BUTTON1){
+			JLabel theLabel = (JLabel) e.getSource();
+			theLabel.setBackground(Color.RED);
 		}
+	}
+
+	public void mouseEntered(MouseEvent e) {
+
 		
 	}
-	
+
+	public void mouseExited(MouseEvent e) {
+
+		
+	}
+
+	public void mousePressed(MouseEvent e) {
+
+		
+	}
+
+	public void mouseReleased(MouseEvent e) {
+
+		
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == close){
+			System.exit(0);
+		}
+		
+	}	
 	public static void main(String[] args) {
 		viewer v = new viewer();
 	}
