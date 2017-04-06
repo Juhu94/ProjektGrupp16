@@ -3,6 +3,7 @@ package BoardGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,17 +17,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import klient.GameClient;
 /**
  * 
  * @author Julian Hultgren
  * Klass som visar en grov planering för hur spelplanen är tänkt att se ut
  *
  */
-public class viewer extends JPanel implements MouseListener, ActionListener{
+public class Viewer extends JPanel implements MouseListener, ActionListener{
 	
 	private JFrame frame;
 	
 	private JPanel centerPanel;
+	private JPanel hittepo;
 	private JPanel southPanel;
 	private JPanel northPanel;
 	private JPanel westPanel;
@@ -38,12 +42,14 @@ public class viewer extends JPanel implements MouseListener, ActionListener{
 	private JButton connect;
 	private JButton close;
 	
-	private JLabel[][] boardArray = new JLabel[10][10];
+	private GameClient client;
+	
+	private JLabel[][] boardArray = new JLabel[41][47];
 	
 	/**
 	 * Konstruktor som skapar ett grafiskt fönster
 	 */
-	public viewer(){
+	public Viewer(){
 		
 		frame = new JFrame("BoardGame");
 		
@@ -51,7 +57,8 @@ public class viewer extends JPanel implements MouseListener, ActionListener{
 		southPanel = new JPanel();
 		northPanel = new JPanel();
 		westPanel = new JPanel();
-		eastPanel = new JPanel();	
+		eastPanel = new JPanel();
+		hittepo = new JPanel();
 		
 		disconnect = new JButton("Disconnect");
 		connect = new JButton("Connect");
@@ -62,10 +69,13 @@ public class viewer extends JPanel implements MouseListener, ActionListener{
 		close.addActionListener(this);
 		
 		frame.setLayout(new BorderLayout());
+		frame.setPreferredSize(new Dimension(1920,1080));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		centerPanel.setPreferredSize(new Dimension(1280,900));
-		centerPanel.setLayout(new GridLayout(10,10,1,1));
+		hittepo.setLayout(new FlowLayout());
+		hittepo.add(centerPanel);
+		
+		centerPanel.setLayout(new GridLayout(41,47,1,1));
 		
 		southPanel.setLayout(new GridLayout(1,4,200,200));
 		southPanel.setPreferredSize(new Dimension(20,20));
@@ -74,19 +84,20 @@ public class viewer extends JPanel implements MouseListener, ActionListener{
 		southPanel.add(close, BorderLayout.CENTER);
 		
 		
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
+		for(int i = 0; i < 41; i++){
+			for(int j = 0; j < 47; j++){
 				boardArray[i][j] = new JLabel();
 				boardArray[i][j].setBackground(Color.WHITE);
 				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
 				boardArray[i][j].setBorder(blackline);
 				boardArray[i][j].setOpaque(true);
 				boardArray[i][j].addMouseListener(this);
+				boardArray[i][j].setPreferredSize(new Dimension(22,22));
 				centerPanel.add(boardArray[i][j]);
 			}
 		}
 		
-		frame.add(centerPanel,BorderLayout.CENTER);
+		frame.add(hittepo,BorderLayout.CENTER);
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
 		frame.add(northPanel, BorderLayout.NORTH);
@@ -100,8 +111,11 @@ public class viewer extends JPanel implements MouseListener, ActionListener{
 
 	public void mouseClicked(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
+			
+		}
+		if(e.getButton() == MouseEvent.BUTTON3){
 			JLabel theLabel = (JLabel) e.getSource();
-			theLabel.setBackground(Color.RED);
+			theLabel.setBackground(Color.BLUE);
 		}
 	}
 
@@ -124,6 +138,10 @@ public class viewer extends JPanel implements MouseListener, ActionListener{
 
 		
 	}
+	
+	public void setTileColor(JLabel theLabel, Color color){
+		theLabel.setBackground(color);
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == close){
@@ -131,7 +149,8 @@ public class viewer extends JPanel implements MouseListener, ActionListener{
 		}
 		
 	}	
-	public static void main(String[] args) {
-		viewer v = new viewer();
-	}
+//		
+//	public static void main(String[] args) {
+//		Viewer v = new Viewer();
+//	}
 }
