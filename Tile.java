@@ -4,10 +4,14 @@ public class Tile {
 	private boolean accessible;
 	private boolean seeThrough;
 	private boolean treasure = false;
-	private boolean raft = false;
-	private boolean canon = false;
-	private boolean boat = false; 
 	private String name;
+	
+	public Tile(String name, boolean accessible, boolean seethrough, boolean treasure){
+		this.name = name; 
+		this.accessible = accessible;
+		this.seeThrough = seethrough;
+		this.treasure = treasure;
+	}
 	
 	/**
 	 * Plases a treasure on this tile
@@ -34,80 +38,6 @@ public class Tile {
 		return treasure;
 	}
 	
-	/**
-	 * Plases a raft on this tile
-	 */
-	
-	public void raftOn(){
-		raft = true;
-	}
-	
-	/**
-	 * Takes away a raft from this tile
-	 */
-	
-	public void raftOff(){
-		raft = false;
-	}
-	
-	/**
-	 * Returns true if there is a raft on this tile
-	 * @return boolean
-	 */
-	
-	public boolean getRaft(){
-		return raft;
-	}
-	
-	/**
-	 * Plases a canon on this tile
-	 */
-	
-	public void canonOn(){
-		canon = true;
-	}
-	
-	/**
-	 * Takes away a canon on this tile
-	 */
-	
-	public void canonOff(){
-		canon = false;
-	}
-	
-	/**
-	 * Returns true if there is a canon on this tile
-	 * @return boolan
-	 */
-	
-	public boolean getCanon(){
-		return canon;
-	}
-	
-	/**
-	 * Plases a boat on this tile
-	 */
-	
-	public void boatOn(){
-		boat = true;
-	}
-	
-	/**
-	 * Takes away a boat on this tile
-	 */
-	
-	public void boatOff(){
-		boat = false;
-	}
-	
-	/**
-	 * Returns true if there is a boat on this tile
-	 * @return boolan
-	 */
-	
-	public boolean getBoat(){
-		return boat;
-	}
 	
 	/**
 	 * Returns the name of the tile
