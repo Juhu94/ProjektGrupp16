@@ -1,9 +1,14 @@
 package klient;
 
+import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+
+import javax.swing.JLabel;
+
+import BoardGame.Viewer;
 /**
  * 
  * @author Julian Hultgren
@@ -11,6 +16,7 @@ import java.net.Socket;
  */
 public class GameClient {
 	private Socket socket;
+	private Viewer viewer;
 	
 	public GameClient(String serverIp, int port){
 		new Connection(serverIp,port).start();
@@ -47,5 +53,14 @@ public class GameClient {
 				}
 			}
 		}
+	}
+	
+	public void changeTileColor(JLabel theLabel){
+		theLabel.setBackground(Color.RED);
+	}
+	
+	public static void main(String[] args) {
+		GameClient cc = new GameClient("127.0.0.1" ,3520);
+		Viewer vv = new Viewer();
 	}
 }
