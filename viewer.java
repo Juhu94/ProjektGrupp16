@@ -1,4 +1,4 @@
-package BoardGame;
+package klient;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,15 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-
-import klient.GameClient;
 /**
  * 
  * @author Julian Hultgren
  * Klass som visar en grov planering för hur spelplanen är tänkt att se ut
  *
  */
-public class Viewer extends JPanel implements MouseListener, ActionListener{
+public class Viewer extends JPanel implements MouseListener, ActionListener, ViewerListener{
 	
 	private JFrame frame;
 	
@@ -49,8 +47,10 @@ public class Viewer extends JPanel implements MouseListener, ActionListener{
 	/**
 	 * Konstruktor som skapar ett grafiskt fönster
 	 */
-	public Viewer(){
+	public Viewer(GameClient client){
 		
+		this.client = client;
+		client.addListeners(this);
 		frame = new JFrame("BoardGame");
 		
 		centerPanel = new JPanel();
@@ -89,7 +89,7 @@ public class Viewer extends JPanel implements MouseListener, ActionListener{
 				boardArray[i][j] = new JLabel();
 				boardArray[i][j].setBackground(Color.WHITE);
 				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
-				boardArray[i][j].setBorder(blackline);
+//				boardArray[i][j].setBorder(blackline);
 				boardArray[i][j].setOpaque(true);
 				boardArray[i][j].addMouseListener(this);
 				boardArray[i][j].setPreferredSize(new Dimension(22,22));
@@ -112,7 +112,8 @@ public class Viewer extends JPanel implements MouseListener, ActionListener{
 	public void mouseClicked(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
 			
-		}
+			client.changeTileColor((JLabel)e.getSource());
+		}	
 		if(e.getButton() == MouseEvent.BUTTON3){
 			JLabel theLabel = (JLabel) e.getSource();
 			theLabel.setBackground(Color.BLUE);
@@ -139,10 +140,10 @@ public class Viewer extends JPanel implements MouseListener, ActionListener{
 		
 	}
 	
-	public void setTileColor(JLabel theLabel, Color color){
-		theLabel.setBackground(color);
+	public void setTileColor(JLabel theLabel){
+		
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == close){
 			System.exit(0);
@@ -153,4 +154,10 @@ public class Viewer extends JPanel implements MouseListener, ActionListener{
 //	public static void main(String[] args) {
 //		Viewer v = new Viewer();
 //	}
+
+	@Override
+	public void updateViewer(JLabel in) {
+		in.setBackground(Color.RED);
+		
+	}
 }
