@@ -5,6 +5,9 @@ public class GroundTile extends Tile {
 	private boolean canon = false;
 	private boolean boat = false; 
 
+	/**
+	 *Constructor
+	 */
 	public GroundTile(boolean raft, boolean canon, boolean boat){
 		super("Ground", true, true, false);
 		this.raft = raft;
