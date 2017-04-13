@@ -6,6 +6,10 @@ public class Tile {
 	private boolean treasure = false;
 	private String name;
 	
+	/**
+	 *Constructor
+	 */
+	
 	public Tile(String name, boolean accessible, boolean seethrough, boolean treasure){
 		this.name = name; 
 		this.accessible = accessible;
