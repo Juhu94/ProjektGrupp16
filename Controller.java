@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Random;
 
 public class Controller {
-	// 47x41
+	// Not finished...
 	private Tile[][] map = {new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile();
 							new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new GroundTile(false, false, false), new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new GroundTile(false, false, false), new GroundTile(false, false, false),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(), new JungleTile(),new JungleTile(), new JungleTile(), new JungleTile(), new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile();
 							new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new GroundTile(false, false, false), new GroundTile(false, false, false), new SpecialTile(),new WaterTile(),new SpecialTile(),new WaterTile(),new SpecialTile(),new GroundTile(false, false, false), new GroundTile(false, false, false), new GroundTile(false, false, false), new GroundTile(false, false, false), new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new JungleTile(), new GroundTile(false, false, false), new GroundTile(false, false, false), new GroundTile(false, false, false), new GroundTile(false, false, false), new JungleTile(), new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile(),new WaterTile();
@@ -25,7 +25,7 @@ public class Controller {
 	 *            int
 	 */
 	public void movePiece(int pice, int x, int y) {
-
+		//placeholder
 	}
 
 	/**
