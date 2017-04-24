@@ -17,6 +17,7 @@ public class GameClient implements Serializable{
 
 	private transient Socket socket;
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
+	private int[] tilePos = new int[2];
 	
 	public GameClient(String serverIp, int port){
 		new Connection(serverIp,port).start();
@@ -67,12 +68,14 @@ public class GameClient implements Serializable{
 		}
 	}	
 	
-	public void theTile(JLabel theTile){
+	public void theTile(ExtendedJLabel theTile){
 		System.out.println("Från viewern till klienten");
 		try{
-			Message m = new Message(theTile);
+//			Message m = new Message(theTile);
+			tilePos[0] = theTile.getCol();
+			tilePos[1] = theTile.getRow();
 			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-			output.writeObject(theTile);
+			output.writeObject(tilePos);
 			output.flush();
 		}catch (IOException e) {
 			e.printStackTrace();

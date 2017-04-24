@@ -55,7 +55,7 @@ public class GameServer implements Runnable{
 				try{
 					ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
 					Object object = input.readObject();
-					if(object instanceof Message){
+					if(object instanceof int[]){
 						Message inMessage = (Message) object;
 						Send(inMessage);
 						System.out.println("Från klienten till servern");

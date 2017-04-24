@@ -9,6 +9,7 @@ public class ExtendedJLabel extends JLabel {
 	private int row;
 	private int col;
 	private Color color;
+	private boolean occupied;
 	
 	public ExtendedJLabel(int row, int col, Color c) {
 		this.row = row;
@@ -20,12 +21,16 @@ public class ExtendedJLabel extends JLabel {
 		return row;
 	}
 	
+	public int getCol() {
+		return col;
+	}
+	
 	public void reset(){
 		
 	}
 	
-	public int getCol() {
-		return col;
+	public void setOccupied(boolean state){
+		this.occupied = state;
 	}
 	
 	protected void paintComponent(Graphics g) {
