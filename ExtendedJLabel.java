@@ -1,0 +1,38 @@
+package projekt;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.JLabel;
+
+public class ExtendedJLabel extends JLabel {
+	private int row;
+	private int col;
+	private Color color;
+	
+	public ExtendedJLabel(int row, int col, Color c) {
+		this.row = row;
+		this.col = col;
+		this.color = c;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public void reset(){
+		
+	}
+	
+	public int getCol() {
+		return col;
+	}
+	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int width = this.getWidth();
+		int height = this.getHeight();
+		g.setColor(color);
+		g.fillOval(width/4, height/4, width/2, height/2);
+	}
+}

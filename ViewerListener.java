@@ -1,4 +1,4 @@
-package klient;
+package projekt;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
