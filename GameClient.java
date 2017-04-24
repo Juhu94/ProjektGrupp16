@@ -15,7 +15,8 @@ import javax.swing.JLabel;
  */
 public class GameClient implements Serializable{
 
-	private transient Socket socket;
+	private int iD;
+	private Socket socket;
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
 	private int[] tilePos = new int[2];
 	private static int[] mapArray = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -71,36 +72,36 @@ public class GameClient implements Serializable{
 	private class Connection extends Thread{
 		private String ipAddress = "";
 		private int port = 0;
-		
+		ObjectInputStream input;
+			
 		public Connection(String ipAddress, int port){
 			this.ipAddress = ipAddress;
 			this.port = port;
 		}
-		
+			
 		public void run(){
 			System.out.println("Client Running");
 			try{
 				socket = new Socket(ipAddress,port);
-				
+					
+				input = new ObjectInputStream(socket.getInputStream());
 			}catch (IOException e ){
 				e.printStackTrace();
 			}
-			
+				
 			while(!Thread.interrupted()){
 				try{
-					ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+						
 					Object object = input.readObject();
-					if(object instanceof Message){
-						Message inMessage = (Message) object;
-						updateBoard(inMessage);
-						System.out.println("Från servern till alla ansluta klienter");
+					if(object instanceof Integer){
+						iD = (int)object;	
 					}
 				}catch (IOException | ClassNotFoundException e){
 					e.printStackTrace();
 				}
 			}
 		}	
-		
+			
 	}
 	
 	/**
@@ -143,6 +144,7 @@ public class GameClient implements Serializable{
 		return map;
 	}
 	
+	//Behöver modifieras!
 	public void updateBoard(Message inMessage) {
 		for(ViewerListener listener : listeners) {
 			listener.updateViewer(inMessage.getTheLabel());
