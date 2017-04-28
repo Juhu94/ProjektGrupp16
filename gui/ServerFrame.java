@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,11 +46,11 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JList listUsers = new JList();
 	private JTextArea infoArea = new JTextArea(
 			"Du är spelvärd för en spelomgång.\n"
+			+"Skriv in vilket username du vill använda i rutan ovanför.\n"
+			+"Klicka sedan på 'Start server för att starta servern'.\n"
 			+"För att starta en spelomgång måste minst 1 till klient\n"
 			+"utöver spelvärden (du) vara ansluten.\n"
 			+"Klicka sedan på 'Starta spelomgång'.\n"
-			+"Skriv in vilket username du vill använda i rutan ovanför.\n"
-			+"Klicka sedan på 'Välj username'.\n"
 			+"-----------------------------------------------------------------------------------\n");
 	
 	private JTextField username = new JTextField();
@@ -55,7 +58,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JButton bStart = new JButton("Starta spelomgång");
 	private JButton bDisconnect = new JButton("Disconnect");
 	private JButton bClose = new JButton("Close");
-	private JButton bUsername = new JButton("Välj användarnamn");
+	private JButton bStartServer = new JButton("Start server");
 	private JButton bLeft = new JButton("<<");
 	private JButton bRight = new JButton(">>");
 	
@@ -68,6 +71,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	public ServerFrame(GameClient client) {
 		this.client = client;
 		client.addListeners(this);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(new BorderLayout());
@@ -89,7 +93,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		infoArea.setEditable(false);
 		infoArea.setBorder(BorderFactory.createTitledBorder("Info ruta"));
 		leftGridPanel.add(username);
-		leftGridPanel.add(bUsername);
+		leftGridPanel.add(bStartServer);
 		leftGridPanel.add(bStart);
 		leftPanel.add(leftGridPanel, BorderLayout.NORTH);
 		leftPanel.add(infoArea, BorderLayout.CENTER);
@@ -119,7 +123,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 			}
 		}
 		bStart.addActionListener(this);
-		bUsername.addActionListener(this);
+		bStartServer.addActionListener(this);
 		bDisconnect.addActionListener(this);
 		bClose.addActionListener(this);
 		
@@ -137,10 +141,18 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		if(e.getSource() == bStart) {
 			//Anropa start metoden i GameClient
 		}
-		if(e.getSource() == bUsername) {
+		if(e.getSource() == bStartServer) {
+			client.startServer();
+			try {
+				client.connect(InetAddress.getLocalHost().getHostAddress(), 3520, username.getText());
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			infoArea.append("Du har valt '"+username.getText()+"' som ditt username");
 			client.sendUsername(username.getText());
 			username.setText("");
+			bStartServer.setEnabled(false);
 		}
 		if(e.getSource() == bDisconnect) {
 			updateInfoRuta("Hej");
