@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 /**
  * 
@@ -39,6 +40,9 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 	private JButton disconnect;
 	private JButton connect;
 	private JButton close;
+	
+	private JTextArea serverIP;
+	private JTextArea serverPort;
 	
 	private GameClient client;
 	
@@ -79,6 +83,8 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 		
 		southPanel.setLayout(new GridLayout(1,4,200,200));
 		southPanel.setPreferredSize(new Dimension(20,20));
+		southPanel.add(serverIP, BorderLayout.CENTER);
+		southPanel.add(serverPort, BorderLayout.CENTER);
 		southPanel.add(connect, BorderLayout.CENTER);
 		southPanel.add(disconnect,BorderLayout.CENTER);
 		southPanel.add(close, BorderLayout.CENTER);
@@ -114,13 +120,14 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 //			JLabel theLabel = new JLabel();
 			ExtendedJLabel theLabel = (ExtendedJLabel)e.getSource();
 //			client.theTile(theLabel);
-			System.out.println("Någon har tryckt på en ruta på spelbrädet,(row="+theLabel.getRow());
+			System.out.println("Någon har tryckt på en ruta på spelbrädet,(row="+theLabel.getRow()+")");
 			theLabel.setBackground(Color.BLUE);
 			theLabel.repaint();
 		}	
 		if(e.getButton() == MouseEvent.BUTTON3){
 			JLabel theLabel = (JLabel) e.getSource();
 			theLabel.setBackground(Color.BLUE);
+			theLabel.repaint();
 		}
 	}
 
@@ -153,6 +160,11 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 			System.exit(0);
 		}
 		
+		//if-sats till connect-metoden. behöver en server-IP samt port att skicka som parametrar.
+		if(e.getSource() == connect){
+			client.connect(serverIP.getText(), Integer.parseInt(serverPort.getText()));
+		}
+		
 	}	
 //		
 //	public static void main(String[] args) {
@@ -165,3 +177,4 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 		
 	}
 }
+
