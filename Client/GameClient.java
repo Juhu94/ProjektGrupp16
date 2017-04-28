@@ -17,8 +17,12 @@ import Gui.ViewerListener;
  * Version 1.0
  *
  */
+
+
+//Klassen behövs utökas med funktioner för den som ska agera spelvärd
 public class GameClient implements Serializable{
 
+	private String username = "";
 	private int iD;
 	private Socket socket;
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
@@ -67,8 +71,11 @@ public class GameClient implements Serializable{
 	public GameClient(){
 		System.out.println("Klient Startad");
 	}
-	public void connect(String serverIp, int port){
-		new Connection(serverIp,port).start();
+	public void sendUsername(String username) {
+		this.username = username;
+	}
+	public void connect(String serverIp, int port, String username){
+		new Connection(serverIp,port,username).start();
 	}
 	
 	public void addListeners(ViewerListener listener) {
@@ -77,20 +84,24 @@ public class GameClient implements Serializable{
 	
 	private class Connection extends Thread{
 		private String ipAddress = "";
+		private String username = "";
 		private int port = 0;
 		ObjectInputStream input;
+		ObjectOutputStream output;
 			
-		public Connection(String ipAddress, int port){
+		public Connection(String ipAddress, int port, String username){
 			this.ipAddress = ipAddress;
 			this.port = port;
+			this.username = username;
 		}
 			
 		public void run(){
 			System.out.println("Client Running");
 			try{
-				socket = new Socket(ipAddress,port);
-					
+				socket = new Socket(ipAddress,port);	
+				output = new ObjectOutputStream(socket.getOutputStream());
 				input = new ObjectInputStream(socket.getInputStream());
+				output.writeObject(username);
 			}catch (IOException e ){
 				e.printStackTrace();
 			}
