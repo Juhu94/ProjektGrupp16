@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -24,7 +25,7 @@ import Client.GameClient;
  * Join: Ansluter till en befintlig spelserver
  * Quit: Avslutar applikationen
  * @author Julian Hultgren
- * Version 1.0
+ * Version 1.1
  *
  */
 public class MenuFrame implements ActionListener{
@@ -73,11 +74,13 @@ public class MenuFrame implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == host) {
-			
+			GameClient gc = new GameClient();
+			ServerFrame sf = new ServerFrame(gc);
+			frame.dispose();
 		}
 		if(e.getSource() == join) {
 			GameClient gc = new GameClient();
-			GameFrame gf = new GameFrame(gc);
+			ClientFrame gf = new ClientFrame(gc);
 			frame.dispose();
 		}
 		if(e.getSource() == quit) {
