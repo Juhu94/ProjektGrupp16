@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 /**
  * 
@@ -41,8 +42,10 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 	private JButton connect;
 	private JButton close;
 	
-	private JTextArea serverIP;
-	private JTextArea serverPort;
+	private JTextArea serverIPTxt;
+	private JTextArea serverPortTxt;
+	private JTextField serverIP;
+	private JTextField serverPort;
 	
 	private GameClient client;
 	
@@ -64,6 +67,11 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 		eastPanel = new JPanel();
 		hittepo = new JPanel();
 		
+		serverIP = new JTextField();
+		serverPort = new JTextField();
+		serverIPTxt = new JTextArea("Server IP:");
+		serverPortTxt = new JTextArea("Server Port:");
+		
 		disconnect = new JButton("Disconnect");
 		connect = new JButton("Connect");
 		close = new JButton("Close");
@@ -83,8 +91,12 @@ public class Viewer extends JPanel implements MouseListener, ActionListener, Vie
 		
 		southPanel.setLayout(new GridLayout(1,4,200,200));
 		southPanel.setPreferredSize(new Dimension(20,20));
+		
+		southPanel.add(serverIPTxt, BorderLayout.CENTER);
 		southPanel.add(serverIP, BorderLayout.CENTER);
+		southPanel.add(serverPortTxt, BorderLayout.CENTER);
 		southPanel.add(serverPort, BorderLayout.CENTER);
+		
 		southPanel.add(connect, BorderLayout.CENTER);
 		southPanel.add(disconnect,BorderLayout.CENTER);
 		southPanel.add(close, BorderLayout.CENTER);
