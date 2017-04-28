@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 
 import gui.ExtendedJLabel;
 import gui.ViewerListener;
+import server.GameServer;
 
 /**
  * 
@@ -80,6 +81,9 @@ public class GameClient implements Serializable{
 	
 	public void addListeners(ViewerListener listener) {
 		listeners.add(listener);
+	}
+	public void startServer(){
+		GameServer gs = new GameServer(3520);
 	}
 	
 	private class Connection extends Thread{
