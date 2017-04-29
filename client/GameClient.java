@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.JLabel;
 
 import gui.ExtendedJLabel;
@@ -84,6 +86,18 @@ public class GameClient implements Serializable{
 	}
 	public void startServer(){
 		GameServer gs = new GameServer(3520);
+	}
+	public int throwDice(){
+		Random rand = new Random();
+		int diceNbr = rand.nextInt(6)+1;
+		return diceNbr;
+	}
+	public boolean shootDice(){
+		int roll = throwDice();
+		if(roll == 2 || roll == 6){
+			return true;
+		}
+		return false;
 	}
 	
 	private class Connection extends Thread{
