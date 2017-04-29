@@ -17,7 +17,7 @@ import server.GameServer;
 /**
  * 
  * @author Julian Hultgren
- * Version 1.1
+ * Version 1.1.3
  *
  */
 
