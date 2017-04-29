@@ -24,7 +24,7 @@ import client.GameClient;
 /**
  * 
  * @author Julian Hultgren
- * Version 1.1
+ * Version 1.1.3
  *
  */
 public class ClientFrame extends JPanel implements MouseListener, ActionListener, ViewerListener{
@@ -41,10 +41,11 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	private JPanel inputMiddlePanel = new JPanel(new GridBagLayout());
 	
 	private JList listUsers = new JList();
-	private JTextArea infoArea = new JTextArea("För att ansluta till en server:\n"
-			+ "Skriv in serverns ip och port ovanför.\n"
-			+ "Skriv också in ett användarnamn du vill använda\n"
-			+ "----------------------------------------------------------------------\n");
+	private JTextArea infoArea = new JTextArea(
+			 "För att ansluta till en server:\n"
+			+"Skriv in serverns ip och port ovanför.\n"
+			+"Skriv också in ett användarnamn du vill använda\n"
+			+"----------------------------------------------------------------------\n");
 	
 	private JTextField serverIp = new JTextField();
 	private JTextField serverPort = new JTextField();
@@ -135,8 +136,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 	}
-	public void updateViewer(JLabel in) {
-		in.setBackground(Color.RED);		
+	public void updateViewer(JLabel theLabel) {
+		theLabel.setBackground(Color.RED);		
 	}
 	public void updateInfoRuta(String text) {
 		infoArea.append(text+"\n");
@@ -146,7 +147,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()),username.getText());
 		}
 		if(e.getSource() == bDisconnect) {
-			updateInfoRuta("Hej");
+			client.disconnect();
 		}
 		if(e.getSource() == bClose) {
 			System.exit(0);
@@ -160,7 +161,6 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	}
 	public void mouseClicked(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
-//			JLabel theLabel = new JLabel();
 			ExtendedJLabel theLabel = (ExtendedJLabel)e.getSource();
 //			client.theTile(theLabel);
 			System.out.println("Någon har tryckt på en ruta på spelbrädet,(row="+theLabel.getRow());
