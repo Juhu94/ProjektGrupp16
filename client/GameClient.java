@@ -7,9 +7,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.JLabel;
-
 import gui.ExtendedJLabel;
 import gui.ViewerListener;
 import server.GameServer;
@@ -17,20 +15,23 @@ import server.GameServer;
 /**
  * 
  * @author Julian Hultgren
- * Version 1.1.3
+ * Version 1.1.4
  *
  */
 
 
 //Klassen behövs utökas med funktioner för den som ska agera spelvärd
 public class GameClient implements Serializable{
-
+	
+	private ObjectInputStream input;
+	private	ObjectOutputStream output;
 	private String username = "";
 	private int iD;
 	private Socket socket;
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
 	private int[] tilePos = new int[2];
-	private static int[] mapArray = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+	private static int[] mapArray = {			
+					1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 					1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 					1,1,1,1,1,1,1,1,2,2,4,1,4,1,4,2,2,2,2,1,1,1,1,1,1,1,3,2,2,2,2,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 					1,1,1,1,1,1,1,3,2,2,3,1,3,1,3,3,2,3,2,2,1,1,1,1,1,2,2,2,3,3,2,2,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -99,13 +100,21 @@ public class GameClient implements Serializable{
 		}
 		return false;
 	}
+	public void disconnect() {
+		try {
+			socket.close();
+			output.close();
+			input.close();
+			System.out.println("Uppkoppling avslutad");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private class Connection extends Thread{
 		private String ipAddress = "";
 		private String username = "";
 		private int port = 0;
-		ObjectInputStream input;
-		ObjectOutputStream output;
 			
 		public Connection(String ipAddress, int port, String username){
 			this.ipAddress = ipAddress;
@@ -132,12 +141,14 @@ public class GameClient implements Serializable{
 						iD = (int)object;	
 					}
 				}catch (IOException | ClassNotFoundException e){
+					disconnect();
 					e.printStackTrace();
 				}
 			}
 		}	
 			
-	}	
+	}
+	
 	/**
 	 * Creates a map from a int array
 	 * @param 	int[]		int array
@@ -183,7 +194,6 @@ public class GameClient implements Serializable{
 	public void theTile(ExtendedJLabel theTile){
 		System.out.println("Från viewern till klienten");
 		try{
-//			Message m = new Message(theTile);
 			tilePos[0] = theTile.getCol();
 			tilePos[1] = theTile.getRow();
 			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
@@ -192,11 +202,5 @@ public class GameClient implements Serializable{
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-//
-//	public static void main(String[] args) {
-//		GameClient cc = new GameClient();
-//		Viewer vv = new Viewer(cc);
-//	}			
+	}		
 }
