@@ -47,7 +47,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JTextArea infoArea = new JTextArea(
 			"Du är spelvärd för en spelomgång.\n"
 			+"Skriv in vilket username du vill använda i rutan ovanför.\n"
-			+"Klicka sedan på 'Start server för att starta servern'.\n"
+			+"Klicka sedan på 'Start server' för att starta servern.\n"
 			+"För att starta en spelomgång måste minst 1 till klient\n"
 			+"utöver spelvärden (du) vara ansluten.\n"
 			+"Klicka sedan på 'Starta spelomgång'.\n"
@@ -61,6 +61,8 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JButton bStartServer = new JButton("Start server");
 	private JButton bLeft = new JButton("<<");
 	private JButton bRight = new JButton(">>");
+	private JButton bMove = new JButton("Move");
+	private JButton bShoot = new JButton("Shoot");
 	
 	private JFrame frame = new JFrame("Client");
 	
@@ -103,6 +105,8 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		inputPanel.add(inputMiddlePanel, BorderLayout.CENTER);
 		inputPanel.add(inputRightPanel, BorderLayout.EAST);
 		
+		inputMiddlePanel.add(bMove);
+		inputMiddlePanel.add(bShoot);
 		inputMiddlePanel.add(bLeft);
 		inputMiddlePanel.add(bRight);
 		
@@ -126,6 +130,8 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		bStartServer.addActionListener(this);
 		bDisconnect.addActionListener(this);
 		bClose.addActionListener(this);
+		bMove.addActionListener(this);
+		bShoot.addActionListener(this);
 		
 		frame.add(panel);
 		frame.pack();
@@ -156,10 +162,17 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		}
 		if(e.getSource() == bDisconnect) {
 			updateInfoRuta("Hej");
+			client.throwDice();
 		}
 		if(e.getSource() == bClose) {
 			System.exit(0);
-		}		
+		}
+		if(e.getSource() == bMove){
+			
+		}
+		if(e.getSource() == bShoot){
+			
+		}
 	}
 	public void mouseClicked(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
