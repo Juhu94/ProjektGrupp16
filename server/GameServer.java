@@ -13,13 +13,12 @@ import javax.swing.JLabel;
 /**
  * 
  * @author Julian Hultgren
- * Version 0.5
+ * Version 0.6
  */
 public class GameServer implements Runnable{
 
 	private ServerSocket serverSocket;
 	private Thread serverThread = new Thread(this);
-//	private ArrayList<Socket> connectedUsers = new ArrayList<Socket>();
 	private HashMap<String, ClientHandler> clientMap = new HashMap<String, ClientHandler>();
 	
 	public GameServer(int port){
@@ -37,7 +36,6 @@ public class GameServer implements Runnable{
 		while(true){
 			try{
 				Socket socket = serverSocket.accept();
-//				connectedUsers.add(socket);
 				System.out.println("Client connected from..." +socket.getRemoteSocketAddress());
 				new ClientHandler(socket).start();
 			}catch(IOException e){
@@ -48,15 +46,21 @@ public class GameServer implements Runnable{
 	
 	private class ClientHandler extends Thread{
 		private Socket socket;
-		
+		ObjectInputStream input;
+		ObjectOutputStream output;
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
+			try {
+				output = new ObjectOutputStream(socket.getOutputStream());
+				input = new ObjectInputStream(socket.getInputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		public void run() {
 			while(socket.isConnected()){
 				try{
-					ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
 					Object object = input.readObject();
 					if(object instanceof String){
 						String username = (String)object;
@@ -64,25 +68,20 @@ public class GameServer implements Runnable{
 					}
 					
 				}catch (IOException | ClassNotFoundException e) {
+					closeSocket();
 					e.printStackTrace();
 				}
 			}
 		}
-//		
-//		public void Send(Message inMessage) {
-//			try{
-//				for(Socket user : connectedUsers) {
-//					ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
-//					output.writeObject(inMessage);
-//					System.out.println("Skickar ut till alla klienter");
-//					output.flush();
-//				}
-//			}catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		public void closeSocket() {
+			try {
+				socket.close();
+				input.close();
+				clientMap.remove(this);
+				clientMap.toString();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-//	public static void main(String[] args) {
-//		GameServer ss = new GameServer(3520);
-//	}
 }
