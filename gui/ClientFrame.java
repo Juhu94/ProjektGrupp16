@@ -56,6 +56,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	
 	private JButton bLeft = new JButton("<<");
 	private JButton bRight = new JButton(">>");
+	private JButton bMove = new JButton("Move");
+	private JButton bShoot = new JButton("Shoot");
 	
 	private JFrame frame = new JFrame("Client");
 	
@@ -66,6 +68,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	public ClientFrame(GameClient client) {
 		this.client = client;
 		client.addListeners(this);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(new BorderLayout());
@@ -101,6 +104,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		inputPanel.add(inputMiddlePanel, BorderLayout.CENTER);
 		inputPanel.add(inputRightPanel, BorderLayout.EAST);
 		
+		inputMiddlePanel.add(bMove);
+		inputMiddlePanel.add(bShoot);
 		inputMiddlePanel.add(bLeft);
 		inputMiddlePanel.add(bRight);
 		
@@ -123,6 +128,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		bDisconnect.addActionListener(this);
 		bConnect.addActionListener(this);
 		bClose.addActionListener(this);
+		bMove.addActionListener(this);
+		bShoot.addActionListener(this);
 		
 		frame.add(panel);
 		frame.pack();
@@ -143,7 +150,13 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		}
 		if(e.getSource() == bClose) {
 			System.exit(0);
-		}		
+		}	
+		if(e.getSource() == bMove){
+			
+		}
+		if(e.getSource() == bShoot){
+			
+		}
 	}
 	public void mouseClicked(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
