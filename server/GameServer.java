@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 /**
  * 
  * @author Julian Hultgren
- *
+ * Version 0.5
  */
 public class GameServer implements Runnable{
 
