@@ -137,8 +137,7 @@ public class GameClient implements Serializable{
 			}
 		}	
 			
-	}
-	
+	}	
 	/**
 	 * Creates a map from a int array
 	 * @param 	int[]		int array
