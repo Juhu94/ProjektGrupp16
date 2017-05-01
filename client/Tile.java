@@ -9,6 +9,10 @@ public class Tile {
 	private boolean seeThrough;
 	private boolean treasure = false;
 	private String name;
+	private boolean raft = false;
+	private boolean canon = false;
+	private boolean boat = false;
+
 	
 	/**
 	 *Constructor
@@ -72,6 +76,115 @@ public class Tile {
 	
 	public boolean getAccessible(){
 		return this.accessible;
+	}
+	
+	/**
+	 * Plases a raft on this tile
+	 */
+	
+	public void raftOn(){
+		raft = true;
+	}
+	
+	/**
+	 * Takes away a raft from this tile
+	 */
+	
+	public void raftOff(){
+		raft = false;
+	}
+	
+	/**
+	 * Returns true if there is a raft on this tile
+	 * @return boolean
+	 */
+	
+	public boolean getRaft(){
+		return raft;
+	}
+	
+	/**
+	 * Plases a canon on this tile
+	 */
+	
+	public void canonOn(){
+		canon = true;
+	}
+	
+	/**
+	 * Takes away a canon on this tile
+	 */
+	
+	public void canonOff(){
+		canon = false;
+	}
+	
+	/**
+	 * Returns true if there is a canon on this tile
+	 * @return boolan
+	 */
+	
+	public boolean getCanon(){
+		return canon;
+	}
+	
+	/**
+	 * Plases a boat on this tile
+	 */
+	
+	public void boatOn(){
+		boat = true;
+	}
+	
+	/**
+	 * Takes away a boat on this tile
+	 */
+	
+	public void boatOff(){
+		boat = false;
+	}
+	
+	/**
+	 * Returns true if there is a boat on this tile
+	 * @return boolan
+	 */
+	
+	public boolean getBoat(){
+		return boat;
+	}
+	
+	/**
+	 * Returns the tile the character will get to if its a good roll
+	 * @return Tile
+	 */
+	
+	public Tile success(){
+		return null;
+	}
+	
+	/**
+	 * Sets the tile the character will get to if success() get called
+	 * @param Tile
+	 */
+	
+	public void setSuccess(Tile tile){
+	}
+	
+	/**
+	 * Returns the tile the character will get to if its a bad roll
+	 * @return Tile
+	 */
+	
+	public Tile fail(){
+		return null;
+	}
+	
+	/**
+	 * Sets the tile the character will get to if fail() get called
+	 * @param Tile
+	 */
+	
+	public void setFail(Tile tile){
 	}
 	
 }
