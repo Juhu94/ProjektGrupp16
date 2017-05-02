@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JLabel;
+
+import client.Tile;
 /**
  * 
  * @author Julian Hultgren
@@ -20,6 +22,7 @@ public class GameServer implements Runnable{
 	private ServerSocket serverSocket;
 	private Thread serverThread = new Thread(this);
 	private HashMap<String, ClientHandler> clientMap = new HashMap<String, ClientHandler>();
+	private HashMap<String, Character> characterMap = new HashMap<String, Character>();
 	
 	public GameServer(int port){
 		try{
@@ -36,8 +39,12 @@ public class GameServer implements Runnable{
 		while(true){
 			try{
 				Socket socket = serverSocket.accept();
-				System.out.println("Client connected from..." +socket.getRemoteSocketAddress());
-				new ClientHandler(socket).start();
+				if (clientMap.size() <= 6){
+					System.out.println("Client connected from..." +socket.getRemoteSocketAddress());
+					new ClientHandler(socket).start();
+				}else{
+					System.out.println("Client can't connected from..." +socket.getRemoteSocketAddress() + " due to game being full");
+				}
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -48,6 +55,7 @@ public class GameServer implements Runnable{
 		private Socket socket;
 		ObjectInputStream input;
 		ObjectOutputStream output;
+		private String username;
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			try {
@@ -63,7 +71,7 @@ public class GameServer implements Runnable{
 				try{
 					Object object = input.readObject();
 					if(object instanceof String){
-						String username = (String)object;
+						username = (String)object;
 						clientMap.put(username, this);
 					}
 					
@@ -73,6 +81,10 @@ public class GameServer implements Runnable{
 				}
 			}
 		}
+		public void createCharacter(){
+			//in progress
+		}
+		
 		public void closeSocket() {
 			try {
 				socket.close();
