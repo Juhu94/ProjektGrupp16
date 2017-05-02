@@ -12,6 +12,7 @@ public class Tile {
 	private boolean raft = false;
 	private boolean canon = false;
 	private boolean boat = false;
+	private Character character = null;
 
 	
 	/**
@@ -23,6 +24,32 @@ public class Tile {
 		this.accessible = accessible;
 		this.seeThrough = seethrough;
 		this.treasure = treasure;
+	}
+	
+	/**
+	 * Returns a Character
+	 * @return Character
+	 */
+	
+	public Character getCharacter(){
+		return character;
+	}
+	
+	/**
+	 * Places a Character on this tile 
+	 * @param Character
+	 */
+	
+	public void setCharacter(Character character){
+		this.character = character;
+	}
+	
+	/**
+	 * Removes the Character from this tile
+	 */
+	
+	public void removeCharacter(){
+		this.character = null;
 	}
 	
 	/**

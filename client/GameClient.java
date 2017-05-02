@@ -34,6 +34,7 @@ public class GameClient implements Serializable{
 	private Socket socket;
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
 	private int[] tilePos = new int[2];
+	private Tile[][] map;
 
 	public GameClient(){
 		System.out.println("Klient Startad");
@@ -219,6 +220,106 @@ public class GameClient implements Serializable{
 		map[16][30].raftOn();
 		
 		return map;
+	}
+	
+	/**
+	 * Returns Null if no characters is in view or a array of characters if there is someone in view
+	 * @param Character
+	 * @return Null or Character[]
+	 */
+	
+	public Character[] lookingForAShoot(Character character){
+		Character[] charArray = new Character[6];
+		int charInt = 0;
+		int row = character.getRow() - 1;
+		int col = character.getCol() - 1;
+		//Up to the left
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			row--;
+			col--;
+		}
+		//down to the right
+		row = character.getRow() + 1;
+		col = character.getCol() + 1;
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			row++;
+			col++;
+		}
+		//Up
+		row = character.getRow() + 1;
+		col = character.getCol();
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			row++;
+		}
+		//Down
+		row = character.getRow() - 1;
+		col = character.getCol();
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			row--;
+		}
+		//Up to the right
+		row = character.getRow() - 1;
+		col = character.getCol() + 1;
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			row--;
+			col++;
+		}
+		//Down to the left
+		row = character.getRow() + 1;
+		col = character.getCol() - 1;
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			row++;
+			col--;
+		}
+		//Left
+		row = character.getRow();
+		col = character.getCol() - 1;
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			col--;
+		}
+		//Right
+		row = character.getRow();
+		col = character.getCol() + 1;
+		while(map[row][col].getSeeThrough()){
+			if (map[row][col].getCharacter() != null){
+				charArray[charInt] = map[row][col].getCharacter();
+				charInt++;
+			}
+			col++;
+		}
+		if(charInt == 0){
+			return null;
+		}else{
+			return charArray;
+		}
 	}
 
 	public void theTile(ExtendedJLabel theTile){
