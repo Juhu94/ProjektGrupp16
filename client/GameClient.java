@@ -20,7 +20,7 @@ import server.GameServer;
 
 /**
  * 
- * @author Julian Hultgren, Simon Börjesson, Lukas Persson
+ * @author Julian Hultgren, Simon Börjesson, Lukas Persson, Erik Johansson
  * Version 1.2
  *
  */
@@ -87,6 +87,10 @@ public class GameClient implements Serializable{
 		}
 		return false;
 	}
+	
+	/**
+	* Method that disconnects the client from the server
+	*/
 	public void disconnect() {
 		try {
 			socket.close();
@@ -108,6 +112,9 @@ public class GameClient implements Serializable{
 		}
 	}
 	
+	/**
+	* Inner class that handles the connection between client and server
+	*/
 	private class Connection extends Thread{
 		private String ipAddress = "";
 		private String username = "";
@@ -260,7 +267,7 @@ public class GameClient implements Serializable{
 	}
 	
 	/**
-	 * Returns Null if no characters is in view or a array of characters if there is someone in view
+	 * Returns Null if no characters is in view or an array of characters if there is someone in view
 	 * @param Character
 	 * @return Null or Character[]
 	 */
