@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -57,6 +58,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	
 	private JButton bLeft = new JButton("<<");
 	private JButton bRight = new JButton(">>");
+	private JButton bUp = new JButton("^");
+	private JButton bDown = new JButton("v");
 	private JButton bMove = new JButton("Move");
 	private JButton bShoot = new JButton("Shoot");
 	
@@ -131,6 +134,17 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		bClose.addActionListener(this);
 		bMove.addActionListener(this);
 		bShoot.addActionListener(this);
+		bUp.addActionListener(this);
+		bDown.addActionListener(this);
+		bLeft.addActionListener(this);
+		bRight.addActionListener(this);
+		
+		bMove.setEnabled(false);
+		bShoot.setEnabled(false);
+		bUp.setEnabled(false);
+		bDown.setEnabled(false);
+		bLeft.setEnabled(false);
+		bRight.setEnabled(false);
 		
 		frame.add(panel);
 		frame.pack();
@@ -139,12 +153,32 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	public void updateViewer(JLabel theLabel) {
 		theLabel.setBackground(Color.RED);		
 	}
+	/**
+	 * Method to enable buttons
+	 * @param enableButtons boolean
+	 */
+	public void updateViewer(boolean enableButtons){
+		enableButtons(enableButtons);
+	}
 	public void updateInfoRuta(String text) {
 		infoArea.append(text+"\n");
+	}
+	/**
+	 * method to enable or disable all buttons
+	 * @param state boolean
+	 */
+	public void enableButtons(boolean state){
+		bMove.setEnabled(state);
+		bShoot.setEnabled(state);
+		bUp.setEnabled(state);
+		bDown.setEnabled(state);
+		bLeft.setEnabled(state);
+		bRight.setEnabled(state);
 	}
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == bConnect) {
 			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()),username.getText());
+			bConnect.setEnabled(false);
 		}
 		if(e.getSource() == bDisconnect) {
 			client.disconnect();
@@ -152,8 +186,13 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		if(e.getSource() == bClose) {
 			System.exit(0);
 		}	
+		/**
+		 * har just nu lagt till att det bytar spelare på move
+		 * bara tillfälligt för att testa så att det fungerade
+		 */
 		if(e.getSource() == bMove){
-			
+			client.startGame();
+			enableButtons(false);
 		}
 		if(e.getSource() == bShoot){
 			

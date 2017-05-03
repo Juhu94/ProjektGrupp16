@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -55,12 +56,14 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	
 	private JTextField username = new JTextField();
 	
-	private JButton bStart = new JButton("Starta spelomgång");
+	private JButton bStartGame = new JButton("Starta spelomgång");
 	private JButton bDisconnect = new JButton("Disconnect");
 	private JButton bClose = new JButton("Close");
 	private JButton bStartServer = new JButton("Start server");
 	private JButton bLeft = new JButton("<<");
 	private JButton bRight = new JButton(">>");
+	private JButton bUp = new JButton("^");
+	private JButton bDown = new JButton("v");
 	private JButton bMove = new JButton("Move");
 	private JButton bShoot = new JButton("Shoot");
 	
@@ -96,7 +99,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		infoArea.setBorder(BorderFactory.createTitledBorder("Info ruta"));
 		leftGridPanel.add(username);
 		leftGridPanel.add(bStartServer);
-		leftGridPanel.add(bStart);
+		leftGridPanel.add(bStartGame);
 		leftPanel.add(leftGridPanel, BorderLayout.NORTH);
 		leftPanel.add(infoArea, BorderLayout.CENTER);
 		
@@ -126,12 +129,24 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 				centerPanel.add(boardArray[i][j]);
 			}
 		}
-		bStart.addActionListener(this);
+		bStartGame.addActionListener(this);
 		bStartServer.addActionListener(this);
 		bDisconnect.addActionListener(this);
 		bClose.addActionListener(this);
 		bMove.addActionListener(this);
 		bShoot.addActionListener(this);
+		bUp.addActionListener(this);
+		bDown.addActionListener(this);
+		bLeft.addActionListener(this);
+		bRight.addActionListener(this);
+		
+		bStartGame.setEnabled(false);
+		bMove.setEnabled(false);
+		bShoot.setEnabled(false);
+		bUp.setEnabled(false);
+		bDown.setEnabled(false);
+		bLeft.setEnabled(false);
+		bRight.setEnabled(false);
 		
 		frame.add(panel);
 		frame.pack();
@@ -140,12 +155,34 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	public void updateViewer(JLabel in) {
 		in.setBackground(Color.RED);		
 	}
+	/**
+	 * Method to enable buttons
+	 * @param enableButtons boolean
+	 */
+	public void updateViewer(boolean enableButtons){
+		enableButtons(enableButtons);
+	}
+	/**
+	 * method to enable or disable all buttons
+	 * @param state boolean
+	 */
+	public void enableButtons(boolean state){
+		bMove.setEnabled(state);
+		bShoot.setEnabled(state);
+		bUp.setEnabled(state);
+		bDown.setEnabled(state);
+		bLeft.setEnabled(state);
+		bRight.setEnabled(state);
+	}
+	
 	public void updateInfoRuta(String text) {
 		infoArea.append(text+"\n");
 	}
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == bStart) {
+		if(e.getSource() == bStartGame) {
 			//Anropa start metoden i GameClient
+			client.startGame();
+			bStartGame.setEnabled(false);
 		}
 		if(e.getSource() == bStartServer) {
 			client.startServer();
@@ -159,16 +196,17 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 			client.sendUsername(username.getText());
 			username.setText("");
 			bStartServer.setEnabled(false);
+			bStartGame.setEnabled(true);
 		}
 		if(e.getSource() == bDisconnect) {
-			updateInfoRuta("Hej");
-			client.throwDice();
+			client.disconnect();
 		}
 		if(e.getSource() == bClose) {
 			System.exit(0);
 		}
 		if(e.getSource() == bMove){
-			
+			client.startGame();
+			enableButtons(false);
 		}
 		if(e.getSource() == bShoot){
 			
