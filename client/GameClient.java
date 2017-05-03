@@ -12,14 +12,16 @@ import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import gui.ExtendedJLabel;
 import gui.ViewerListener;
 import server.GameServer;
 
 /**
  * 
- * @author Julian Hultgren, Simon Börjesson
- * Version 1.1.5
+ * @author Julian Hultgren, Simon Börjesson, Lukas Persson
+ * Version 1.2
  *
  */
 
@@ -35,6 +37,8 @@ public class GameClient implements Serializable{
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
 	private int[] tilePos = new int[2];
 	private Tile[][] map;
+	
+	private boolean clientTurn = true;
 
 	public GameClient(){
 		System.out.println("Klient Startad");
@@ -52,11 +56,30 @@ public class GameClient implements Serializable{
 	public void startServer(){
 		GameServer gs = new GameServer(3520);
 	}
+	public void startGame(){
+		try {
+			System.out.println("Startar matchen/väljer vems tur det är");
+			output.writeObject(clientTurn);
+			output.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Method that returns a random number from 1-6
+	 * @return int
+	 */
 	public int throwDice(){
 		Random rand = new Random();
 		int diceNbr = rand.nextInt(6)+1;
 		return diceNbr;
 	}
+	/**
+	 * Method that uses the throwDice-method 
+	 * to see if the shot hits another player
+	 * @return boolean
+	 */
 	public boolean shootDice(){
 		int roll = throwDice();
 		if(roll == 2 || roll == 6){
@@ -72,6 +95,16 @@ public class GameClient implements Serializable{
 			System.out.println("Uppkoppling avslutad");
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Method to enable buttons in ServerFrame and ClientFrame
+	 * @param enableButtons boolean
+	 */
+	public void enableButtons(boolean enableButtons){
+		for(ViewerListener listener: listeners){
+			listener.updateViewer(enableButtons);
 		}
 	}
 	
@@ -93,16 +126,20 @@ public class GameClient implements Serializable{
 				output = new ObjectOutputStream(socket.getOutputStream());
 				input = new ObjectInputStream(socket.getInputStream());
 				output.writeObject(username);
+				output.flush();
 			}catch (IOException e ){
 				e.printStackTrace();
 			}
 				
 			while(!Thread.interrupted()){
 				try{
-						
 					Object object = input.readObject();
 					if(object instanceof Integer){
 						iD = (int)object;	
+					}
+					if(object instanceof Boolean){
+						boolean enableButtons = (boolean)object;
+						enableButtons(enableButtons);
 					}
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
