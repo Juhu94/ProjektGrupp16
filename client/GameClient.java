@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -37,6 +38,7 @@ public class GameClient implements Serializable{
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
 	private int[] tilePos = new int[2];
 	private Tile[][] map;
+	private HashMap<String, Character> characterMap = new HashMap<String, Character>(); 
 	
 	private boolean clientTurn = true;
 
@@ -148,13 +150,22 @@ public class GameClient implements Serializable{
 						boolean enableButtons = (boolean)object;
 						enableButtons(enableButtons);
 					}
+					if (object instanceof Character){
+					moveCharacter((Character)object);
+					}
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
 					Thread.currentThread().stop();
 					e.printStackTrace();
 				}
 			}
-		}	
+		}
+		public void moveCharacter(Character character){
+			characterMap.put(character.getName(), character);
+			for(ViewerListener listener: listeners){
+				paintCharacter(character.getRow(), character.getCol());
+			}
+		}
 			
 	}
 	

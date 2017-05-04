@@ -6,20 +6,24 @@ package client;
  *
  */
 public class Character {
-	private String namn;
+	private String name;
 	private int row;
 	private int col;
 	private boolean sleeping;
 	private int mapPieces;
 	private boolean hasTreasure;
 	
-	public Character(String namn, int row, int col){
-		this.namn = namn;
+	public Character(String name, int row, int col){
+		this.name = name;
 		this.row = row;
 		this.col = col;
 		sleeping = false;
 		mapPieces = 1;
 		hasTreasure = false;
+	}
+	
+	public String getName(){
+		return name;
 	}
 	
 	/**
