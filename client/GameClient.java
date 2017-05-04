@@ -163,7 +163,7 @@ public class GameClient implements Serializable{
 		public void moveCharacter(Character character){
 			characterMap.put(character.getName(), character);
 			for(ViewerListener listener: listeners){
-				paintCharacter(character.getRow(), character.getCol());
+				listener.paintCharacter(character.getRow(), character.getCol());
 			}
 		}
 			
