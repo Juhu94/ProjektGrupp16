@@ -161,9 +161,12 @@ public class GameClient implements Serializable{
 			}
 		}
 		public void moveCharacter(Character character){
-			characterMap.put(character.getName(), character);
+			String characterName = character.getName();
+			int oldRow = characterMap.get(characterName).getRow();
+			int oldCol = characterMap.get(characterName).getCol();
+			characterMap.put(characterName, character);
 			for(ViewerListener listener: listeners){
-				listener.paintCharacter(character.getRow(), character.getCol());
+				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
 			}
 		}
 			
