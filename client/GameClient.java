@@ -68,6 +68,15 @@ public class GameClient implements Serializable{
 			e.printStackTrace();
 		}
 	}
+	public void endTurn(){
+		try{
+			System.out.println("slutar svänga");
+			output.writeObject("ENDTURN");
+			output.flush();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Method that returns a random number from 1-6
 	 * @return int
