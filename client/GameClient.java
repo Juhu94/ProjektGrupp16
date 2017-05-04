@@ -110,7 +110,7 @@ public class GameClient implements Serializable{
 	 */
 	public void enableButtons(boolean enableButtons){
 		for(ViewerListener listener: listeners){
-			listener.updateViewer(enableButtons);
+			listener.updateViewer();
 		}
 	}
 	
