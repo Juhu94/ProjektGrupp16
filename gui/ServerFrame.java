@@ -181,6 +181,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 			bLeft.setEnabled(false);
 			bRight.setEnabled(false);
 		} else if(buttons == "move"){
+			bMove.setEnabled(false);
 			bUp.setEnabled(true);
 			bDown.setEnabled(true);
 			bLeft.setEnabled(true);
