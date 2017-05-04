@@ -151,7 +151,8 @@ public class GameClient implements Serializable{
 						enableButtons(enableButtons);
 					}
 					if (object instanceof client.Character){
-						moveCharacter((client.Character)object);
+						client.Character character = (client.Character) object;
+						moveCharacter(character);
 					}
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
@@ -162,8 +163,11 @@ public class GameClient implements Serializable{
 		}
 		public void moveCharacter(client.Character character){
 			String characterName = character.getName();
-			int oldRow = characterMap.get(characterName).getRow();
-			int oldCol = characterMap.get(characterName).getCol();
+			System.out.println(characterName);
+//			int oldRow = characterMap.get(characterName).getRow();
+//			int oldCol = characterMap.get(characterName).getCol();
+			int oldRow = 1;
+			int oldCol = 1;
 			characterMap.put(characterName, character);
 			for(ViewerListener listener: listeners){
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
