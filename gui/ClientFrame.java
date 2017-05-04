@@ -163,8 +163,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	public void updateInfoRuta(String text) {
 		infoArea.append(text+"\n");
 	}
-	public void paintCharacter(int row, int col) {
-		
+	public void paintCharacter(int newRow, int newCol,int oldRow, int oldCol) {
+		boardArray[row][col].setBackground(Color.RED);
 		boardArray[row][col].repaint();
 	}
 	/**
@@ -205,10 +205,10 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	public void mouseClicked(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
 			ExtendedJLabel theLabel = (ExtendedJLabel)e.getSource();
-//			client.theTile(theLabel);
+			client.theTile(theLabel);
 			System.out.println("Någon har tryckt på en ruta på spelbrädet,(row="+theLabel.getRow());
-			theLabel.setBackground(Color.BLUE);
-			theLabel.repaint();
+//			theLabel.setBackground(Color.BLUE);
+//			theLabel.repaint();
 		}	
 		if(e.getButton() == MouseEvent.BUTTON3){
 			JLabel theLabel = (JLabel) e.getSource();

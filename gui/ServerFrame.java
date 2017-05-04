@@ -162,7 +162,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	public void updateViewer(boolean enableButtons){
 		enableButtons(enableButtons);
 	}
-	public void paintCharacter(int row, int col) {
+	public void paintCharacter(int newRow, int newCol,int oldRow, int oldCol) {
 		
 	}
 	/**
