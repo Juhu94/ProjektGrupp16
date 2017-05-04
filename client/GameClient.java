@@ -38,7 +38,7 @@ public class GameClient implements Serializable{
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
 	private int[] tilePos = new int[2];
 	private Tile[][] map;
-	private HashMap<String, Character> characterMap = new HashMap<String, Character>(); 
+	private HashMap<String, client.Character> characterMap = new HashMap<String, client.Character>(); 
 	
 	private boolean clientTurn = true;
 
@@ -61,7 +61,7 @@ public class GameClient implements Serializable{
 	public void startGame(){
 		try {
 			System.out.println("Startar matchen/väljer vems tur det är");
-			output.writeObject(clientTurn);
+			output.writeObject("STARTGAME");
 			output.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -150,8 +150,8 @@ public class GameClient implements Serializable{
 						boolean enableButtons = (boolean)object;
 						enableButtons(enableButtons);
 					}
-					if (object instanceof Character){
-					moveCharacter((Character)object);
+					if (object instanceof client.Character){
+						moveCharacter((client.Character)object);
 					}
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
@@ -160,7 +160,7 @@ public class GameClient implements Serializable{
 				}
 			}
 		}
-		public void moveCharacter(Character character){
+		public void moveCharacter(client.Character character){
 			String characterName = character.getName();
 			int oldRow = characterMap.get(characterName).getRow();
 			int oldCol = characterMap.get(characterName).getCol();
@@ -380,17 +380,20 @@ public class GameClient implements Serializable{
 			return charArray;
 		}
 	}
+	
+	
 
-	public void theTile(ExtendedJLabel theTile){
-		System.out.println("Från viewern till klienten");
-		try{
-			tilePos[0] = theTile.getCol();
-			tilePos[1] = theTile.getRow();
-			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-			output.writeObject(tilePos);
-			output.flush();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-	}		
+//	public void theTile(ExtendedJLabel theTile){
+//		System.out.println("Från viewern till klienten");
+//		try{
+//			
+//			tilePos[0] = theTile.getCol();
+//			tilePos[1] = theTile.getRow();
+//			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+//			output.writeObject(tilePos);
+//			output.flush();
+//		}catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}		
 }
