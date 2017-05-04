@@ -85,9 +85,10 @@ public class GameServer implements Runnable{
 					if(object instanceof String){
 						sInput = (String)object;
 						if(sInput.equals("STARTGAME")){
-							System.out.println("starta spelet på servern");
-							for(int i = 1; i ==id; i++){
-								clientMap.get(clientMapid.get(i)).createCharacter();
+							System.out.println("starta spelet på servern "+id);
+							for(int i = 1; i < id; i++){
+								clientMap.get(clientMapid.get(i)).createCharacter(clientMapid.get(i));
+								System.out.println("WEE");
 							}
 							clientsTurn(true);
 						}
@@ -152,9 +153,9 @@ public class GameServer implements Runnable{
 		 * Creates a character and places it on a empty starting position
 		 */
 
-		public void createCharacter() {
+		public void createCharacter(String name) {
 			System.out.println("createCHarizard");
-			client.Character myCharacter = new client.Character(sInput, -1, -1);
+			client.Character myCharacter = new client.Character(name, -1, -1);
 			while (myCharacter.getRow() == -1) {
 				int startPos = rad.nextInt(5);
 				switch (startPos) {
