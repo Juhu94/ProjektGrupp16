@@ -85,17 +85,19 @@ public class GameServer implements Runnable{
 					if(object instanceof String){
 						sInput = (String)object;
 						if(sInput.equals("STARTGAME")){
-							for(int i = 1; i == clientMapid.size(); i++){
+							System.out.println("starta spelet på servern");
+							for(int i = 1; i ==id; i++){
 								clientMap.get(clientMapid.get(i)).createCharacter();
 							}
+							clientsTurn(true);
 						}
 						else if(sInput.equals("ENDTURN")){
 							clientsTurn(true);
 						}
 						else{
+							System.out.println("USERNAME SKA KOMMA HÄR SERVER");
 							clientMap.put(sInput, this);
 							clientMapid.put(id, sInput);
-							createCharacter();
 							playerid = id;
 							id++;
 						}
@@ -151,6 +153,7 @@ public class GameServer implements Runnable{
 		 */
 
 		public void createCharacter() {
+			System.out.println("createCHarizard");
 			client.Character myCharacter = new client.Character(sInput, -1, -1);
 			while (myCharacter.getRow() == -1) {
 				int startPos = rad.nextInt(5);
@@ -187,6 +190,7 @@ public class GameServer implements Runnable{
 					break;
 				}
 			}
+			System.out.println("KARAKTÄR SKAPAD SERVER");
 			characterMap.put(sInput, myCharacter);
 			updateCharPos(myCharacter);
 		}
@@ -219,6 +223,7 @@ public class GameServer implements Runnable{
 				try{
 					ch.output.writeObject(charr);
 					ch.output.flush();
+					System.out.println("UPPDATERA CHAR SERVER");
 				}catch (IOException e) {
 					e.printStackTrace();
 				}
