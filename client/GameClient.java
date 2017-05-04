@@ -167,6 +167,7 @@ public class GameClient implements Serializable{
 			characterMap.put(characterName, character);
 			for(ViewerListener listener: listeners){
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
+				System.out.println("flytta gubbe -> viewer");
 			}
 		}
 			

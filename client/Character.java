@@ -1,11 +1,14 @@
 package client;
+
+import java.io.Serializable;
+
 /**
  * 
  * @author
  * Version 1.0
  *
  */
-public class Character {
+public class Character implements Serializable{
 	private String name;
 	private int row;
 	private int col;
