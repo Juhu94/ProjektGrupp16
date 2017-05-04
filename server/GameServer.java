@@ -85,7 +85,9 @@ public class GameServer implements Runnable{
 					if(object instanceof String){
 						sInput = (String)object;
 						if(sInput.equals("STARTGAME")){
-							
+							for(int i = 1; i == clientMapid.size(); i++){
+								clientMap.get(clientMapid.get(i)).createCharacter();
+							}
 						}
 						else if(sInput.equals("ENDTURN")){
 							clientsTurn(true);
@@ -186,6 +188,7 @@ public class GameServer implements Runnable{
 				}
 			}
 			characterMap.put(sInput, myCharacter);
+			updateCharPos(myCharacter);
 		}
 		
 		/**
