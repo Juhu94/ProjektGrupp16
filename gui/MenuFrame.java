@@ -74,16 +74,19 @@ public class MenuFrame implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == host) {
+			System.out.println("Någon har klickat på 'Host'"); //Kommentar för White box-testning - Julian Hultgren
 			GameClient gc = new GameClient();
 			ServerFrame sf = new ServerFrame(gc);
 			frame.dispose();
 		}
 		if(e.getSource() == join) {
+			System.out.println("Någon har klickat på 'Join'"); //Kommentar för White box-testning - Julian Hultgren
 			GameClient gc = new GameClient();
 			ClientFrame gf = new ClientFrame(gc);
 			frame.dispose();
 		}
 		if(e.getSource() == quit) {
+			System.out.println("Någon har klickat på 'Quit'"); //Kommentar för White box-testning - Julian Hultgren
 			System.exit(0);
 		}
 	}	

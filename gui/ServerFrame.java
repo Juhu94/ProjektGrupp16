@@ -67,7 +67,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JButton bMove = new JButton("Move");
 	private JButton bShoot = new JButton("Shoot");
 	
-	private JFrame frame = new JFrame("Client");
+	private JFrame frame = new JFrame("Host");
 	
 	private JLabel[][] boardArray = new JLabel[41][47];
 	
@@ -164,20 +164,23 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	public void updateViewer(boolean enableButtons){
 		enableButtons("update", enableButtons);
 	}
+	public void paintCharacter(int newRow, int newCol,int oldRow, int oldCol) {
+		boardArray[newRow][newCol].setBackground(Color.RED);
+		boardArray[newRow][newCol].repaint();
+	}
 	/**
 	 * method to enable or disable all buttons
 	 * @param state boolean
 	 */
-	public void enableButtons(String buttons, boolean state){
+	public void enableButtons(String buttons,boolean state){
 		if(buttons == "update"){
-			bMove.setEnabled(state);
+ 			bMove.setEnabled(state);
 			bShoot.setEnabled(false);
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
 			bLeft.setEnabled(false);
 			bRight.setEnabled(false);
 		} else if(buttons == "move"){
-			bMove.setEnabled(false);
 			bUp.setEnabled(state);
 			bDown.setEnabled(state);
 			bLeft.setEnabled(state);
@@ -185,7 +188,8 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		} else if(buttons == "shoot"){
 			bShoot.setEnabled(state);
 		}
-		
+//		bMove.setEnabled(state);
+//		bShoot.setEnabled(state);
 //		bUp.setEnabled(state);
 //		bDown.setEnabled(state);
 //		bLeft.setEnabled(state);
@@ -252,11 +256,6 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	}
 	@Override
 	public void updateViewer(ExtendedJLabel theLabel) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void paintCharacter(int row, int col) {
 		// TODO Auto-generated method stub
 		
 	}

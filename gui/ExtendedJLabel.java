@@ -41,6 +41,7 @@ public class ExtendedJLabel extends JLabel {
 		super.paintComponent(g);
 		int width = this.getWidth();
 		int height = this.getHeight();
+		
 
 	}
 }
