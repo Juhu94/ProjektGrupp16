@@ -99,6 +99,7 @@ public class GameServer implements Runnable{
 //					clientMapid.remove(playerid);
 //					clientMap.remove(username);
 					closeSocket();
+					Thread.currentThread().stop();
 					e.printStackTrace();
 				}
 			}
@@ -205,8 +206,6 @@ public class GameServer implements Runnable{
 			try {
 				socket.close();
 				input.close();
-				clientMap.remove(this);
-				clientMap.toString();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
