@@ -63,7 +63,7 @@ public class GameServer implements Runnable{
 		private Socket socket;
 		ObjectInputStream input;
 		ObjectOutputStream output;
-		private String username;
+		private String sInput;
 		private int nbrOfPlayers;
 		private int playerid;
 		
@@ -83,15 +83,21 @@ public class GameServer implements Runnable{
 				try{
 					Object object = input.readObject();
 					if(object instanceof String){
-						username = (String)object;
-						clientMap.put(username, this);
-						clientMapid.put(id, username);
-						playerid = id;
-						id++;
-					}
-					if(object instanceof Boolean){
-						boolean enableButtons = (boolean)object;
-						clientsTurn(enableButtons);
+						sInput = (String)object;
+						if(sInput.equals("STARTGAME")){
+							
+						}
+						else if(sInput.equals("ENDTURN")){
+							clientsTurn(true);
+						}
+						else{
+							clientMap.put(sInput, this);
+							clientMapid.put(id, sInput);
+							createCharacter();
+							playerid = id;
+							id++;
+						}
+
 					}
 					if(object instanceof client.Character) {
 						client.Character character = (client.Character) object;
@@ -143,7 +149,7 @@ public class GameServer implements Runnable{
 		 */
 
 		public void createCharacter() {
-			client.Character myCharacter = new client.Character(username, -1, -1);
+			client.Character myCharacter = new client.Character(sInput, -1, -1);
 			while (myCharacter.getRow() == -1) {
 				int startPos = rad.nextInt(5);
 				switch (startPos) {
@@ -179,7 +185,7 @@ public class GameServer implements Runnable{
 					break;
 				}
 			}
-			characterMap.put(username, myCharacter);
+			characterMap.put(sInput, myCharacter);
 		}
 		
 		/**
@@ -220,9 +226,9 @@ public class GameServer implements Runnable{
 			try {
 				socket.close();
 				input.close();
-				characterMap.remove(username);
+				characterMap.remove(sInput);
 				clientMapid.remove(playerid);
-				clientMap.remove(username);
+				clientMap.remove(sInput);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
