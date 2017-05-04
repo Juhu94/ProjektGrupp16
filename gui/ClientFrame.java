@@ -49,7 +49,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			+"----------------------------------------------------------------------\n");
 	
 	private JTextField serverIp = new JTextField();
-	private JTextField serverPort = new JTextField("3520");
+	private JTextField serverPort = new JTextField();
 	private JTextField username = new JTextField();
 	
 	private JButton bConnect = new JButton("Connect");
@@ -65,7 +65,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	
 	private JFrame frame = new JFrame("Client");
 	
-	private ExtendedJLabel[][] boardArray = new ExtendedJLabel[41][47];
+	private JLabel[][] boardArray = new JLabel[41][47];
 	
 	private GameClient client;
 	
@@ -111,6 +111,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		inputMiddlePanel.add(bMove);
 		inputMiddlePanel.add(bShoot);
 		inputMiddlePanel.add(bLeft);
+		inputMiddlePanel.add(bUp);
+		inputMiddlePanel.add(bDown);
 		inputMiddlePanel.add(bRight);
 		
 		inputRightPanel.add(bDisconnect);
@@ -150,7 +152,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 	}
-	public void updateViewer(ExtendedJLabel theLabel) {
+	public void updateViewer(JLabel theLabel) {
 		theLabel.setBackground(Color.RED);		
 	}
 	/**
@@ -158,26 +160,36 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	 * @param enableButtons boolean
 	 */
 	public void updateViewer(boolean enableButtons){
-		enableButtons(enableButtons);
+		enableButtons("update", enableButtons);
 	}
 	public void updateInfoRuta(String text) {
 		infoArea.append(text+"\n");
-	}
-	public void paintCharacter(int newRow, int newCol,int oldRow, int oldCol) {
-		boardArray[row][col].setBackground(Color.RED);
-		boardArray[row][col].repaint();
 	}
 	/**
 	 * method to enable or disable all buttons
 	 * @param state boolean
 	 */
-	public void enableButtons(boolean state){
-		bMove.setEnabled(state);
-		bShoot.setEnabled(state);
-		bUp.setEnabled(state);
-		bDown.setEnabled(state);
-		bLeft.setEnabled(state);
-		bRight.setEnabled(state);
+	public void enableButtons(String buttons, boolean state){
+		if(buttons == "update"){
+			bMove.setEnabled(state);
+			bShoot.setEnabled(false);
+			bUp.setEnabled(false);
+			bDown.setEnabled(false);
+			bLeft.setEnabled(false);
+			bRight.setEnabled(false);
+		} else if(buttons == "move"){
+			bUp.setEnabled(state);
+			bDown.setEnabled(state);
+			bLeft.setEnabled(state);
+			bRight.setEnabled(state);
+		} else if(buttons == "shoot"){
+			bShoot.setEnabled(state);
+		}
+		
+//		bUp.setEnabled(state);
+//		bDown.setEnabled(state);
+//		bLeft.setEnabled(state);
+//		bRight.setEnabled(state);
 	}
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == bConnect) {
@@ -195,25 +207,24 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		 * bara tillfälligt för att testa så att det fungerade
 		 */
 		if(e.getSource() == bMove){
-			client.startGame();
-			enableButtons(false);
+			enableButtons("move", true);
 		}
 		if(e.getSource() == bShoot){
 			
 		}
 	}
 	public void mouseClicked(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON1){
-			ExtendedJLabel theLabel = (ExtendedJLabel)e.getSource();
-			client.theTile(theLabel);
-			System.out.println("Någon har tryckt på en ruta på spelbrädet,(row="+theLabel.getRow());
+//		if(e.getButton() == MouseEvent.BUTTON1){
+//			ExtendedJLabel theLabel = (ExtendedJLabel)e.getSource();
+//			client.theTile(theLabel);
+//			System.out.println("Någon har tryckt på en ruta på spelbrädet,(row="+theLabel.getRow());
 //			theLabel.setBackground(Color.BLUE);
 //			theLabel.repaint();
-		}	
-		if(e.getButton() == MouseEvent.BUTTON3){
-			JLabel theLabel = (JLabel) e.getSource();
-			theLabel.setBackground(Color.BLUE);
-		}	
+//		}	
+//		if(e.getButton() == MouseEvent.BUTTON3){
+//			JLabel theLabel = (JLabel) e.getSource();
+//			theLabel.setBackground(Color.BLUE);
+//		}	
 	}
 	public void mouseEntered(MouseEvent e) {	
 	}
@@ -222,5 +233,15 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	public void mousePressed(MouseEvent e) {		
 	}
 	public void mouseReleased(MouseEvent e) {		
+	}
+	@Override
+	public void updateViewer(ExtendedJLabel theLabel) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void paintCharacter(int row, int col) {
+		// TODO Auto-generated method stub
+		
 	}
 }

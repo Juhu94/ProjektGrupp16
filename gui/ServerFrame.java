@@ -67,7 +67,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JButton bMove = new JButton("Move");
 	private JButton bShoot = new JButton("Shoot");
 	
-	private JFrame frame = new JFrame("Host");
+	private JFrame frame = new JFrame("Client");
 	
 	private JLabel[][] boardArray = new JLabel[41][47];
 	
@@ -111,6 +111,8 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		inputMiddlePanel.add(bMove);
 		inputMiddlePanel.add(bShoot);
 		inputMiddlePanel.add(bLeft);
+		inputMiddlePanel.add(bUp);
+		inputMiddlePanel.add(bDown);
 		inputMiddlePanel.add(bRight);
 		
 		inputRightPanel.add(bDisconnect);
@@ -160,22 +162,34 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	 * @param enableButtons boolean
 	 */
 	public void updateViewer(boolean enableButtons){
-		enableButtons(enableButtons);
-	}
-	public void paintCharacter(int newRow, int newCol,int oldRow, int oldCol) {
-		
+		enableButtons("update", enableButtons);
 	}
 	/**
 	 * method to enable or disable all buttons
 	 * @param state boolean
 	 */
-	public void enableButtons(boolean state){
-		bMove.setEnabled(state);
-		bShoot.setEnabled(state);
-		bUp.setEnabled(state);
-		bDown.setEnabled(state);
-		bLeft.setEnabled(state);
-		bRight.setEnabled(state);
+	public void enableButtons(String buttons, boolean state){
+		if(buttons == "update"){
+			bMove.setEnabled(state);
+			bShoot.setEnabled(false);
+			bUp.setEnabled(false);
+			bDown.setEnabled(false);
+			bLeft.setEnabled(false);
+			bRight.setEnabled(false);
+		} else if(buttons == "move"){
+			bMove.setEnabled(false);
+			bUp.setEnabled(state);
+			bDown.setEnabled(state);
+			bLeft.setEnabled(state);
+			bRight.setEnabled(state);
+		} else if(buttons == "shoot"){
+			bShoot.setEnabled(state);
+		}
+		
+//		bUp.setEnabled(state);
+//		bDown.setEnabled(state);
+//		bLeft.setEnabled(state);
+//		bRight.setEnabled(state);
 	}
 	
 	public void updateInfoRuta(String text) {
@@ -208,8 +222,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 			System.exit(0);
 		}
 		if(e.getSource() == bMove){
-			client.startGame();
-			enableButtons(false);
+			enableButtons("move", true);
 		}
 		if(e.getSource() == bShoot){
 			
@@ -239,6 +252,11 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	}
 	@Override
 	public void updateViewer(ExtendedJLabel theLabel) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void paintCharacter(int row, int col) {
 		// TODO Auto-generated method stub
 		
 	}
