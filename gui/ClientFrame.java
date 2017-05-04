@@ -49,7 +49,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			+"----------------------------------------------------------------------\n");
 	
 	private JTextField serverIp = new JTextField();
-	private JTextField serverPort = new JTextField();
+	private JTextField serverPort = new JTextField("3520");
 	private JTextField username = new JTextField();
 	
 	private JButton bConnect = new JButton("Connect");
@@ -65,7 +65,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	
 	private JFrame frame = new JFrame("Client");
 	
-	private JLabel[][] boardArray = new JLabel[41][47];
+	private ExtendedJLabel[][] boardArray = new ExtendedJLabel[41][47];
 	
 	private GameClient client;
 	
@@ -150,7 +150,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 	}
-	public void updateViewer(JLabel theLabel) {
+	public void updateViewer(ExtendedJLabel theLabel) {
 		theLabel.setBackground(Color.RED);		
 	}
 	/**
@@ -162,6 +162,10 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	}
 	public void updateInfoRuta(String text) {
 		infoArea.append(text+"\n");
+	}
+	public void paintCharacter(int row, int col) {
+		
+		boardArray[row][col].repaint();
 	}
 	/**
 	 * method to enable or disable all buttons

@@ -67,7 +67,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JButton bMove = new JButton("Move");
 	private JButton bShoot = new JButton("Shoot");
 	
-	private JFrame frame = new JFrame("Client");
+	private JFrame frame = new JFrame("Host");
 	
 	private JLabel[][] boardArray = new JLabel[41][47];
 	
@@ -162,6 +162,9 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	public void updateViewer(boolean enableButtons){
 		enableButtons(enableButtons);
 	}
+	public void paintCharacter(int row, int col) {
+		
+	}
 	/**
 	 * method to enable or disable all buttons
 	 * @param state boolean
@@ -233,5 +236,10 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	public void mousePressed(MouseEvent e) {		
 	}
 	public void mouseReleased(MouseEvent e) {		
+	}
+	@Override
+	public void updateViewer(ExtendedJLabel theLabel) {
+		// TODO Auto-generated method stub
+		
 	}
 }
