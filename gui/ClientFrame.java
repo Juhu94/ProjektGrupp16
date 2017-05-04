@@ -62,6 +62,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	private JButton bDown = new JButton("v");
 	private JButton bMove = new JButton("Move");
 	private JButton bShoot = new JButton("Shoot");
+	private JButton bEndTurn = new JButton("End turn");
 	
 	private JFrame frame = new JFrame("Client");
 	
@@ -110,6 +111,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		
 		inputMiddlePanel.add(bMove);
 		inputMiddlePanel.add(bShoot);
+		inputMiddlePanel.add(bEndTurn);
 		inputMiddlePanel.add(bLeft);
 		inputMiddlePanel.add(bUp);
 		inputMiddlePanel.add(bDown);
@@ -140,6 +142,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		bDown.addActionListener(this);
 		bLeft.addActionListener(this);
 		bRight.addActionListener(this);
+		bEndTurn.addActionListener(this);
 		
 		bMove.setEnabled(false);
 		bShoot.setEnabled(false);
@@ -147,6 +150,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		bDown.setEnabled(false);
 		bLeft.setEnabled(false);
 		bRight.setEnabled(false);
+		bEndTurn.setEnabled(false);
 		
 		frame.add(panel);
 		frame.pack();
@@ -174,24 +178,27 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	 * @param state boolean
 	 */
 	public void enableButtons(String buttons){
-		if(buttons == "update"){
+		if(buttons.equals("update")){
  			bMove.setEnabled(true);
 			bShoot.setEnabled(false);
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
 			bLeft.setEnabled(false);
 			bRight.setEnabled(false);
-		} else if(buttons == "move"){
+		} else if(buttons.equals("move")){
 			bMove.setEnabled(false);
 			bUp.setEnabled(true);
 			bDown.setEnabled(true);
 			bLeft.setEnabled(true);
 			bRight.setEnabled(true);
-		} else if(buttons == "shoot"){
+			bEndTurn.setEnabled(true);
+		} else if(buttons.equals("shoot")){
 			bShoot.setEnabled(true);
-		} else if(buttons == "disconnect"){
+		} else if(buttons.equals("disconnect")){
 			bDisconnect.setEnabled(false);
 			bConnect.setEnabled(true);
+		}else if (buttons.equals("end turn")){
+			bEndTurn.setEnabled(true);
 		}
 		
 //		bUp.setEnabled(state);
@@ -219,6 +226,22 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			enableButtons("move");
 		}
 		if(e.getSource() == bShoot){
+			
+		}
+		if(e.getSource() == bEndTurn){
+			client.endTurn();
+			enableButtons("disable all");
+		}
+		if(e.getSource() == bLeft){
+			
+		}
+		if(e.getSource() == bRight){
+			
+		}
+		if(e.getSource() == bUp){
+			
+		}
+		if(e.getSource() == bDown){
 			
 		}
 	}
