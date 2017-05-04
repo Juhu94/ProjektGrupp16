@@ -153,11 +153,13 @@ public class GameServer implements Runnable{
 		 * Creates a character and places it on a empty starting position
 		 */
 
-		public void createCharacter(String name) {
+		public synchronized void createCharacter(String name) {
 			System.out.println("createCHarizard");
 			client.Character myCharacter = new client.Character(name, -1, -1);
 			while (myCharacter.getRow() == -1) {
-				int startPos = rad.nextInt(5);
+				System.out.println(myCharacter.getRow());
+				int startPos = rad.nextInt(6);
+				System.out.println("-------------------------------\n" + startPos);
 				switch (startPos) {
 				case 0:
 					if (!checkCharacterAtPos(9, 4)) {
@@ -192,7 +194,7 @@ public class GameServer implements Runnable{
 				}
 			}
 			System.out.println("KARAKTÄR SKAPAD SERVER");
-			characterMap.put(sInput, myCharacter);
+			characterMap.put(name, myCharacter);
 			updateCharPos(myCharacter);
 		}
 		
@@ -206,14 +208,28 @@ public class GameServer implements Runnable{
 
 		public boolean checkCharacterAtPos(int row, int col) {
 			String userID;
-			for (int i = 1; i == id; i++) {
-				if (clientMap.containsKey(i)) {
+			
+			if(characterMap.isEmpty()){
+				return false;
+			}
+			
+			for (int i = 1; i <= characterMap.size(); i++) {
+				System.out.println(i);
+				if(clientMapid.containsKey(i)){
 					userID = clientMapid.get(i);
 					if (characterMap.get(userID).getRow() == row && characterMap.get(userID).getCol() == col) {
 						return true;
 					}
 				}
+				
+//				if (clientMapid.containsKey(i)) {
+//					userID = clientMapid.get(i);
+//					if (characterMap.get(userID).getRow() == row && characterMap.get(userID).getCol() == col) {
+//						return true;
+//					}
+//				}  
 			}
+			System.out.println("Tilldelad plats");
 			return false;
 		}
 		
