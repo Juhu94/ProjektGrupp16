@@ -93,11 +93,12 @@ public class GameServer implements Runnable{
 						boolean enableButtons = (boolean)object;
 						clientsTurn(enableButtons);
 					}
+					if(object instanceof client.Character) {
+						client.Character character = (client.Character) object;
+						updateCharPos(character);
+					}
 					
 				}catch (IOException | ClassNotFoundException e) {
-//					characterMap.remove(username);
-//					clientMapid.remove(playerid);
-//					clientMap.remove(username);
 					closeSocket();
 					Thread.currentThread().stop();
 					e.printStackTrace();
@@ -201,11 +202,27 @@ public class GameServer implements Runnable{
 			}
 			return false;
 		}
+		
+		public void updateCharPos(client.Character charr) {
+			ArrayList<String> connectedUsers = new ArrayList<String>();
+			connectedUsers.addAll(clientMap.keySet());
+			for(ClientHandler ch : clientMap.values()){
+				try{
+					ch.output.writeObject(charr);
+					ch.output.flush();
+				}catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
 		public void closeSocket() {
 			try {
 				socket.close();
 				input.close();
+				characterMap.remove(username);
+				clientMapid.remove(playerid);
+				clientMap.remove(username);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
