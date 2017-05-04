@@ -161,8 +161,8 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	 * Method to enable buttons
 	 * @param enableButtons boolean
 	 */
-	public void updateViewer(boolean enableButtons){
-		enableButtons("update", enableButtons);
+	public void updateViewer(){
+		enableButtons("update");
 	}
 	public void paintCharacter(int newRow, int newCol,int oldRow, int oldCol) {
 		boardArray[newRow][newCol].setBackground(Color.RED);
@@ -172,21 +172,23 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	 * method to enable or disable all buttons
 	 * @param state boolean
 	 */
-	public void enableButtons(String buttons,boolean state){
+	public void enableButtons(String buttons){
 		if(buttons == "update"){
- 			bMove.setEnabled(state);
+ 			bMove.setEnabled(true);
 			bShoot.setEnabled(false);
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
 			bLeft.setEnabled(false);
 			bRight.setEnabled(false);
 		} else if(buttons == "move"){
-			bUp.setEnabled(state);
-			bDown.setEnabled(state);
-			bLeft.setEnabled(state);
-			bRight.setEnabled(state);
+			bUp.setEnabled(true);
+			bDown.setEnabled(true);
+			bLeft.setEnabled(true);
+			bRight.setEnabled(true);
 		} else if(buttons == "shoot"){
-			bShoot.setEnabled(state);
+			bShoot.setEnabled(true);
+		} else if(buttons == "disconnect"){
+			bDisconnect.setEnabled(true);
 		}
 //		bMove.setEnabled(state);
 //		bShoot.setEnabled(state);
@@ -221,12 +223,13 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		}
 		if(e.getSource() == bDisconnect) {
 			client.disconnect();
+			enableButtons("disconnect");
 		}
 		if(e.getSource() == bClose) {
 			System.exit(0);
 		}
 		if(e.getSource() == bMove){
-			enableButtons("move", true);
+			enableButtons("move");
 		}
 		if(e.getSource() == bShoot){
 			

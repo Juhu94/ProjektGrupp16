@@ -159,8 +159,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	 * Method to enable buttons
 	 * @param enableButtons boolean
 	 */
-	public void updateViewer(boolean enableButtons){
-		enableButtons("update", enableButtons);
+	public void updateViewer(){
+		enableButtons("update");
 	}
 	public void updateInfoRuta(String text) {
 		infoArea.append(text+"\n");
@@ -173,21 +173,24 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	 * method to enable or disable all buttons
 	 * @param state boolean
 	 */
-	public void enableButtons(String buttons,boolean state){
+	public void enableButtons(String buttons){
 		if(buttons == "update"){
- 			bMove.setEnabled(state);
+ 			bMove.setEnabled(true);
 			bShoot.setEnabled(false);
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
 			bLeft.setEnabled(false);
 			bRight.setEnabled(false);
 		} else if(buttons == "move"){
-			bUp.setEnabled(state);
-			bDown.setEnabled(state);
-			bLeft.setEnabled(state);
-			bRight.setEnabled(state);
+			bUp.setEnabled(true);
+			bDown.setEnabled(true);
+			bLeft.setEnabled(true);
+			bRight.setEnabled(true);
 		} else if(buttons == "shoot"){
-			bShoot.setEnabled(state);
+			bShoot.setEnabled(true);
+		} else if(buttons == "disconnect"){
+			bDisconnect.setEnabled(false);
+			bConnect.setEnabled(true);
 		}
 		
 //		bUp.setEnabled(state);
@@ -201,6 +204,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			bConnect.setEnabled(false);
 		}
 		if(e.getSource() == bDisconnect) {
+			enableButtons("disconnect");
 			client.disconnect();
 		}
 		if(e.getSource() == bClose) {
@@ -211,7 +215,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		 * bara tillfälligt för att testa så att det fungerade
 		 */
 		if(e.getSource() == bMove){
-			enableButtons("move", true);
+			enableButtons("move");
 		}
 		if(e.getSource() == bShoot){
 			
