@@ -150,6 +150,7 @@ public class GameClient implements Serializable{
 					}
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
+					Thread.currentThread().stop();
 					e.printStackTrace();
 				}
 			}
