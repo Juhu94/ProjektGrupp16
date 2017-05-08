@@ -182,13 +182,13 @@ public class GameServer implements Runnable{
 						}
 					break;
 				case 4:
-					if(!checkCharacterAtPos(31, 44)){
-						myCharacter.setPos(31, 44);
+					if(!checkCharacterAtPos(30, 44)){
+						myCharacter.setPos(30, 44);
 						}
 					break;
 				case 5:
-					if(!checkCharacterAtPos(24, 37)){
-						myCharacter.setPos(24, 37);
+					if(!checkCharacterAtPos(36, 37)){
+						myCharacter.setPos(36, 37);
 						}
 					break;
 				}

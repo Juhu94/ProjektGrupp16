@@ -44,6 +44,7 @@ public class GameClient implements Serializable{
 
 	public GameClient(){
 		System.out.println("Klient Startad");
+		map = createMap();
 	}
 	public void sendUsername(String username) {
 		this.username = username;
@@ -186,6 +187,18 @@ public class GameClient implements Serializable{
 			
 	}
 	
+	//temp background
+	
+	public String getTile(int row, int col){
+		if(map[row][col].getBoat()){
+			return "ORANGE";
+		}else if (map[row][col].getRaft() || map[row][col].getCanon()){
+			return "BLACK";
+		} else {
+			return map[row][col].getName();
+		}
+	}
+
 	/**
 	 * Creates a map 
 	 * @return	Tile[][]	map array
@@ -285,12 +298,12 @@ public class GameClient implements Serializable{
 		map[6][22].boatOn();
 		map[9][35].boatOn();
 		map[23][4].boatOn();
-		map[31][44].boatOn();
-		map[24][37].boatOn();
+		map[30][44].boatOn();
+		map[36][37].boatOn();
 		//------Canon-----------------------
 		map[15][17].canonOn();
 		//------Raft------------------------
-		map[16][30].raftOn();
+		map[9][30].raftOn();
 		
 		return map;
 	}
