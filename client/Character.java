@@ -12,7 +12,7 @@ public class Character implements Serializable{
 	private String name;
 	private int row;
 	private int col;
-	private boolean sleeping;
+	private int sleeping;
 	private int mapPieces;
 	private boolean hasTreasure;
 	
@@ -20,9 +20,18 @@ public class Character implements Serializable{
 		this.name = name;
 		this.row = row;
 		this.col = col;
-		sleeping = false;
+		sleeping = 0;
 		mapPieces = 1;
 		hasTreasure = false;
+	}
+	
+	/**
+	 * Returns a int that tells how many turns this character is sleeping
+	 * @return int
+	 */
+	
+	public int sleeping(){
+		return sleeping;
 	}
 	
 	public String getName(){
