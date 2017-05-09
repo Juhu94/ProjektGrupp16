@@ -71,7 +71,7 @@ public class ServerFrame extends JPanel implements ActionListener{
 						+"utöver spelvärden (du) vara ansluten.\n"
 						+"Klicka sedan på 'Starta spelomgång'.\n"
 						+"-----------------------------------------------------------------------------------\n"
-						+"IP to connect to: " + inet.getHostAddress() + "\n"
+						+"IP to conect to: " + inet.getHostAddress()
 						+"-----------------------------------------------------------------------------------\n");
 
 			} catch (UnknownHostException e) {

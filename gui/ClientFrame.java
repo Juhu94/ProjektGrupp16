@@ -49,7 +49,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			+ "Skriv in serverns ip och port ovanför.\n" + "Skriv också in ett användarnamn du vill använda\n"
 			+ "----------------------------------------------------------------------\n");
 
-	private JTextField serverIp = new JTextField();
+	private JTextField serverIp = new JTextField("10.2.24.130");
 	private JTextField serverPort = new JTextField("3520");
 	private JTextField username = new JTextField();
 
@@ -265,6 +265,12 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			bLeft.setEnabled(true);
 			bRight.setEnabled(true);
 			bEndTurn.setEnabled(true);
+		} else if(buttons.equals("disable move")){
+			bUp.setEnabled(false);
+			bDown.setEnabled(false);
+			bLeft.setEnabled(false);
+			bRight.setEnabled(false);
+			bEndTurn.setEnabled(true);
 		} else if (buttons.equals("shoot")) {
 			bShoot.setEnabled(true);
 		} else if (buttons.equals("disconnect")) {
@@ -272,6 +278,12 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			bConnect.setEnabled(true);
 		} else if (buttons.equals("end turn")) {
 			bEndTurn.setEnabled(true);
+			bMove.setEnabled(false);
+			bShoot.setEnabled(false);
+			bUp.setEnabled(false);
+			bDown.setEnabled(false);
+			bLeft.setEnabled(false);
+			bRight.setEnabled(false);
 		}
 
 		// bUp.setEnabled(state);
@@ -295,6 +307,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		
 		if (e.getSource() == bMove) {
 			enableButtons("move");
+			client.throwDice();
 		}
 		if (e.getSource() == bShoot) {
 

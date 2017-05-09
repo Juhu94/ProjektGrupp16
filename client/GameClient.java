@@ -45,6 +45,8 @@ public class GameClient implements Serializable{
 	
 	private int oldColThis;
 	private int oldRowThis;
+	
+	private int steps = 0;
 
 	public GameClient(){
 		System.out.println("Klient Startad");
@@ -88,6 +90,8 @@ public class GameClient implements Serializable{
 	public int throwDice(){
 		Random rand = new Random();
 		int diceNbr = rand.nextInt(6)+1;
+		this.steps = diceNbr;
+		System.out.println(diceNbr);
 		return diceNbr;
 	}
 	/**
@@ -127,8 +131,11 @@ public class GameClient implements Serializable{
 		}
 	}
 	
-	public void moveCharacter(String username, String direction){
-		connection.moveChar(characterMap.get(username), direction);
+	public void moveCharacter( String username, String direction){
+		connection.moveChar( characterMap.get(username), direction);
+		for(ViewerListener listener: listeners){
+			listener.updateInfoRuta(String.valueOf(steps));
+		}
 	}
 	
 	/**
@@ -193,20 +200,34 @@ public class GameClient implements Serializable{
 			System.out.println("i gameclient row: " + oldRowThis);
 			System.out.println("i gameclient col: " + oldColThis);
 			
+//			for(int i =0; i<steps; i++){
+//			while(steps>0){
+			System.out.println(steps);
 			switch(direction){
-			case "Right":
-				character.setPos(oldRowThis, oldColThis + 1);
-				break;
-			case "Left":
-				character.setPos(oldRowThis, oldColThis - 1);
-				break;
-			case "Up":
-				character.setPos(oldRowThis - 1, oldColThis);
-				break;
-			case "Down":
-				character.setPos(oldRowThis + 1, oldColThis);
-				break;
-			}
+				case "Right":
+					character.setPos(oldRowThis, oldColThis + 1);
+					steps--;
+					break;
+				case "Left":
+					character.setPos(oldRowThis, oldColThis - 1);
+					steps--;
+					break;
+				case "Up":
+					character.setPos(oldRowThis - 1, oldColThis);
+					steps--;
+					break;
+				case "Down":
+					character.setPos(oldRowThis + 1, oldColThis);
+					steps--;
+					break;
+				}
+//			}
+//			}
+//			for(ViewerListener listener: listeners){
+//				listener.enableButtons("disable move");
+//			}
+			
+			
 			
 			try {
 				output.writeObject(character);
