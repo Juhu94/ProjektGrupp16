@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument.BranchElement;
 
 import client.Tile;
+import gui.ServerFrame;
 /**
  * 
  * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
@@ -28,11 +29,13 @@ public class GameServer implements Runnable{
 	private HashMap<Integer, String> clientMapid = new HashMap<Integer, String>();
 	private HashMap<String, client.Character> characterMap = new HashMap<String, client.Character>();
 	private Random rad = new Random();
+	private ServerFrame ui;
 	
 	private int counter = 1;
 	private int id = 1;
 	
-	public GameServer(int port){
+	public GameServer(int port, ServerFrame ui){
+		this.ui = ui;
 		try{
 			serverSocket = new ServerSocket(port);
 			serverThread.start();
@@ -57,6 +60,15 @@ public class GameServer implements Runnable{
 				e.printStackTrace();
 			}
 		}		
+	}
+	
+	public void startGame(){
+		System.out.println("starta spelet på servern "+id);
+		for(int i = 1; i < id; i++){
+			clientMap.get(clientMapid.get(i)).createCharacter(clientMapid.get(i));
+			System.out.println("WEE");
+		}
+		clientMap.get(clientMapid.get(1)).clientsTurn(true);;
 	}
 	
 	private class ClientHandler extends Thread{
@@ -101,6 +113,7 @@ public class GameServer implements Runnable{
 							clientMapid.put(id, sInput);
 							playerid = id;
 							id++;
+							ui.addUser(sInput);
 						}
 
 					}

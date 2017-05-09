@@ -58,9 +58,7 @@ public class GameClient implements Serializable{
 	public void addListeners(ViewerListener listener) {
 		listeners.add(listener);
 	}
-	public void startServer(){
-		GameServer gs = new GameServer(3520);
-	}
+	
 	public void startGame(){
 		try {
 			System.out.println("Startar matchen/väljer vems tur det är");

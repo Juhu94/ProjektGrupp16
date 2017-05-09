@@ -76,7 +76,7 @@ public class MenuFrame implements ActionListener{
 		if(e.getSource() == host) {
 			System.out.println("Någon har klickat på 'Host'"); //Kommentar för White box-testning - Julian Hultgren
 			GameClient gc = new GameClient();
-			ServerFrame sf = new ServerFrame(gc);
+			ServerFrame sf = new ServerFrame();
 			frame.dispose();
 		}
 		if(e.getSource() == join) {
