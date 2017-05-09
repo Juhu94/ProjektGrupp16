@@ -17,7 +17,7 @@ import javax.swing.text.AbstractDocument.BranchElement;
 import client.Tile;
 /**
  * 
- * @author Julian Hultgren, Lukas Persson
+ * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
  * Version 0.7
  */
 public class GameServer implements Runnable{

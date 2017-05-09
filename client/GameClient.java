@@ -41,10 +41,12 @@ public class GameClient implements Serializable{
 	private HashMap<String, client.Character> characterMap = new HashMap<String, client.Character>(); 
 	
 	private boolean clientTurn = true;
+	private Connection connection;
 
 	public GameClient(){
 		System.out.println("Klient Startad");
 		map = createMap();
+		connection = new Connection();
 	}
 	public void sendUsername(String username) {
 		this.username = username;
@@ -124,6 +126,10 @@ public class GameClient implements Serializable{
 		}
 	}
 	
+	public void moveCharacter(String username, String direction){
+		connection.moveChar(characterMap.get(username), direction);
+	}
+	
 	/**
 	* Inner class that handles the connection between client and server
 	*/
@@ -131,13 +137,19 @@ public class GameClient implements Serializable{
 		private String ipAddress = "";
 		private String username = "";
 		private int port = 0;
-			
+		private int oldColThis;
+		private int oldRowThis;
+		
 		public Connection(String ipAddress, int port, String username){
 			this.ipAddress = ipAddress;
 			this.port = port;
 			this.username = username;
 		}
 			
+		public Connection() {
+			
+		}
+
 		public void run(){
 			System.out.println("Client Running");
 			try{
@@ -162,7 +174,7 @@ public class GameClient implements Serializable{
 					}
 					if (object instanceof client.Character){
 						client.Character character = (client.Character) object;
-						moveCharacter(character);
+						updateCharacter(character);
 					}
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
@@ -171,91 +183,68 @@ public class GameClient implements Serializable{
 				}
 			}
 		}
-		public void moveCharacter(client.Character character){
+		
+		
+		public void moveChar(client.Character character, String direction){
+			System.out.println(character.getCol());
+			System.out.println(character.getRow());
+			oldColThis = character.getCol();
+			oldRowThis = character.getRow();
+			System.out.println("i gameclient row: " + oldRowThis);
+			System.out.println("i gameclient col: " + oldColThis);
+			
+			switch(direction){
+			case "Right":
+				character.setPos(oldRowThis, oldColThis + 1);
+				break;
+			case "Left":
+				character.setPos(oldRowThis, oldColThis - 1);
+				break;
+			case "Up":
+				character.setPos(oldRowThis - 1, oldColThis);
+				break;
+			case "Down":
+				character.setPos(oldRowThis + 1, oldColThis);
+				break;
+			}
+			
+			try {
+				output.writeObject(character);
+				output.flush();
+				System.out.println("karaktärobjekt skickat");
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public void updateCharacter(client.Character character){
 			String characterName = character.getName();
 			System.out.println(characterName);
-//			int oldRow = characterMap.get(characterName).getRow();
-//			int oldCol = characterMap.get(characterName).getCol();
 			int oldRow = 1;
 			int oldCol = 1;
+			if(characterMap.containsKey(characterName) && !characterName.equals(username)){
+				oldRow = characterMap.get(characterName).getRow();
+				oldCol = characterMap.get(characterName).getCol();
+			}else if(characterMap.containsKey(characterName) && characterName.equals(username)){
+				System.out.println(oldRow = oldRowThis);
+				System.out.println(oldCol = oldColThis);
+				
+			}
+			
 			characterMap.put(characterName, character);
 			for(ViewerListener listener: listeners){
+
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
+				
 				System.out.println("flytta gubbe -> viewer");
 			}
 		}
 			
 	}
 	
-		/**
-	 * Checks the tiles to the specified side of your character for available path 
-	 * @param 	String dir
-	 * @return	boolean
-	 */
-	
-		public boolean checkMove(String dir) {
-		boolean ret = false;
-		Character me = characterMap.get(username);
-		switch (dir) {
-		case "LEFT":
-			if(map[me.getRow()][me.getCol() - 1].getAccessible()){
-				if(map[me.getRow()][me.getCol() - 1].getCharacter().equals(null)){
-					ret = true;
-				}else{
-					if (map[me.getRow()][me.getCol() - 1].getCharacter().sleeping() < 1){
-						ret = true;
-					}else{
-						ret = false;
-					}
-				}
-			}
-			break;
-		case "RIGHT":
-			if(map[me.getRow()][me.getCol() + 1].getAccessible()){
-				if(map[me.getRow()][me.getCol() + 1].getCharacter().equals(null)){
-					ret = true;
-				}else{
-					if (map[me.getRow()][me.getCol() + 1].getCharacter().sleeping() < 1){
-						ret = true;
-					}else{
-						ret = false;
-					}
-				}
-			}
-			break;
-		case "UP":
-			if(map[me.getRow() - 1][me.getCol()].getAccessible()){
-				if(map[me.getRow() - 1][me.getCol()].getCharacter().equals(null)){
-					ret = true;
-				}else{
-					if (map[me.getRow() - 1][me.getCol()].getCharacter().sleeping() < 1){
-						ret = true;
-					}else{
-						ret = false;
-					}
-				}
-			}
-			break;
-		case "DOWN":
-			if(map[me.getRow() + 1][me.getCol() - 1].getAccessible()){
-				if(map[me.getRow() + 1][me.getCol() - 1].getCharacter().equals(null)){
-					ret = true;
-				}else{
-					if (map[me.getRow() + 1][me.getCol() - 1].getCharacter().sleeping() < 1){
-						ret = true;
-					}else{
-						ret = false;
-					}
-				}
-			}
-			break;
 
-		default:
-			ret = false;
-			break;
-		}
-		return ret;
-	}
 	
 	//temp background
 	

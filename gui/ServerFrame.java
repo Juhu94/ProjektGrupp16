@@ -27,7 +27,7 @@ import javax.swing.JTextField;
 import client.GameClient;
 /**
  * 
- * @author Julian Hultgren
+ * @author Julian Hultgren, Erik Johansson, Simon Börjesson, Lukas Persson
  * Version 1.0
  *
  */
@@ -73,6 +73,9 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	private JLabel[][] boardArray = new JLabel[41][47];
 	
 	private GameClient client;
+	
+	String s;
+	int steps;
 	
 	public ServerFrame(GameClient client) {
 		this.client = client;
@@ -122,10 +125,35 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 		
 		centerPanel.setLayout(new GridLayout(41,47,1,1));
 		
+		
 		for(int i = 0; i < 41; i++){
 			for(int j = 0; j < 47; j++){
 				boardArray[i][j] = new ExtendedJLabel(i,j,Color.RED);
-				boardArray[i][j].setBackground(Color.WHITE);
+				s = client.getTile(i, j);
+				switch (s) {
+				case "Ground":
+					boardArray[i][j].setBackground(Color.GRAY);
+					break;
+				case "Water":
+					boardArray[i][j].setBackground(Color.BLUE);
+					break;
+				case "Jungle":
+					boardArray[i][j].setBackground(Color.GREEN);
+					break;
+				case "BLACK":
+					boardArray[i][j].setBackground(Color.BLACK);
+					break;
+				case "ORANGE":
+					boardArray[i][j].setBackground(Color.ORANGE);
+					break;
+					
+				case "Special":
+					boardArray[i][j].setBackground(Color.DARK_GRAY);
+					break;
+
+				default:
+					break;
+				}
 				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
 				boardArray[i][j].setOpaque(true);
 				boardArray[i][j].addMouseListener(this);
@@ -171,12 +199,48 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 	public void paintCharacter(int newRow, int newCol,int oldRow, int oldCol) {
 		boardArray[newRow][newCol].setBackground(Color.RED);
 		boardArray[newRow][newCol].repaint();
+		System.out.println(oldRow);
+		System.out.println(oldCol);
+		String colorOfTile = client.getTile(oldRow, oldCol);
+		switch (colorOfTile) {
+		case "Ground":
+			boardArray[oldRow][oldCol].setBackground(Color.GRAY);
+			break;
+		case "Water":
+			boardArray[oldRow][oldCol].setBackground(Color.BLUE);
+			break;
+		case "Jungle":
+			boardArray[oldRow][oldCol].setBackground(Color.GREEN);
+			break;
+		case "BLACK":
+			boardArray[oldRow][oldCol].setBackground(Color.BLACK);
+			break;
+		case "ORANGE":
+			boardArray[oldRow][oldCol].setBackground(Color.ORANGE);
+			break;
+			
+		case "Special":
+			boardArray[oldRow][oldCol].setBackground(Color.DARK_GRAY);
+			break;
+
+		default:
+			break;
+		}
 	}
 	/**
 	 * method to enable or disable all buttons
 	 * @param state boolean
 	 */
 	public void enableButtons(String buttons){
+		if(buttons.equals("disable all")){
+			bMove.setEnabled(false);
+			bShoot.setEnabled(false);
+			bUp.setEnabled(false);
+			bDown.setEnabled(false);
+			bLeft.setEnabled(false);
+			bRight.setEnabled(false);
+			bEndTurn.setEnabled(false);
+		}
 		if(buttons.equals("update")){
  			bMove.setEnabled(true);
 			bShoot.setEnabled(false);
@@ -226,7 +290,7 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 			}
 			infoArea.append("Du har valt '"+username.getText()+"' som ditt username");
 			client.sendUsername(username.getText());
-			username.setText("");
+//			username.setText("");
 			bStartServer.setEnabled(false);
 			bStartGame.setEnabled(true);
 		}
@@ -238,6 +302,8 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 			System.exit(0);
 		}
 		if(e.getSource() == bMove){
+			steps = client.throwDice();
+			System.out.println(steps);
 			enableButtons("move");
 		}
 		if(e.getSource() == bShoot){
@@ -248,16 +314,20 @@ public class ServerFrame extends JPanel implements MouseListener, ActionListener
 			enableButtons("disable all");
 		}
 		if(e.getSource() == bLeft){
-			
+			client.moveCharacter(username.getText(), "Left");
+			System.out.println("Left");
 		}
 		if(e.getSource() == bRight){
-			
+			client.moveCharacter(username.getText(), "Right");
+			System.out.println("Right");
 		}
 		if(e.getSource() == bUp){
-			
+			client.moveCharacter(username.getText(), "Up");
+			System.out.println("Up");
 		}
 		if(e.getSource() == bDown){
-			
+			client.moveCharacter(username.getText(), "Down");
+			System.out.println("Down");
 		}
 	}
 	public void mouseClicked(MouseEvent e) {
