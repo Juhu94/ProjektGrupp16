@@ -42,6 +42,9 @@ public class GameClient implements Serializable{
 	
 	private boolean clientTurn = true;
 	private Connection connection;
+	
+	private int oldColThis;
+	private int oldRowThis;
 
 	public GameClient(){
 		System.out.println("Klient Startad");
@@ -135,8 +138,7 @@ public class GameClient implements Serializable{
 		private String ipAddress = "";
 		private String username = "";
 		private int port = 0;
-		private int oldColThis;
-		private int oldRowThis;
+		
 		
 		public Connection(String ipAddress, int port, String username){
 			this.ipAddress = ipAddress;
