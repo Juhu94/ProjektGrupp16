@@ -244,7 +244,75 @@ public class GameClient implements Serializable{
 			
 	}
 	
+	/**
+	 * Checks the tiles to the specified side of your character for available path 
+	 * @param 	String dir
+	 * @return	boolean
+	 */
 
+	public boolean checkMove(String dir) {
+		boolean ret = false;
+		Character me = characterMap.get(username);
+		switch (dir) {
+		case "LEFT":
+			if(map[me.getRow()][me.getCol() - 1].getAccessible()){
+				if(map[me.getRow()][me.getCol() - 1].getCharacter().equals(null)){
+					ret = true;
+				}else{
+					if (map[me.getRow()][me.getCol() - 1].getCharacter().sleeping() < 1){
+						ret = true;
+					}else{
+						ret = false;
+					}
+				}
+			}
+			break;
+		case "RIGHT":
+			if(map[me.getRow()][me.getCol() + 1].getAccessible()){
+				if(map[me.getRow()][me.getCol() + 1].getCharacter().equals(null)){
+					ret = true;
+				}else{
+					if (map[me.getRow()][me.getCol() + 1].getCharacter().sleeping() < 1){
+						ret = true;
+					}else{
+						ret = false;
+					}
+				}
+			}
+			break;
+		case "UP":
+			if(map[me.getRow() - 1][me.getCol()].getAccessible()){
+				if(map[me.getRow() - 1][me.getCol()].getCharacter().equals(null)){
+					ret = true;
+				}else{
+					if (map[me.getRow() - 1][me.getCol()].getCharacter().sleeping() < 1){
+						ret = true;
+					}else{
+						ret = false;
+					}
+				}
+			}
+			break;
+		case "DOWN":
+			if(map[me.getRow() + 1][me.getCol() - 1].getAccessible()){
+				if(map[me.getRow() + 1][me.getCol() - 1].getCharacter().equals(null)){
+					ret = true;
+				}else{
+					if (map[me.getRow() + 1][me.getCol() - 1].getCharacter().sleeping() < 1){
+						ret = true;
+					}else{
+						ret = false;
+					}
+				}
+			}
+			break;
+
+		default:
+			ret = false;
+			break;
+		}
+		return ret;
+	}
 	
 	//temp background
 	
