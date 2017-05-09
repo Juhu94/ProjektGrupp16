@@ -41,6 +41,7 @@ public class ServerFrame extends JPanel implements ActionListener{
 	private JPanel centerPanel = new JPanel(new BorderLayout());
 	private JPanel leftGridPanel = new JPanel(new GridLayout(3,1));
 
+	private InetAddress ip;
 
 	private JPanel flowPanel = new JPanel();
 	private JPanel inputPanel = new JPanel(new BorderLayout(50,0));
@@ -48,14 +49,7 @@ public class ServerFrame extends JPanel implements ActionListener{
 
 	private DefaultListModel model = new DefaultListModel();
 	private JList listUsers = new JList(model);
-	private JTextArea infoArea = new JTextArea(
-			"Du är spelvärd för en spelomgång.\n"
-			+"Skriv in vilket username du vill använda i rutan ovanför.\n"
-			+"Klicka sedan på 'Start server' för att starta servern.\n"
-			+"För att starta en spelomgång måste minst 1 till klient\n"
-			+"utöver spelvärden (du) vara ansluten.\n"
-			+"Klicka sedan på 'Starta spelomgång'.\n"
-			+"-----------------------------------------------------------------------------------\n");
+	private JTextArea infoArea = new JTextArea();
 	
 	
 	private JButton bStartGame = new JButton("Starta spelomgång");
@@ -67,6 +61,22 @@ public class ServerFrame extends JPanel implements ActionListener{
 	
 	public ServerFrame() {
 		
+		try {
+			  InetAddress inet = InetAddress.getLocalHost();
+			  
+			  infoArea.setText("Du är spelvärd för en spelomgång.\n"
+						+"Skriv in vilket username du vill använda i rutan ovanför.\n"
+						+"Klicka sedan på 'Start server' för att starta servern.\n"
+						+"För att starta en spelomgång måste minst 1 till klient\n"
+						+"utöver spelvärden (du) vara ansluten.\n"
+						+"Klicka sedan på 'Starta spelomgång'.\n"
+						+"-----------------------------------------------------------------------------------\n"
+						+"IP to conect to: " + inet.getHostAddress()
+						+"-----------------------------------------------------------------------------------\n");
+
+			} catch (UnknownHostException e) {
+
+			}
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
