@@ -46,15 +46,15 @@ public class GameServer implements Runnable{
 	
 	public void run() {
 		System.out.println("Server running...");
-		System.out.println("Listening for clients...");
+		System.out.println("Server: Listening for clients...");
 		while(true){
 			try{
 				Socket socket = serverSocket.accept();
 				if (clientMap.size() <= 6){
-					System.out.println("Client connected from..." +socket.getRemoteSocketAddress());
+					System.out.println("Server: Client connected from..." +socket.getRemoteSocketAddress());
 					new ClientHandler(socket).start();
 				}else{
-					System.out.println("Client can't connected from..." +socket.getRemoteSocketAddress() + " due to game being full");
+					System.out.println("Server: Client can't connected from..." +socket.getRemoteSocketAddress() + " due to game being full");
 				}
 			}catch(IOException e){
 				e.printStackTrace();
@@ -63,10 +63,9 @@ public class GameServer implements Runnable{
 	}
 	
 	public void startGame(){
-		System.out.println("starta spelet på servern "+id);
+		System.out.println("Server: starta spelet på servern "+id);
 		for(int i = 1; i < id; i++){
 			clientMap.get(clientMapid.get(i)).createCharacter(clientMapid.get(i));
-			System.out.println("WEE");
 		}
 		clientMap.get(clientMapid.get(1)).clientsTurn(true);;
 	}
@@ -96,19 +95,11 @@ public class GameServer implements Runnable{
 					Object object = input.readObject();
 					if(object instanceof String){
 						sInput = (String)object;
-						if(sInput.equals("STARTGAME")){
-							System.out.println("starta spelet på servern "+id);
-							for(int i = 1; i < id; i++){
-								clientMap.get(clientMapid.get(i)).createCharacter(clientMapid.get(i));
-								System.out.println("WEE");
-							}
-							clientsTurn(true);
-						}
-						else if(sInput.equals("ENDTURN")){
+						if(sInput.equals("ENDTURN")){
 							clientsTurn(true);
 						}
 						else{
-							System.out.println("USERNAME SKA KOMMA HÄR SERVER");
+							System.out.println("Server: Mottagit username");
 							clientMap.put(sInput, this);
 							clientMapid.put(id, sInput);
 							playerid = id;
