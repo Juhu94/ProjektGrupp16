@@ -197,7 +197,7 @@ public class GameServer implements Runnable{
 					break;
 				}
 			}
-			System.out.println("KARAKTÄR SKAPAD SERVER");
+			System.out.println("Server: Karaktär skapad namn: " + name + " Row: " + myCharacter.getRow() + " Col: " + myCharacter.getCol());
 			characterMap.put(name, myCharacter);
 			updateCharPos(myCharacter);
 		}

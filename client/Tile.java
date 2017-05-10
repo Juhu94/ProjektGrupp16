@@ -32,7 +32,7 @@ public class Tile {
 	 */
 	
 	public boolean containsCharacter(){
-		if(character == null){
+		if(character != null){
 			return true;
 		}else{
 			return false;
