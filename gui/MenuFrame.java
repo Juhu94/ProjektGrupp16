@@ -25,7 +25,7 @@ import client.GameClient;
  * Join: Ansluter till en befintlig spelserver
  * Quit: Avslutar applikationen
  * @author Julian Hultgren
- * Version 1.1
+ * Version 1.3
  *
  */
 public class MenuFrame implements ActionListener{
