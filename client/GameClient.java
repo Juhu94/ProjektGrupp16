@@ -43,10 +43,9 @@ public class GameClient implements Serializable{
 	private boolean clientTurn = true;
 	private Connection connection;
 	
+	private int steps;
 	private int oldColThis;
 	private int oldRowThis;
-	
-	private int steps = 0;
 
 	public GameClient(){
 		System.out.println("Klient Startad");
@@ -66,7 +65,7 @@ public class GameClient implements Serializable{
 	
 	public void startGame(){
 		try {
-			System.out.println("Startar matchen/väljer vems tur det är");
+			System.out.println("Client: Startar matchen/väljer vems tur det är");
 			output.writeObject("STARTGAME");
 			output.flush();
 		} catch (IOException e) {
@@ -75,34 +74,37 @@ public class GameClient implements Serializable{
 		}
 	}
 	public void endTurn(){
-		try{
-			System.out.println("slutar svänga");
+		try {
+			System.out.println("Client: End turn");
 			output.writeObject("ENDTURN");
 			output.flush();
-		}catch (IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Method that returns a random number from 1-6
+	 * 
 	 * @return int
 	 */
-	public int throwDice(){
+	public int throwDice() {
 		Random rand = new Random();
-		int diceNbr = rand.nextInt(6)+1;
-		this.steps = diceNbr;
-		System.out.println(diceNbr);
-		for(ViewerListener listener: listeners){
-			listener.updateInfoRuta("Antal steg: " + String.valueOf(diceNbr));
+		steps = rand.nextInt(6) + 1;
+		for (ViewerListener listener : listeners) {
+			listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
 		}
-		return diceNbr;
+		System.out.println("Client: Tärning: " + steps);
+		return steps;
 	}
+
 	/**
-	 * Method that uses the throwDice-method 
-	 * to see if the shot hits another player
+	 * Method that uses the throwDice-method to see if the shot hits another
+	 * player
+	 * 
 	 * @return boolean
 	 */
-	public boolean shootDice(){
+	public boolean shootDice() {
 		int roll = throwDice();
 		if(roll == 2 || roll == 6){
 			return true;
@@ -118,7 +120,7 @@ public class GameClient implements Serializable{
 			socket.close();
 			output.close();
 			input.close();
-			System.out.println("Uppkoppling avslutad");
+			System.out.println("Client: Uppkoppling avslutad");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -136,8 +138,8 @@ public class GameClient implements Serializable{
 	
 	public void moveCharacter( String username, String direction){
 		connection.moveChar( characterMap.get(username), direction);
-		for(ViewerListener listener: listeners){
-			listener.updateInfoRuta(String.valueOf(steps));
+		for (ViewerListener listener : listeners) {
+			listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
 		}
 	}
 	
@@ -195,61 +197,80 @@ public class GameClient implements Serializable{
 		}
 		
 		
-		public void moveChar(client.Character character, String direction){
-			System.out.println(character.getCol());
-			System.out.println(character.getRow());
+		public void moveChar(client.Character character, String direction) {
+
 			oldColThis = character.getCol();
 			oldRowThis = character.getRow();
-			System.out.println("i gameclient row: " + oldRowThis);
-			System.out.println("i gameclient col: " + oldColThis);
-			System.out.println(steps);
-			switch(direction){
-				case "Right":
+			boolean repaintCharacter = true;
+
+			switch (direction) {
+			case "Right":
+				if (checkMove(character, "RIGHT")){
 					character.setPos(oldRowThis, oldColThis + 1);
 					steps--;
-					break;
-				case "Left":
+				}else{
+					repaintCharacter = false;
+					System.out.println("Client: Väg blockerad");
+				}
+				break;
+			case "Left":
+				if (checkMove(character, "LEFT")){
 					character.setPos(oldRowThis, oldColThis - 1);
 					steps--;
-					break;
-				case "Up":
+				}else{
+					repaintCharacter = false;
+					System.out.println("Client: Väg blockerad");
+				}
+				break;
+			case "Up":
+				if (checkMove(character, "UP")){
 					character.setPos(oldRowThis - 1, oldColThis);
 					steps--;
-					break;
-				case "Down":
+				}else{
+					repaintCharacter = false;
+					System.out.println("Client: Väg blockerad");
+				}
+				break;
+			case "Down":
+				if (checkMove(character, "DOWN")){
 					character.setPos(oldRowThis + 1, oldColThis);
 					steps--;
-					break;
+				}else{
+					repaintCharacter = false;
+					System.out.println("Client: Väg blockerad");
 				}
-			
-			if(steps == 0){
-				for(ViewerListener listener: listeners){
+				break;
+			}
+			System.out.println("Client: Steg kvar: " + steps);
+			if (repaintCharacter) {
+				try {
+					output.writeObject(character);
+					output.flush();
+					System.out.println("Client: karaktärobjekt skickat");
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (steps == 0) {
+				System.out.println("Client: " + steps + " = 0, disable buttons"); 
+				for (ViewerListener listener : listeners) {
 					listener.enableButtons("disable move");
 				}
 			}
-			
-			try {
-				output.writeObject(character);
-				output.flush();
-				System.out.println("karaktärobjekt skickat");
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
 		}
-		
+
 		public void updateCharacter(client.Character character){
 			String characterName = character.getName();
-			System.out.println(characterName);
-			int oldRow = 1;
-			int oldCol = 1;
+			System.out.println("Client: " +characterName + " hanteras");
+			int oldRow = 2;
+			int oldCol = 2;
 			if(characterMap.containsKey(characterName) && !characterName.equals(username)){
 				oldRow = characterMap.get(characterName).getRow();
 				oldCol = characterMap.get(characterName).getCol();
 			}else if(characterMap.containsKey(characterName) && characterName.equals(username)){
-				System.out.println(oldRow = oldRowThis);
-				System.out.println(oldCol = oldColThis);
+				oldRow = oldRowThis;
+				oldCol = oldColThis;
 				
 			}
 			
@@ -258,7 +279,7 @@ public class GameClient implements Serializable{
 
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
 				
-				System.out.println("flytta gubbe -> viewer");
+				System.out.println("Client: flytta gubbe i viewer");
 			}
 		}
 			
@@ -270,13 +291,12 @@ public class GameClient implements Serializable{
 	 * @return	boolean
 	 */
 
-	public boolean checkMove(String dir) {
+	public boolean checkMove(client.Character me, String dir) {
 		boolean ret = false;
-		Character me = characterMap.get(username);
 		switch (dir) {
 		case "LEFT":
 			if(map[me.getRow()][me.getCol() - 1].getAccessible()){
-				if(map[me.getRow()][me.getCol() - 1].getCharacter().equals(null)){
+				if(map[me.getRow()][me.getCol() - 1].containsCharacter()){
 					ret = true;
 				}else{
 					if (map[me.getRow()][me.getCol() - 1].getCharacter().sleeping() < 1){
@@ -289,7 +309,7 @@ public class GameClient implements Serializable{
 			break;
 		case "RIGHT":
 			if(map[me.getRow()][me.getCol() + 1].getAccessible()){
-				if(map[me.getRow()][me.getCol() + 1].getCharacter().equals(null)){
+				if(map[me.getRow()][me.getCol() + 1].containsCharacter()){
 					ret = true;
 				}else{
 					if (map[me.getRow()][me.getCol() + 1].getCharacter().sleeping() < 1){
@@ -302,7 +322,7 @@ public class GameClient implements Serializable{
 			break;
 		case "UP":
 			if(map[me.getRow() - 1][me.getCol()].getAccessible()){
-				if(map[me.getRow() - 1][me.getCol()].getCharacter().equals(null)){
+				if(map[me.getRow() - 1][me.getCol()].containsCharacter()){
 					ret = true;
 				}else{
 					if (map[me.getRow() - 1][me.getCol()].getCharacter().sleeping() < 1){
@@ -314,8 +334,8 @@ public class GameClient implements Serializable{
 			}
 			break;
 		case "DOWN":
-			if(map[me.getRow() + 1][me.getCol() - 1].getAccessible()){
-				if(map[me.getRow() + 1][me.getCol() - 1].getCharacter().equals(null)){
+			if(map[me.getRow() + 1][me.getCol()].getAccessible()){
+				if(map[me.getRow() + 1][me.getCol() - 1].containsCharacter()){
 					ret = true;
 				}else{
 					if (map[me.getRow() + 1][me.getCol() - 1].getCharacter().sleeping() < 1){

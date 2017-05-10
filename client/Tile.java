@@ -27,6 +27,19 @@ public class Tile {
 	}
 	
 	/**
+	 * Checks if there is a character occupying this tile
+	 * @return boolean
+	 */
+	
+	public boolean containsCharacter(){
+		if(character == null){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
 	 * Returns a Character
 	 * @return Character
 	 */
