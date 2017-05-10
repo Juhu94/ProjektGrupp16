@@ -26,6 +26,14 @@ public class Character implements Serializable{
 	}
 	
 	/**
+	 * Makes this character wounded for 4 turns
+	 */
+	
+	public void shot(){
+		sleeping = 4;
+	}
+	
+	/**
 	 * Returns a int that tells how many turns this character is sleeping
 	 * @return int
 	 */

@@ -41,6 +41,7 @@ public class GameClient implements Serializable{
 	private HashMap<String, client.Character> characterMap = new HashMap<String, client.Character>(); 
 	
 	private boolean clientTurn = true;
+	private boolean shotTakenThisTurn;
 	private Connection connection;
 	
 	private int steps;
@@ -55,8 +56,8 @@ public class GameClient implements Serializable{
 	public void sendUsername(String username) {
 		this.username = username;
 	}
-	public void connect(String serverIp, int port, String username){
-		new Connection(serverIp,port,username).start();
+	public void connect(String serverIp, int port){
+		new Connection(serverIp,port).start();
 	}
 	
 	public void addListeners(ViewerListener listener) {
@@ -93,6 +94,7 @@ public class GameClient implements Serializable{
 		steps = rand.nextInt(6) + 1;
 		for (ViewerListener listener : listeners) {
 			listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
+			listener.enableButtons("disable shoot");
 		}
 		System.out.println("Client: Tärning: " + steps);
 		return steps;
@@ -127,13 +129,25 @@ public class GameClient implements Serializable{
 	}
 	
 	/**
-	 * Method to enable buttons in ServerFrame and ClientFrame
+	 * Method to enable buttons in ClientFrame
 	 * @param enableButtons boolean
 	 */
 	public void enableButtons(boolean enableButtons){
+		shotTakenThisTurn = false;
 		for(ViewerListener listener: listeners){
 			listener.updateViewer();
 		}
+
+		if (!lookingForAShoot(characterMap.get(username)).isEmpty()){
+			for(ViewerListener listener: listeners){
+				listener.enableButtons("shoot");
+			}
+		}
+	}
+	
+	public void shoot(){
+		
+		shotTakenThisTurn = true;
 	}
 	
 	public void moveCharacter( String username, String direction){
@@ -146,16 +160,15 @@ public class GameClient implements Serializable{
 	/**
 	* Inner class that handles the connection between client and server
 	*/
+	
 	private class Connection extends Thread{
 		private String ipAddress = "";
-		private String username = "";
 		private int port = 0;
 		
 		
-		public Connection(String ipAddress, int port, String username){
+		public Connection(String ipAddress, int port){
 			this.ipAddress = ipAddress;
 			this.port = port;
-			this.username = username;
 		}
 			
 		public Connection() {
@@ -253,9 +266,14 @@ public class GameClient implements Serializable{
 				}
 			}
 			if (steps == 0) {
-				System.out.println("Client: " + steps + " = 0, disable buttons"); 
+				System.out.println("Client: disable buttons"); 
 				for (ViewerListener listener : listeners) {
 					listener.enableButtons("disable move");
+				}
+				if (!lookingForAShoot(characterMap.get(username)).isEmpty()){
+					for(ViewerListener listener: listeners){
+						listener.enableButtons("shoot");
+					}
 				}
 			}
 		}
@@ -297,52 +315,52 @@ public class GameClient implements Serializable{
 		case "LEFT":
 			if(map[me.getRow()][me.getCol() - 1].getAccessible()){
 				if(map[me.getRow()][me.getCol() - 1].containsCharacter()){
-					ret = true;
-				}else{
 					if (map[me.getRow()][me.getCol() - 1].getCharacter().sleeping() < 1){
 						ret = true;
 					}else{
 						ret = false;
 					}
+				}else{
+					ret = true;
 				}
 			}
 			break;
 		case "RIGHT":
 			if(map[me.getRow()][me.getCol() + 1].getAccessible()){
 				if(map[me.getRow()][me.getCol() + 1].containsCharacter()){
-					ret = true;
-				}else{
 					if (map[me.getRow()][me.getCol() + 1].getCharacter().sleeping() < 1){
 						ret = true;
 					}else{
 						ret = false;
 					}
+				}else{
+					ret = true;
 				}
 			}
 			break;
 		case "UP":
 			if(map[me.getRow() - 1][me.getCol()].getAccessible()){
 				if(map[me.getRow() - 1][me.getCol()].containsCharacter()){
-					ret = true;
-				}else{
 					if (map[me.getRow() - 1][me.getCol()].getCharacter().sleeping() < 1){
 						ret = true;
 					}else{
 						ret = false;
 					}
+				}else{
+					ret = true;
 				}
 			}
 			break;
 		case "DOWN":
 			if(map[me.getRow() + 1][me.getCol()].getAccessible()){
 				if(map[me.getRow() + 1][me.getCol() - 1].containsCharacter()){
-					ret = true;
-				}else{
 					if (map[me.getRow() + 1][me.getCol() - 1].getCharacter().sleeping() < 1){
 						ret = true;
 					}else{
 						ret = false;
 					}
+				}else{
+					ret = true;
 				}
 			}
 			break;
@@ -481,15 +499,15 @@ public class GameClient implements Serializable{
 	 * @return Null or Character[]
 	 */
 	
-	public Character[] lookingForAShoot(Character character){
-		Character[] charArray = new Character[6];
+	public ArrayList<client.Character> lookingForAShoot(client.Character character){
+		ArrayList<client.Character> charArray = new ArrayList<>();
 		int charInt = 0;
 		int row = character.getRow() - 1;
 		int col = character.getCol() - 1;
 		//Up to the left
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
+		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+			if (map[row][col].containsCharacter()){
+				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
 			row--;
@@ -498,9 +516,9 @@ public class GameClient implements Serializable{
 		//down to the right
 		row = character.getRow() + 1;
 		col = character.getCol() + 1;
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
+		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+			if (map[row][col].containsCharacter()){
+				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
 			row++;
@@ -509,29 +527,29 @@ public class GameClient implements Serializable{
 		//Up
 		row = character.getRow() + 1;
 		col = character.getCol();
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
-				charInt++;
-			}
-			row++;
-		}
-		//Down
-		row = character.getRow() - 1;
-		col = character.getCol();
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
+		while (map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46) {
+			if (map[row][col].containsCharacter()) {
+				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
 			row--;
 		}
-		//Up to the right
+		// Down
+		row = character.getRow() - 1;
+		col = character.getCol();
+		while (map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46) {
+			if (map[row][col].containsCharacter()) {
+				charArray.add(map[row][col].getCharacter());
+				charInt++;
+			}
+			row++;
+		}
+		// Up to the right
 		row = character.getRow() - 1;
 		col = character.getCol() + 1;
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
+		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+			if (map[row][col].containsCharacter()){
+				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
 			row--;
@@ -540,9 +558,9 @@ public class GameClient implements Serializable{
 		//Down to the left
 		row = character.getRow() + 1;
 		col = character.getCol() - 1;
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
+		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+			if (map[row][col].containsCharacter()){
+				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
 			row++;
@@ -551,9 +569,9 @@ public class GameClient implements Serializable{
 		//Left
 		row = character.getRow();
 		col = character.getCol() - 1;
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
+		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+			if (map[row][col].containsCharacter()){
+				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
 			col--;
@@ -561,15 +579,15 @@ public class GameClient implements Serializable{
 		//Right
 		row = character.getRow();
 		col = character.getCol() + 1;
-		while(map[row][col].getSeeThrough()){
-			if (map[row][col].getCharacter() != null){
-				charArray[charInt] = map[row][col].getCharacter();
+		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+			if (map[row][col].containsCharacter()){
+				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
 			col++;
 		}
 		if(charInt == 0){
-			return null;
+			return charArray;
 		}else{
 			return charArray;
 		}
