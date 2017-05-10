@@ -22,7 +22,7 @@ import server.GameServer;
 /**
  * 
  * @author Julian Hultgren, Simon Börjesson, Lukas Persson, Erik Johansson
- * Version 1.2
+ * Version 1.5
  *
  */
 
@@ -92,6 +92,9 @@ public class GameClient implements Serializable{
 		int diceNbr = rand.nextInt(6)+1;
 		this.steps = diceNbr;
 		System.out.println(diceNbr);
+		for(ViewerListener listener: listeners){
+			listener.updateInfoRuta("Antal steg: " + String.valueOf(diceNbr));
+		}
 		return diceNbr;
 	}
 	/**
@@ -199,9 +202,6 @@ public class GameClient implements Serializable{
 			oldRowThis = character.getRow();
 			System.out.println("i gameclient row: " + oldRowThis);
 			System.out.println("i gameclient col: " + oldColThis);
-			
-//			for(int i =0; i<steps; i++){
-//			while(steps>0){
 			System.out.println(steps);
 			switch(direction){
 				case "Right":
@@ -221,13 +221,12 @@ public class GameClient implements Serializable{
 					steps--;
 					break;
 				}
-//			}
-//			}
-//			for(ViewerListener listener: listeners){
-//				listener.enableButtons("disable move");
-//			}
 			
-			
+			if(steps == 0){
+				for(ViewerListener listener: listeners){
+					listener.enableButtons("disable move");
+				}
+			}
 			
 			try {
 				output.writeObject(character);
