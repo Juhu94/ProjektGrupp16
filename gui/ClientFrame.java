@@ -47,9 +47,11 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	private JList listUsers = new JList();
 	private JTextArea infoArea = new JTextArea("För att ansluta till en server:\n"
 			+ "Skriv in serverns ip och port ovanför.\n" + "Skriv också in ett användarnamn du vill använda\n"
+			+ "----------------------------------------------------------------------\n"
+			+ "Antal steg:   \n"
 			+ "----------------------------------------------------------------------\n");
 
-	private JTextField serverIp = new JTextField("10.2.24.130");
+	private JTextField serverIp = new JTextField("");
 	private JTextField serverPort = new JTextField("3520");
 	private JTextField username = new JTextField();
 
@@ -200,14 +202,13 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	}
 
 	public void updateInfoRuta(String text) {
-		infoArea.append(text + "\n");
+//		infoArea.append(text + "\n");
+		infoArea.replaceRange(text, 190, 203);
 	}
 
 	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol) {
 		boardArray[newRow][newCol].setBackground(Color.RED);
 		boardArray[newRow][newCol].repaint();
-		System.out.println(oldRow);
-		System.out.println(oldCol);
 		String colorOfTile = client.getTile(oldRow, oldCol);
 		switch (colorOfTile) {
 		case "Ground":
@@ -318,19 +319,19 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		}
 		if (e.getSource() == bLeft) {
 			client.moveCharacter(username.getText(), "Left");
-			System.out.println("Left");
+			System.out.println("ClientFrame: Left");
 		}
 		if (e.getSource() == bRight) {
 			client.moveCharacter(username.getText(), "Right");
-			System.out.println("Right");
+			System.out.println("ClientFrame: Right");
 		}
 		if (e.getSource() == bUp) {
 			client.moveCharacter(username.getText(), "Up");
-			System.out.println("Up");
+			System.out.println("ClientFrame: Up");
 		}
 		if (e.getSource() == bDown) {
 			client.moveCharacter(username.getText(), "Down");
-			System.out.println("Down");
+			System.out.println("ClientFrame: Down");
 		}
 	}
 
@@ -338,7 +339,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			ExtendedJLabel theLabel = (ExtendedJLabel) e.getSource();
 			// client.theTile(theLabel);
-			System.out.println("Någon har tryckt på en ruta på spelbrädet,(row=" + theLabel.getRow());
+			System.out.println("ClientFrame: Någon har tryckt på en ruta på spelbrädet,(row=" + theLabel.getRow());
 			// theLabel.setBackground(Color.BLUE);
 			// theLabel.repaint();
 		}
