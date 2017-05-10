@@ -274,6 +274,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			bEndTurn.setEnabled(true);
 		} else if (buttons.equals("shoot")) {
 			bShoot.setEnabled(true);
+		} else if (buttons.equals("disable shoot")) {
+			bShoot.setEnabled(false);
 		} else if (buttons.equals("disconnect")) {
 			bDisconnect.setEnabled(false);
 			bConnect.setEnabled(true);
@@ -295,7 +297,8 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bConnect) {
-			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()), username.getText());
+			client.sendUsername(username.getText());
+			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()));
 			bConnect.setEnabled(false);
 		}
 		if (e.getSource() == bDisconnect) {
