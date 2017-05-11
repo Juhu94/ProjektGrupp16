@@ -139,7 +139,7 @@ public class GameClient implements Serializable{
 			listener.updateViewer();
 		}
 
-		if (!lookingForAShoot(characterMap.get(username)).isEmpty()){
+		if (!lookingForAShot(characterMap.get(username)).isEmpty()){
 			for(ViewerListener listener: listeners){
 				listener.enableButtons("shoot");
 			}
@@ -147,6 +147,10 @@ public class GameClient implements Serializable{
 	}
 	
 	public void shoot(){
+		if(shootDice()){
+		String targetName = lookingForAShot(characterMap.get(username)).get(0).getName();
+		connection.shootTarget(targetName);
+		}
 		shotTakenThisTurn = true;
 	}
 	
@@ -212,6 +216,16 @@ public class GameClient implements Serializable{
 		}
 		
 		
+		public void shootTarget(String target){
+			characterMap.get(target).shot();
+			try {
+				output.writeObject(characterMap.get(target));
+				output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		public void moveChar(client.Character character, String direction) {
 
 			oldColThis = character.getCol();
@@ -275,8 +289,8 @@ public class GameClient implements Serializable{
 				for (ViewerListener listener : listeners) {
 					listener.enableButtons("disable move");
 				}
-				System.out.println("can tack a shot: " + !lookingForAShoot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
-				if (!lookingForAShoot(characterMap.get(username)).isEmpty() && !shotTakenThisTurn){
+				System.out.println("can tack a shot: " + !lookingForAShot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
+				if (!lookingForAShot(characterMap.get(username)).isEmpty() && !shotTakenThisTurn){
 					for(ViewerListener listener: listeners){
 						listener.enableButtons("shoot");
 					}
@@ -510,7 +524,7 @@ public class GameClient implements Serializable{
 	 * @return ArrayList<client.Character>
 	 */
 	
-	public ArrayList<client.Character> lookingForAShoot(client.Character character){
+	public ArrayList<client.Character> lookingForAShot(client.Character character){
 		ArrayList<client.Character> charArray = new ArrayList<>();
 		int charInt = 0;
 		int row = character.getRow() - 1;
