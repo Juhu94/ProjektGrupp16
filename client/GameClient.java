@@ -267,6 +267,7 @@ public class GameClient implements Serializable{
 					e.printStackTrace();
 				}
 			}
+			map[oldRowThis][oldColThis].removeCharacter();
 			if (steps == 0) {
 				System.out.println("Client: disable buttons"); 
 				for (ViewerListener listener : listeners) {
@@ -296,9 +297,9 @@ public class GameClient implements Serializable{
 			}
 			
 			map[oldRow][oldCol].removeCharacter();
-			System.out.println("Client: " + oldRow + ", " + oldCol + " Charater borttagen");
+			System.out.println("Client: " + oldRow + ", " + oldCol + " Character borttagen");
 			map[character.getRow()][character.getCol()].setCharacter(character);
-			System.out.println("Client: " + character.getRow() + ", " + character.getCol() + " Charater tillagd");
+			System.out.println("Client: " + character.getRow() + ", " + character.getCol() + " Character tillagd");
 			
 			characterMap.put(characterName, character);
 			for(ViewerListener listener: listeners){
@@ -513,7 +514,7 @@ public class GameClient implements Serializable{
 		int row = character.getRow() - 1;
 		int col = character.getCol() - 1;
 		//Up to the left
-		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
@@ -525,7 +526,7 @@ public class GameClient implements Serializable{
 		//down to the right
 		row = character.getRow() + 1;
 		col = character.getCol() + 1;
-		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
@@ -537,7 +538,7 @@ public class GameClient implements Serializable{
 		//Up
 		row = character.getRow() - 1;
 		col = character.getCol();
-		while (map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46) {
+		while (map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46) {
 			if (map[row][col].containsCharacter()) {
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
@@ -548,7 +549,7 @@ public class GameClient implements Serializable{
 		// Down
 		row = character.getRow() + 1;
 		col = character.getCol();
-		while (map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46) {
+		while (map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46) {
 			if (map[row][col].containsCharacter()) {
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
@@ -559,7 +560,7 @@ public class GameClient implements Serializable{
 		// Up to the right
 		row = character.getRow() - 1;
 		col = character.getCol() + 1;
-		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
@@ -571,7 +572,7 @@ public class GameClient implements Serializable{
 		//Down to the left
 		row = character.getRow() + 1;
 		col = character.getCol() - 1;
-		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
@@ -583,7 +584,7 @@ public class GameClient implements Serializable{
 		//Left
 		row = character.getRow();
 		col = character.getCol() - 1;
-		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
@@ -594,7 +595,7 @@ public class GameClient implements Serializable{
 		//Right
 		row = character.getRow();
 		col = character.getCol() + 1;
-		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
+		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
 				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
