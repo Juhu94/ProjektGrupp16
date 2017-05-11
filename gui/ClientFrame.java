@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
@@ -31,7 +33,7 @@ import client.GameClient;
  * Version 1.1.3
  *
  */
-public class ClientFrame extends JPanel implements MouseListener, ActionListener, ViewerListener {
+public class ClientFrame extends JPanel implements ActionListener, ViewerListener,KeyListener {
 
 	private JPanel panel = new JPanel();
 	private JPanel leftPanel = new JPanel(new BorderLayout());
@@ -158,7 +160,6 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 				//boardArray[i][j].setBackground(Color.GRAY);
 				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
 				boardArray[i][j].setOpaque(true);
-				boardArray[i][j].addMouseListener(this);
 				boardArray[i][j].setPreferredSize(new Dimension(22, 22));
 				centerPanel.add(boardArray[i][j]);
 			}
@@ -181,9 +182,12 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		bLeft.setEnabled(false);
 		bRight.setEnabled(false);
 		bEndTurn.setEnabled(false);
+		
 
 		frame.add(panel);
 		frame.pack();
+		frame.addKeyListener(this);
+		frame.setFocusable(true);
 		frame.setLocationRelativeTo(null);
 	}
 
@@ -265,7 +269,6 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			bDown.setEnabled(true);
 			bLeft.setEnabled(true);
 			bRight.setEnabled(true);
-			bEndTurn.setEnabled(true);
 		} else if(buttons.equals("disable move")){
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
@@ -298,6 +301,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bConnect) {
 			client.sendUsername(username.getText());
+			frame.setTitle(username.getText());
 			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()));
 			bConnect.setEnabled(false);
 		}
@@ -310,6 +314,7 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 		}
 		
 		if (e.getSource() == bMove) {
+			frame.requestFocus();
 			enableButtons("move");
 			client.throwDice();
 		}
@@ -321,46 +326,53 @@ public class ClientFrame extends JPanel implements MouseListener, ActionListener
 			enableButtons("disable all");
 		}
 		if (e.getSource() == bLeft) {
+			frame.requestFocus();	
 			client.moveCharacter(username.getText(), "Left");
 			System.out.println("ClientFrame: Left");
 		}
 		if (e.getSource() == bRight) {
+			frame.requestFocus();
 			client.moveCharacter(username.getText(), "Right");
 			System.out.println("ClientFrame: Right");
 		}
 		if (e.getSource() == bUp) {
+			frame.requestFocus();
 			client.moveCharacter(username.getText(), "Up");
 			System.out.println("ClientFrame: Up");
 		}
 		if (e.getSource() == bDown) {
+			frame.requestFocus();
 			client.moveCharacter(username.getText(), "Down");
 			System.out.println("ClientFrame: Down");
 		}
 	}
-
-	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			ExtendedJLabel theLabel = (ExtendedJLabel) e.getSource();
-			// client.theTile(theLabel);
-			System.out.println("ClientFrame: Någon har tryckt på en ruta på spelbrädet,(row=" + theLabel.getRow());
-			// theLabel.setBackground(Color.BLUE);
-			// theLabel.repaint();
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int code = e.getKeyCode();
+		if(code == KeyEvent.VK_UP){
+			client.moveCharacter(username.getText(), "Up");
 		}
-		if (e.getButton() == MouseEvent.BUTTON3) {
-			JLabel theLabel = (JLabel) e.getSource();
-			// theLabel.setBackground(Color.BLUE);
+		if(code == KeyEvent.VK_DOWN){
+			client.moveCharacter(username.getText(), "Down");
 		}
+		if(code == KeyEvent.VK_LEFT){
+			client.moveCharacter(username.getText(), "Left");
+		}
+		if(code == KeyEvent.VK_RIGHT){
+			client.moveCharacter(username.getText(), "Right");
+		}
+		
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void mouseExited(MouseEvent e) {
-	}
-
-	public void mousePressed(MouseEvent e) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
