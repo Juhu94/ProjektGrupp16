@@ -244,7 +244,7 @@ public class GameServer implements Runnable{
 				try{
 					ch.output.writeObject(charr);
 					ch.output.flush();
-					System.out.println("UPPDATERA CHAR SERVER");
+					System.out.println("Server: character uppdaterad");
 				}catch (IOException e) {
 					e.printStackTrace();
 				}
