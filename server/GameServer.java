@@ -248,6 +248,7 @@ public class GameServer implements Runnable{
 		public void updateCharPos(client.Character charr) {
 			ArrayList<String> connectedUsers = new ArrayList<String>();
 			connectedUsers.addAll(clientMap.keySet());
+			characterMap.put(charr.getName(), charr);
 			for(ClientHandler ch : clientMap.values()){
 				try{
 					ch.output.writeObject(charr);
