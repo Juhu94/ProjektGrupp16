@@ -107,7 +107,8 @@ public class GameClient implements Serializable{
 	 * @return boolean
 	 */
 	public boolean shootDice() {
-		int roll = throwDice();
+		Random rand = new Random();
+		int roll = rand.nextInt(6)+1;
 		if(roll == 2 || roll == 6){
 			return true;
 		}
@@ -150,9 +151,11 @@ public class GameClient implements Serializable{
 	}
 	
 	public void moveCharacter( String username, String direction){
-		connection.moveChar( characterMap.get(username), direction);
-		for (ViewerListener listener : listeners) {
-			listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
+		if(steps > 0){
+			connection.moveChar( characterMap.get(username), direction);
+			for (ViewerListener listener : listeners) {
+				listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
+			}
 		}
 	}
 	
