@@ -515,7 +515,7 @@ public class GameClient implements Serializable{
 		//Up to the left
 		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -527,7 +527,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() + 1;
 		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -539,7 +539,7 @@ public class GameClient implements Serializable{
 		col = character.getCol();
 		while (map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46) {
 			if (map[row][col].containsCharacter()) {
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -550,7 +550,7 @@ public class GameClient implements Serializable{
 		col = character.getCol();
 		while (map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46) {
 			if (map[row][col].containsCharacter()) {
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -561,7 +561,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() + 1;
 		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -573,7 +573,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() - 1;
 		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -585,7 +585,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() - 1;
 		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -596,7 +596,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() + 1;
 		while(map[row][col].getSeeThrough() && row != 1 && col != 1 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character hittad på position " +row + ", " + col);
+				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
