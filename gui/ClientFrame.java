@@ -68,6 +68,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JButton bMove = new JButton("Move");
 	private JButton bShoot = new JButton("Shoot");
 	private JButton bEndTurn = new JButton("End turn");
+	private JButton bJump = new JButton("Jump");
 
 	private JFrame frame = new JFrame("Client");
 
@@ -115,6 +116,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		inputPanel.add(inputRightPanel, BorderLayout.EAST);
 
 		inputMiddlePanel.add(bMove);
+		inputMiddlePanel.add(bJump);
 		inputMiddlePanel.add(bShoot);
 		inputMiddlePanel.add(bEndTurn);
 		inputMiddlePanel.add(bLeft);
@@ -174,6 +176,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		bLeft.addActionListener(this);
 		bRight.addActionListener(this);
 		bEndTurn.addActionListener(this);
+		bJump.addActionListener(this);
 
 		bMove.setEnabled(false);
 		bShoot.setEnabled(false);
@@ -182,6 +185,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		bLeft.setEnabled(false);
 		bRight.setEnabled(false);
 		bEndTurn.setEnabled(false);
+		bJump.setEnabled(false);
 		
 
 		frame.add(panel);
@@ -269,6 +273,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			bDown.setEnabled(true);
 			bLeft.setEnabled(true);
 			bRight.setEnabled(true);
+			bJump.setEnabled(true);
 		} else if(buttons.equals("disable move")){
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
@@ -317,6 +322,9 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			frame.requestFocus();
 			enableButtons("move");
 			client.throwDice();
+		}
+		if(e.getSource() == bJump) {
+			System.exit(0);
 		}
 		if (e.getSource() == bShoot) {
 
