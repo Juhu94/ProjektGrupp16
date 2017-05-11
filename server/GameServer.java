@@ -128,6 +128,14 @@ public class GameServer implements Runnable{
 		 */
 		public void clientsTurn(boolean enableButtons){
 			nbrOfPlayers = clientMap.size();
+			while(characterMap.get(clientMapid.get(counter)).sleeping() > 0){
+				if (counter == nbrOfPlayers){
+					counter = 1;
+				}
+				else{
+					counter++;
+				}
+			}
 			if(counter == nbrOfPlayers){
 				String username = clientMapid.get(counter);
 				ClientHandler ch = clientMap.get(username);
