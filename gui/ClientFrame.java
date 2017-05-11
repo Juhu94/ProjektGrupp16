@@ -327,7 +327,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			System.exit(0);
 		}
 		if (e.getSource() == bShoot) {
-
+			client.shoot();
 		}
 		if (e.getSource() == bEndTurn) {
 			client.endTurn();
