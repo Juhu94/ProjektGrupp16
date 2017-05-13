@@ -43,12 +43,19 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JPanel rightPanel = new JPanel(new BorderLayout());
 	private JPanel centerPanel = new JPanel();
 	private JPanel flowPanel = new JPanel();
-	private JLayeredPane mapPane = new JLayeredPane();
-	private JLabel mapLabel = new JLabel();
 	private JPanel inputPanel = new JPanel(new BorderLayout(50, 0));
 	private JPanel inputLeftPanel = new JPanel(new FlowLayout());
 	private JPanel inputRightPanel = new JPanel(new GridBagLayout());
 	private JPanel inputMiddlePanel = new JPanel(new GridBagLayout());
+	private JLayeredPane mapPane = new JLayeredPane();
+	private JLabel mapLabel = new JLabel();
+	
+	private JLabel svullo = new JLabel(new ImageIcon(new ImageIcon("images/Svullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	private JLabel tjoPang = new JLabel(new ImageIcon(new ImageIcon("images/TjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	private JLabel råttan = new JLabel(new ImageIcon(new ImageIcon("images/Råttan.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	private JLabel hannibal = new JLabel(new ImageIcon(new ImageIcon("images/Hannibal.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	private JLabel markisen = new JLabel(new ImageIcon(new ImageIcon("images/Markisen.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	private JLabel hook = new JLabel(new ImageIcon(new ImageIcon("images/Hook.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
 
 	private DefaultListModel model = new DefaultListModel();
 	private JList listUsers = new JList(model);
@@ -92,12 +99,33 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		mapPane.setPreferredSize(new Dimension(1034, 820));
 		flowPanel.add(mapPane);
-		mapLabel.setIcon(new ImageIcon("images/map.png"));
+		mapLabel.setIcon(new ImageIcon("images/mapNewConcept.png"));
 		mapPane.add(centerPanel, new Integer(1));
 		mapPane.add(mapLabel, new Integer(2));
+		
+		mapPane.add(svullo, new Integer(3));
+		mapPane.add(tjoPang, new Integer(4));
+		mapPane.add(råttan, new Integer(5));
+		mapPane.add(markisen, new Integer(6));
+		mapPane.add(hannibal, new Integer(7));
+		mapPane.add(hook, new Integer(8));
+		
 		centerPanel.setBounds(0, 0, 1034, 820);
 		mapLabel.setBounds(0, 0, 1034, 820);
 		
+		svullo.setVisible(false);
+		tjoPang.setVisible(false);
+		råttan.setVisible(false);
+		markisen.setVisible(false);
+		hannibal.setVisible(false);
+		hook.setVisible(false);
+		
+		råttan.setBounds(0, 0, 22, 40);
+		tjoPang.setBounds(0, 0, 22, 40);
+		svullo.setBounds(0, 0, 22, 40);
+		markisen.setBounds(0, 0, 22, 40);
+		hannibal.setBounds(0, 0, 22, 40);
+		hook.setBounds(0, 0, 22, 40);
 
 		panel.setLayout(new BorderLayout());
 		panel.add(inputPanel, BorderLayout.SOUTH);
@@ -234,7 +262,40 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 //		infoArea.append(text + "\n");
 		infoArea.replaceRange(text, 190, 203);
 	}
-
+	
+	public void moveIcon(String name, int row, int col){
+		
+		switch (name) {
+		case "Svullo":
+			svullo.setLocation((col * 22)-22, (row *20)-40);
+			svullo.setVisible(true);
+			break;
+		case "TjoPang":
+			tjoPang.setLocation((col * 22)-22, (row *20)-40);
+			tjoPang.setVisible(true);
+			break;
+		case "Råttan":
+			råttan.setLocation((col * 22)-22, (row *20)-40);
+			råttan.setVisible(true);
+			break;
+		case "Hannibal":
+			hannibal.setLocation((col * 22)-22, (row *20)-40);
+			hannibal.setVisible(true);
+			break;
+		case "Markisen":
+			markisen.setLocation((col * 22)-22, (row *20)-40);
+			markisen.setVisible(true);
+			break;
+		case "Hook":
+			hook.setLocation((col * 22)-22, (row *20)-40);
+			hook.setVisible(true);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	
 	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol) {
 		boardArray[newRow][newCol].setBackground(Color.RED);
 		boardArray[newRow][newCol].repaint();

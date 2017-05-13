@@ -11,4 +11,5 @@ public interface ViewerListener {
 	public void enableButtons(String text);
 	public void addConnectedUser(String namn);
 	public void removeConnectedUsers();
+	public void moveIcon(String name, int row, int col);
 }
