@@ -14,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,7 +47,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JPanel inputRightPanel = new JPanel(new GridBagLayout());
 	private JPanel inputMiddlePanel = new JPanel(new GridBagLayout());
 
-	private JList listUsers = new JList();
+	private DefaultListModel model = new DefaultListModel();
+	private JList listUsers = new JList(model);
 	private JTextArea infoArea = new JTextArea("För att ansluta till en server:\n"
 			+ "Skriv in serverns ip och port ovanför.\n" + "Skriv också in ett användarnamn du vill använda\n"
 			+ "----------------------------------------------------------------------\n"
@@ -193,6 +195,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		frame.addKeyListener(this);
 		frame.setFocusable(true);
 		frame.setLocationRelativeTo(null);
+	}
+	
+	public void addConnectedUser(String name){
+		model.addElement(name);
 	}
 
 	public void updateViewer(ExtendedJLabel theLabel) {

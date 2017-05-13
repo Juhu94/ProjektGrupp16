@@ -105,6 +105,14 @@ public class GameServer implements Runnable{
 							playerid = id;
 							id++;
 							ui.addUser(sInput);
+							for(ClientHandler ch : clientMap.values()){
+								try{
+									ch.output.writeObject(sInput);
+									ch.output.flush();
+								}catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
 						}
 
 					}

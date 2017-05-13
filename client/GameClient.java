@@ -207,6 +207,12 @@ public class GameClient implements Serializable{
 						client.Character character = (client.Character) object;
 						updateCharacter(character);
 					}
+					if (object instanceof String){
+						System.out.println("Client: motagit ny user uppdaterar \"ConnectedUserList\"");
+						for(ViewerListener listener: listeners){
+							listener.addConnectedUser((String) object);
+						}
+					}
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
 					Thread.currentThread().stop();
