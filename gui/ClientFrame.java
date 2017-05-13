@@ -31,7 +31,7 @@ import client.GameClient;
 /**
  * 
  * @author Julian Hultgren, Erik Johansson, Simon Börjesson, Lukas Persson
- * Version 1.1.3
+ * Version 1.2
  *
  */
 public class ClientFrame extends JPanel implements ActionListener, ViewerListener,KeyListener {
@@ -42,6 +42,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JPanel rightPanel = new JPanel(new BorderLayout());
 	private JPanel centerPanel = new JPanel();
 	private JPanel flowPanel = new JPanel();
+	private JLayeredPane mapPane = new JLayeredPane();
+	private JLabel mapLabel = new JLabel();
 	private JPanel inputPanel = new JPanel(new BorderLayout(50, 0));
 	private JPanel inputLeftPanel = new JPanel(new FlowLayout());
 	private JPanel inputRightPanel = new JPanel(new GridBagLayout());
@@ -86,7 +88,15 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		frame.setVisible(true);
 		frame.setLayout(new BorderLayout());
 		flowPanel.setLayout(new FlowLayout());
-		flowPanel.add(centerPanel);
+		
+		mapPane.setPreferredSize(new Dimension(1034, 820));
+		flowPanel.add(mapPane);
+		mapLabel.setIcon(new ImageIcon("images/map.png"));
+		mapPane.add(centerPanel, new Integer(1));
+		mapPane.add(mapLabel, new Integer(2));
+		centerPanel.setBounds(0, 0, 1034, 820);
+		mapLabel.setBounds(0, 0, 1034, 820);
+		
 
 		panel.setLayout(new BorderLayout());
 		panel.add(inputPanel, BorderLayout.SOUTH);
@@ -129,7 +139,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		inputRightPanel.add(bDisconnect);
 		inputRightPanel.add(bClose);
 
-		centerPanel.setLayout(new GridLayout(41, 47, 1, 1));
+		centerPanel.setLayout(new GridLayout(41, 47, 0, 0));
 		String s;
 		for (int i = 0; i < 41; i++) {
 			for (int j = 0; j < 47; j++) {
@@ -164,7 +174,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 				//boardArray[i][j].setBackground(Color.GRAY);
 				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
 				boardArray[i][j].setOpaque(true);
-				boardArray[i][j].setPreferredSize(new Dimension(22, 22));
+				boardArray[i][j].setPreferredSize(new Dimension(22, 20));
 				centerPanel.add(boardArray[i][j]);
 			}
 		}
