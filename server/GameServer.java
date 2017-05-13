@@ -98,20 +98,24 @@ public class GameServer implements Runnable{
 						if(sInput.equals("ENDTURN")){
 							clientsTurn(true);
 						}
-						else{
+						else {
 							System.out.println("Server: Mottagit username");
 							clientMap.put(sInput, this);
 							clientMapid.put(id, sInput);
 							playerid = id;
 							id++;
 							ui.addUser(sInput);
-							for(ClientHandler ch : clientMap.values()){
-								try{
-									ch.output.writeObject(sInput);
-									ch.output.flush();
-								}catch (IOException e) {
-									e.printStackTrace();
+							for (ClientHandler ch : clientMap.values()) {
+								for (int i = 1; i < clientMapid.size() + 1; i++) {
+									System.out.println("Server: uppdaterar connectedUsers med: " + clientMapid.get(i));
+									try {
+										ch.output.writeObject(clientMapid.get(i));
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
 								}
+								ch.output.writeObject(null);
+								ch.output.flush();
 							}
 						}
 
@@ -137,6 +141,21 @@ public class GameServer implements Runnable{
 		public void clientsTurn(boolean enableButtons){
 			nbrOfPlayers = clientMap.size();
 			while(characterMap.get(clientMapid.get(counter)).sleeping() > 0){
+				characterMap.get(clientMapid.get(counter)).passATurn();
+				if (characterMap.get(clientMapid.get(counter)).sleeping() == 0){
+					for(int i = 0; i < nbrOfPlayers; i++){
+						String username = clientMapid.get(i);
+						ClientHandler ch = clientMap.get(username);
+						try {
+							ch.output.writeObject(characterMap.get(clientMapid.get(counter)).getRow());
+							ch.output.writeObject(characterMap.get(clientMapid.get(counter)).getCol());
+							ch.output.flush();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
 				if (counter == nbrOfPlayers){
 					counter = 1;
 				}

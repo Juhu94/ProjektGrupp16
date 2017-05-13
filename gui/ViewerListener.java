@@ -10,4 +10,5 @@ public interface ViewerListener {
 	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol);
 	public void enableButtons(String text);
 	public void addConnectedUser(String namn);
+	public void removeConnectedUsers();
 }

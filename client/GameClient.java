@@ -33,7 +33,6 @@ public class GameClient implements Serializable{
 	private ObjectInputStream input;
 	private	ObjectOutputStream output;
 	private String username = "";
-	private int iD;
 	private Socket socket;
 	private ArrayList<ViewerListener> listeners = new ArrayList<ViewerListener>();
 	private int[] tilePos = new int[2];
@@ -83,7 +82,7 @@ public class GameClient implements Serializable{
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Method that returns a random number from 1-6
 	 * 
@@ -149,6 +148,7 @@ public class GameClient implements Serializable{
 	public void shoot(){
 		if(shootDice()){
 		String targetName = lookingForAShot(characterMap.get(username)).get(0).getName();
+		map[characterMap.get(targetName).getRow()][characterMap.get(targetName).getCol()].moveCharacterToSleeping();
 		connection.shootTarget(targetName);
 		}
 		shotTakenThisTurn = true;
@@ -197,22 +197,31 @@ public class GameClient implements Serializable{
 				try{
 					Object object = input.readObject();
 					if(object instanceof Integer){
-						iD = (int)object;	
+						int row = (int)object;
+						int col =  (int)input.readObject();
+						map[row][col].removeSleepingChatacter();
 					}
 					if(object instanceof Boolean){
-						boolean enableButtons = (boolean)object;
-						enableButtons(enableButtons);
+							boolean enableButtons = (boolean)object;
+							enableButtons(enableButtons);
 					}
 					if (object instanceof client.Character){
 						client.Character character = (client.Character) object;
 						updateCharacter(character);
 					}
 					if (object instanceof String){
-						System.out.println("Client: motagit ny user uppdaterar \"ConnectedUserList\"");
 						for(ViewerListener listener: listeners){
-							listener.addConnectedUser((String) object);
+							listener.removeConnectedUsers();
+						}
+						System.out.println("Client: motagit ny user/users uppdaterar \"ConnectedUserList\"");
+						while(object != null){
+							for(ViewerListener listener: listeners){
+								listener.addConnectedUser((String) object);
+							}
+							object = input.readObject();
 						}
 					}
+
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
 					Thread.currentThread().stop();
@@ -310,8 +319,14 @@ public class GameClient implements Serializable{
 			int oldRow = 1;
 			int oldCol = 1;
 			if(characterMap.containsKey(characterName) && !characterName.equals(username)){
-				oldRow = characterMap.get(characterName).getRow();
-				oldCol = characterMap.get(characterName).getCol();
+				if (characterMap.get(characterName).getRow() == character.getRow() && characterMap.get(characterName).getCol() == character.getCol()){ //Kollar om caratären har rört sig från senast
+					System.out.println("Client: \"" + characterName  + "\" uppdadters men har inte rört sig");
+				}else if(map[character.getRow()][character.getCol()].containsCharacter()){
+					System.out.println("Client: Tilen \"" + characterName  + "\" lämnar innehåller en skadad karaktär");
+				}else{
+					oldRow = characterMap.get(characterName).getRow();
+					oldCol = characterMap.get(characterName).getCol();
+				}
 			}else if(characterMap.containsKey(characterName) && characterName.equals(username)){
 				oldRow = oldRowThis;
 				oldCol = oldColThis;
@@ -538,7 +553,7 @@ public class GameClient implements Serializable{
 		//Up to the left
 		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -550,7 +565,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() + 1;
 		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -562,7 +577,7 @@ public class GameClient implements Serializable{
 		col = character.getCol();
 		while (map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46) {
 			if (map[row][col].containsCharacter()) {
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -573,7 +588,7 @@ public class GameClient implements Serializable{
 		col = character.getCol();
 		while (map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46) {
 			if (map[row][col].containsCharacter()) {
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -584,7 +599,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() + 1;
 		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -596,7 +611,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() - 1;
 		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -608,7 +623,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() - 1;
 		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}
@@ -619,7 +634,7 @@ public class GameClient implements Serializable{
 		col = character.getCol() + 1;
 		while(map[row][col].getSeeThrough() && row != 0 && col != 0 && row != 40 && col != 46){
 			if (map[row][col].containsCharacter()){
-				System.out.println("Client: character" + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
+				System.out.println("Client: character " + map[row][col].getCharacter().getName() + " hittad på position " +row + ", " + col);
 				charArray.add(map[row][col].getCharacter());
 				charInt++;
 			}

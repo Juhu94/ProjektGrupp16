@@ -25,6 +25,10 @@ public class Character implements Serializable{
 		hasTreasure = false;
 	}
 	
+	public void passATurn(){
+		this.sleeping--;
+	}
+	
 	/**
 	 * Makes this character wounded for 4 turns
 	 */

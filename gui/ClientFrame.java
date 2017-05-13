@@ -197,6 +197,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		frame.setLocationRelativeTo(null);
 	}
 	
+	public void removeConnectedUsers(){
+		model.clear();
+	}
+	
 	public void addConnectedUser(String name){
 		model.addElement(name);
 	}

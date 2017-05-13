@@ -13,6 +13,7 @@ public class Tile {
 	private boolean canon = false;
 	private boolean boat = false;
 	private Character character = null;
+	private Character sleepingCharacter = null;
 
 	
 	/**
@@ -24,6 +25,32 @@ public class Tile {
 		this.accessible = accessible;
 		this.seeThrough = seethrough;
 		this.treasure = treasure;
+	}
+	
+	public boolean containsSleepingCharacter(){
+		if(sleepingCharacter != null){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+//	public Character getSleepingCharacter(){
+//		return sleepingCharacter;
+//	}
+	
+	public void removeSleepingChatacter(){
+		sleepingCharacter = null;
+	}
+	
+	/**
+	 * Changes the character on this tile to the sleeping position
+	 */
+	
+	public void moveCharacterToSleeping(){
+		Character tempChar = character;
+		sleepingCharacter = tempChar;
+		character = null;
 	}
 	
 	/**
