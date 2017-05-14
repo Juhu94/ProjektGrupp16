@@ -12,4 +12,6 @@ public interface ViewerListener {
 	public void addConnectedUser(String namn);
 	public void removeConnectedUsers();
 	public void moveIcon(String name, int row, int col);
+	public void chooseCharFrame();
+	public void updateChooseCharFrame(boolean svullo, boolean tjoPang, boolean theRat, boolean markisen, boolean hannibal, boolean hook);
 }

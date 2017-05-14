@@ -31,6 +31,13 @@ public class GameServer implements Runnable{
 	private Random rad = new Random();
 	private ServerFrame ui;
 	
+	private boolean svulloAvailable = true;
+	private boolean tjoPangAvailable = true;
+	private boolean theRatAvailable = true;
+	private boolean hannibalAvailable = true;
+	private boolean markisenAvailable = true;
+	private boolean hookAvailable = true;
+	
 	private int counter = 1;
 	private int id = 1;
 	
@@ -78,7 +85,6 @@ public class GameServer implements Runnable{
 		private int nbrOfPlayers;
 		private int playerid;
 		
-		
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			try {
@@ -97,25 +103,72 @@ public class GameServer implements Runnable{
 						sInput = (String)object;
 						if(sInput.equals("ENDTURN")){
 							clientsTurn(true);
-						}
-						else {
+						}else if(sInput.equals("")){	
+							
+							this.output.writeObject("Choose character");
+							this.output.writeBoolean(svulloAvailable);
+							this.output.writeBoolean(tjoPangAvailable);
+							this.output.writeBoolean(theRatAvailable);
+							this.output.writeBoolean(hannibalAvailable);
+							this.output.writeBoolean(markisenAvailable);
+							this.output.writeBoolean(hookAvailable);
+							this.output.flush();
+						}else {
 							System.out.println("Server: Mottagit username");
 							clientMap.put(sInput, this);
 							clientMapid.put(id, sInput);
 							playerid = id;
 							id++;
 							ui.addUser(sInput);
+							
+							if(sInput.equals("Svullo")){
+								svulloAvailable = false;
+							}
+							if(sInput.equals("TjoPang")){
+								tjoPangAvailable = false;
+							}
+							if(sInput.equals("TheRat")){
+								theRatAvailable = false;
+							}
+							if(sInput.equals("Hannibal")){
+								hannibalAvailable = false;
+							}
+							if(sInput.equals("Markisen")){
+								markisenAvailable = false;
+							}
+							if(sInput.equals("Hook")){
+								hookAvailable = false;
+							}
+//							for (ClientHandler ch : clientMap.values()){
+//								ch.output.writeBoolean(svulloAvailable);
+//								ch.output.writeBoolean(tjoPangAvailable);
+//								ch.output.writeBoolean(theRatAvailable);
+//								ch.output.writeBoolean(hannibalAvailable);
+//								ch.output.writeBoolean(markisenAvailable);
+//								ch.output.writeBoolean(hookAvailable);
+//							}
+							
 							for (ClientHandler ch : clientMap.values()) {
+								
+								ch.output.writeObject("updateUserInfo");
+								ch.output.writeBoolean(svulloAvailable);
+								ch.output.writeBoolean(tjoPangAvailable);
+								ch.output.writeBoolean(theRatAvailable);
+								ch.output.writeBoolean(hannibalAvailable);
+								ch.output.writeBoolean(markisenAvailable);
+								ch.output.writeBoolean(hookAvailable);
+								
 								for (int i = 1; i < clientMapid.size() + 1; i++) {
+							
 									System.out.println("Server: uppdaterar connectedUsers med: " + clientMapid.get(i));
-									try {
-										ch.output.writeObject(clientMapid.get(i));
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
+									
+									ch.output.writeObject(clientMapid.get(i));
+									
 								}
 								ch.output.writeObject(null);
 								ch.output.flush();
+							
+								
 							}
 						}
 
@@ -167,7 +220,8 @@ public class GameServer implements Runnable{
 				String username = clientMapid.get(counter);
 				ClientHandler ch = clientMap.get(username);
 				try {
-					ch.output.writeObject(enableButtons);
+					ch.output.writeObject("Enable buttons");
+					ch.output.writeBoolean(enableButtons);
 					ch.output.flush();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -179,7 +233,8 @@ public class GameServer implements Runnable{
 				String username = clientMapid.get(counter);
 				ClientHandler ch = clientMap.get(username);
 				try{
-					ch.output.writeObject(enableButtons);
+					ch.output.writeObject("Enable buttons");
+					ch.output.writeBoolean(enableButtons);
 					ch.output.flush();
 				}catch(IOException e){
 					e.printStackTrace();
@@ -193,7 +248,7 @@ public class GameServer implements Runnable{
 		 */
 
 		public synchronized void createCharacter(String name) {
-			System.out.println("createCHarizard");
+			System.out.println("createCaracter");
 			client.Character myCharacter = new client.Character(name, -1, -1);
 			while (myCharacter.getRow() == -1) {
 				System.out.println(myCharacter.getRow());

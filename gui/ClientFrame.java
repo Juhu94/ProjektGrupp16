@@ -35,7 +35,7 @@ import client.GameClient;
  * Version 1.2
  *
  */
-public class ClientFrame extends JPanel implements ActionListener, ViewerListener,KeyListener {
+public class ClientFrame extends JPanel implements ActionListener, ViewerListener,KeyListener, MouseListener {
 
 	private JPanel panel = new JPanel();
 	private JPanel leftPanel = new JPanel(new BorderLayout());
@@ -47,15 +47,25 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JPanel inputLeftPanel = new JPanel(new FlowLayout());
 	private JPanel inputRightPanel = new JPanel(new GridBagLayout());
 	private JPanel inputMiddlePanel = new JPanel(new GridBagLayout());
+	private JPanel charChoices = new JPanel();
 	private JLayeredPane mapPane = new JLayeredPane();
 	private JLabel mapLabel = new JLabel();
 	
 	private JLabel svullo = new JLabel(new ImageIcon(new ImageIcon("images/Svullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
 	private JLabel tjoPang = new JLabel(new ImageIcon(new ImageIcon("images/TjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
-	private JLabel råttan = new JLabel(new ImageIcon(new ImageIcon("images/Råttan.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	private JLabel theRat = new JLabel(new ImageIcon(new ImageIcon("images/TheRat.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
 	private JLabel hannibal = new JLabel(new ImageIcon(new ImageIcon("images/Hannibal.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
 	private JLabel markisen = new JLabel(new ImageIcon(new ImageIcon("images/Markisen.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
 	private JLabel hook = new JLabel(new ImageIcon(new ImageIcon("images/Hook.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	
+	private JLabel svulloBtn = new JLabel(new ImageIcon("images/Svullo.png"));
+	private JLabel tjoPangBtn = new JLabel(new ImageIcon("images/TjoPang.png"));
+	private JLabel theRatBtn = new JLabel(new ImageIcon("images/TheRat.png"));
+	private JLabel hannibalBtn = new JLabel(new ImageIcon("images/Hannibal.png"));
+	private JLabel markisenBtn = new JLabel(new ImageIcon("images/Markisen.png"));
+	private JLabel hookBtn = new JLabel(new ImageIcon("images/Hook.png"));
+	
+	private JButton chooseChar = new JButton("Choose");
 
 	private DefaultListModel model = new DefaultListModel();
 	private JList listUsers = new JList(model);
@@ -67,7 +77,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 
 	private JTextField serverIp = new JTextField("");
 	private JTextField serverPort = new JTextField("3520");
-	private JTextField username = new JTextField();
+	private JTextArea username = new JTextArea("");
 
 	private JButton bConnect = new JButton("Connect");
 	private JButton bDisconnect = new JButton("Disconnect");
@@ -83,10 +93,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JButton bJump = new JButton("Jump");
 
 	private JFrame frame = new JFrame("Client");
+	private JFrame chooseCharFrame = new JFrame("Choose character");
 
 	private ExtendedJLabel[][] boardArray = new ExtendedJLabel[41][47];
 
 	private GameClient client;
+	
 
 	public ClientFrame(GameClient client) {
 		this.client = client;
@@ -97,6 +109,35 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		frame.setLayout(new BorderLayout());
 		flowPanel.setLayout(new FlowLayout());
 		
+		chooseCharFrame.setVisible(false);
+		chooseCharFrame.setLayout(new BorderLayout());
+		charChoices.setLayout(new FlowLayout());
+		charChoices.setPreferredSize(new Dimension(300, 100));
+		chooseCharFrame.add(charChoices, BorderLayout.CENTER);
+		charChoices.add(svulloBtn);
+		charChoices.add(tjoPangBtn);
+		charChoices.add(theRatBtn);
+		charChoices.add(markisenBtn);
+		charChoices.add(hannibalBtn);
+		charChoices.add(hookBtn);
+		chooseCharFrame.add(chooseChar, BorderLayout.SOUTH);
+		
+		svulloBtn.setBounds(0, 0, 44, 80);
+		tjoPangBtn.setBounds(44, 0, 44, 80);
+		theRatBtn.setBounds(88, 0, 44, 80);
+		markisenBtn.setBounds(132, 0, 44, 80);
+		hannibalBtn.setBounds(176, 0, 44, 80);
+		hookBtn.setBounds(220, 0, 44, 80);
+		
+		svulloBtn.addMouseListener(this);
+		tjoPangBtn.addMouseListener(this);
+		theRatBtn.addMouseListener(this);
+		markisenBtn.addMouseListener(this);
+		hannibalBtn.addMouseListener(this);
+		hookBtn.addMouseListener(this);
+		chooseChar.addActionListener(this);
+		
+		
 		mapPane.setPreferredSize(new Dimension(1034, 820));
 		flowPanel.add(mapPane);
 		mapLabel.setIcon(new ImageIcon("images/mapNewConcept.png"));
@@ -105,7 +146,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		mapPane.add(svullo, new Integer(3));
 		mapPane.add(tjoPang, new Integer(4));
-		mapPane.add(råttan, new Integer(5));
+		mapPane.add(theRat, new Integer(5));
 		mapPane.add(markisen, new Integer(6));
 		mapPane.add(hannibal, new Integer(7));
 		mapPane.add(hook, new Integer(8));
@@ -115,12 +156,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		svullo.setVisible(false);
 		tjoPang.setVisible(false);
-		råttan.setVisible(false);
+		theRat.setVisible(false);
 		markisen.setVisible(false);
 		hannibal.setVisible(false);
 		hook.setVisible(false);
 		
-		råttan.setBounds(0, 0, 22, 40);
+		theRat.setBounds(0, 0, 22, 40);
 		tjoPang.setBounds(0, 0, 22, 40);
 		svullo.setBounds(0, 0, 22, 40);
 		markisen.setBounds(0, 0, 22, 40);
@@ -142,6 +183,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		serverIp.setPreferredSize(new Dimension(180, 45));
 		serverPort.setBorder(BorderFactory.createTitledBorder("Server Port"));
 		username.setBorder(BorderFactory.createTitledBorder("Username"));
+		username.setEditable(false);
 		infoArea.setEditable(false);
 		infoArea.setBorder(BorderFactory.createTitledBorder("Info ruta"));
 		leftGridPanel.add(serverIp);
@@ -228,12 +270,14 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		bEndTurn.setEnabled(false);
 		bJump.setEnabled(false);
 		
-
+		
 		frame.add(panel);
 		frame.pack();
 		frame.addKeyListener(this);
 		frame.setFocusable(true);
 		frame.setLocationRelativeTo(null);
+		
+		chooseCharFrame.pack();
 	}
 	
 	public void removeConnectedUsers(){
@@ -274,9 +318,9 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			tjoPang.setLocation((col * 22), (row *20)-20);
 			tjoPang.setVisible(true);
 			break;
-		case "Råttan":
-			råttan.setLocation((col * 22), (row *20)-20);
-			råttan.setVisible(true);
+		case "TheRat":
+			theRat.setLocation((col * 22), (row *20)-20);
+			theRat.setVisible(true);
 			break;
 		case "Hannibal":
 			hannibal.setLocation((col * 22), (row *20)-20);
@@ -384,11 +428,11 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		// bLeft.setEnabled(state);
 		// bRight.setEnabled(state);
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bConnect) {
-			client.sendUsername(username.getText());
-			frame.setTitle(username.getText());
+//			client.sendUsername(username.getText());
+//			frame.setTitle(username.getText());
 			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()));
 			bConnect.setEnabled(false);
 		}
@@ -435,6 +479,40 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			client.moveCharacter(username.getText(), "Down");
 			System.out.println("ClientFrame: Down");
 		}
+		if (e.getSource() == chooseChar){
+			
+			if(!username.equals("")){
+				client.setUsername(username.getText());
+				chooseCharFrame.setVisible(false);
+				
+			}
+			
+//			if(svulloBtn.hasFocus()){
+//				client.setUsername("Svullo");
+//				chooseCharFrame.setVisible(false);
+//				
+//			}
+//			if(theRatBtn.hasFocus()){
+//				client.setUsername("TheRat");
+//				chooseCharFrame.setVisible(false);
+//			}
+//			if(tjoPangBtn.hasFocus()){
+//				client.setUsername("TjoPang");
+//				chooseCharFrame.setVisible(false);
+//			}
+//			if(markisenBtn.hasFocus()){
+//				client.setUsername("Markisen");
+//				chooseCharFrame.setVisible(false);
+//			}
+//			if(hannibalBtn.hasFocus()){
+//				client.setUsername("Hannibal");
+//				chooseCharFrame.setVisible(false);
+//			}
+//			if(hookBtn.hasFocus()){
+//				client.setUsername("Hook");
+//				chooseCharFrame.setVisible(false);
+//			}
+		}
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -451,6 +529,9 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		if(code == KeyEvent.VK_RIGHT){
 			client.moveCharacter(username.getText(), "Right");
 		}
+		if(code == KeyEvent.VK_ENTER){
+			client.endTurn();
+		}
 		
 	}
 
@@ -465,4 +546,92 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		JLabel source = (JLabel)e.getSource();
+		
+		if(source.equals(svulloBtn)){
+			if(svulloBtn.isEnabled()){
+//				svulloBtn.requestFocus();
+				username.setText("Svullo");
+			}
+		}
+		if(source.equals(theRatBtn)){
+			if(theRatBtn.isEnabled()){
+//				theRatBtn.requestFocus();
+				username.setText("TheRat");
+			}
+		}
+		if(source.equals(tjoPangBtn)){
+			if(tjoPangBtn.isEnabled()){
+//				tjoPangBtn.requestFocus();
+				username.setText("TjoPang");
+			}
+		}
+		if(source.equals(markisenBtn)){
+			if(markisenBtn.isEnabled()){
+//				markisenBtn.requestFocus();
+				username.setText("Markisen");
+			}
+		}
+		if(source.equals(hannibalBtn)){
+			if(hannibalBtn.isEnabled()){
+//				hannibalBtn.requestFocus();
+				username.setText("Hannibal");
+			}
+		}
+		if(source.equals(hookBtn)){
+			if(hookBtn.isEnabled()){
+//				hookBtn.requestFocus();
+				username.setText("Hook");
+			}
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void chooseCharFrame() {
+		chooseCharFrame.setVisible(true);
+		
+	}
+
+	@Override
+	public void updateChooseCharFrame(boolean svullo, boolean tjoPang, boolean theRat, boolean markisen,
+			boolean hannibal, boolean hook) {
+		
+		svulloBtn.setEnabled(svullo);
+		tjoPangBtn.setEnabled(tjoPang);
+		theRatBtn.setEnabled(theRat);
+		markisenBtn.setEnabled(markisen);
+		hannibalBtn.setEnabled(hannibal);
+		hookBtn.setEnabled(hook);
+		
+	}
+
+	
 }

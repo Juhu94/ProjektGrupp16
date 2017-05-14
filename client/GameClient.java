@@ -52,8 +52,9 @@ public class GameClient implements Serializable{
 		map = createMap();
 		connection = new Connection();
 	}
-	public void sendUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
+		connection.updateUsername(this.username);
 	}
 	public void connect(String serverIp, int port){
 		new Connection(serverIp,port).start();
@@ -170,7 +171,12 @@ public class GameClient implements Serializable{
 	private class Connection extends Thread{
 		private String ipAddress = "";
 		private int port = 0;
-		
+		boolean svullo;
+		boolean tjoPang;
+		boolean theRat;
+		boolean markisen;
+		boolean hannibal;
+		boolean hook;
 		
 		public Connection(String ipAddress, int port){
 			this.ipAddress = ipAddress;
@@ -201,35 +207,73 @@ public class GameClient implements Serializable{
 						int col =  (int)input.readObject();
 						map[row][col].removeSleepingChatacter();
 					}
-					if(object instanceof Boolean){
-							boolean enableButtons = (boolean)object;
-							enableButtons(enableButtons);
-					}
+	
 					if (object instanceof client.Character){
 						client.Character character = (client.Character) object;
 						updateCharacter(character);
 					}
 					if (object instanceof String){
-						for(ViewerListener listener: listeners){
-							listener.removeConnectedUsers();
+						
+						if(object.equals("Enable buttons")){
+							boolean enableButtons = input.readBoolean();
+							enableButtons(enableButtons);
 						}
-						System.out.println("Client: motagit ny user/users uppdaterar \"ConnectedUserList\"");
-						while(object != null){
+						
+						if(object.equals("Choose character")){
 							for(ViewerListener listener: listeners){
-								listener.addConnectedUser((String) object);
+								svullo = input.readBoolean();
+								tjoPang = input.readBoolean();
+								theRat = input.readBoolean();
+								markisen = input.readBoolean();
+								hannibal = input.readBoolean();
+								hook = input.readBoolean();
+								
+								listener.updateChooseCharFrame(svullo, tjoPang, theRat, markisen, hannibal, hook);
+								listener.chooseCharFrame();
 							}
+						}else if(object.equals("updateUserInfo")){
+							for(ViewerListener listener: listeners){
+
+								svullo = input.readBoolean();
+								tjoPang = input.readBoolean();
+								theRat = input.readBoolean();
+								markisen = input.readBoolean();
+								hannibal = input.readBoolean();
+								hook = input.readBoolean();
+								
+								
+								listener.updateChooseCharFrame(svullo, tjoPang, theRat, markisen, hannibal, hook);
+								listener.removeConnectedUsers();
+							}
+							
 							object = input.readObject();
+							
+							System.out.println("Client: mottagit ny user/users uppdaterar \"ConnectedUserList\"");
+							while(object != null){
+								for(ViewerListener listener: listeners){
+									listener.addConnectedUser((String) object);
+								}
+								object = input.readObject();
+							}
 						}
 					}
 
 				}catch (IOException | ClassNotFoundException e){
 					disconnect();
-					Thread.currentThread().stop();
 					e.printStackTrace();
+					Thread.currentThread().stop();					
 				}
 			}
 		}
 		
+		public void updateUsername(String username){
+			try {
+				output.writeObject(username);
+				output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		public void shootTarget(String target){
 			characterMap.get(target).shot();
@@ -304,7 +348,7 @@ public class GameClient implements Serializable{
 				for (ViewerListener listener : listeners) {
 					listener.enableButtons("disable move");
 				}
-				System.out.println("can tack a shot: " + !lookingForAShot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
+				System.out.println("can take a shot: " + !lookingForAShot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
 				if (!lookingForAShot(characterMap.get(username)).isEmpty() && !shotTakenThisTurn){
 					for(ViewerListener listener: listeners){
 						listener.enableButtons("shoot");
@@ -648,19 +692,5 @@ public class GameClient implements Serializable{
 		}
 	}
 	
-	
-
-//	public void theTile(ExtendedJLabel theTile){
-//		System.out.println("Från viewern till klienten");
-//		try{
-//			
-//			tilePos[0] = theTile.getCol();
-//			tilePos[1] = theTile.getRow();
-//			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-//			output.writeObject(tilePos);
-//			output.flush();
-//		}catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}		
+			
 }
