@@ -314,27 +314,27 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		switch (name) {
 		case "Svullo":
-			svullo.setLocation((col * 22), (row *20)-25);
+			svullo.setLocation((col * 22)-4, (row *20)-25);
 			svullo.setVisible(true);
 			break;
 		case "TjoPang":
-			tjoPang.setLocation((col * 22), (row *20)-25);
+			tjoPang.setLocation((col * 22)-4, (row *20)-25);
 			tjoPang.setVisible(true);
 			break;
 		case "TheRat":
-			theRat.setLocation((col * 22), (row *20)-25);
+			theRat.setLocation((col * 22)-4, (row *20)-25);
 			theRat.setVisible(true);
 			break;
 		case "Hannibal":
-			hannibal.setLocation((col * 22), (row *20)-25);
+			hannibal.setLocation((col * 22)-4, (row *20)-25);
 			hannibal.setVisible(true);
 			break;
 		case "Markisen":
-			markisen.setLocation((col * 22), (row *20)-25);
+			markisen.setLocation((col * 22)-4, (row *20)-25);
 			markisen.setVisible(true);
 			break;
 		case "Hook":
-			hook.setLocation((col * 22), (row *20)-25);
+			hook.setLocation((col * 22)-4, (row *20)-25);
 			hook.setVisible(true);
 			break;
 		default:
