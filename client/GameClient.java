@@ -54,8 +54,12 @@ public class GameClient implements Serializable{
 	}
 	public void setUsername(String username) {
 		this.username = username;
-		connection.updateUsername(this.username);
 	}
+	
+	public void setCharacter(String character){
+		connection.setCharacter(character);
+	}
+	
 	public void connect(String serverIp, int port){
 		new Connection(serverIp,port).start();
 	}
@@ -70,7 +74,6 @@ public class GameClient implements Serializable{
 			output.writeObject("STARTGAME");
 			output.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -208,18 +211,18 @@ public class GameClient implements Serializable{
 						map[row][col].removeSleepingChatacter();
 					}
 	
-					if (object instanceof client.Character){
+					else if (object instanceof client.Character){
 						client.Character character = (client.Character) object;
 						updateCharacter(character);
 					}
-					if (object instanceof String){
+					else if (object instanceof String){
 						
 						if(object.equals("Enable buttons")){
 							boolean enableButtons = input.readBoolean();
 							enableButtons(enableButtons);
 						}
 						
-						if(object.equals("Choose character")){
+						else if(object.equals("Choose character")){
 							for(ViewerListener listener: listeners){
 								svullo = input.readBoolean();
 								tjoPang = input.readBoolean();
@@ -243,12 +246,14 @@ public class GameClient implements Serializable{
 								
 								
 								listener.updateChooseCharFrame(svullo, tjoPang, theRat, markisen, hannibal, hook);
+								
+							}
+						}else{
+							object = input.readObject();
+							for(ViewerListener listener: listeners){
+								System.out.println("Client: mottagit ny user/users uppdaterar \"ConnectedUserList\"");
 								listener.removeConnectedUsers();
 							}
-							
-							object = input.readObject();
-							
-							System.out.println("Client: mottagit ny user/users uppdaterar \"ConnectedUserList\"");
 							while(object != null){
 								for(ViewerListener listener: listeners){
 									listener.addConnectedUser((String) object);
@@ -266,9 +271,10 @@ public class GameClient implements Serializable{
 			}
 		}
 		
-		public void updateUsername(String username){
+		public void setCharacter(String character){
 			try {
-				output.writeObject(username);
+				output.writeObject("set character");
+				output.writeObject(character);
 				output.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -378,15 +384,15 @@ public class GameClient implements Serializable{
 			}
 			
 			map[oldRow][oldCol].removeCharacter();
-			System.out.println("Client: " + oldRow + ", " + oldCol + " Charater borttagen");
+			System.out.println("Client: " + oldRow + ", " + oldCol + " Character borttagen");
 			map[character.getRow()][character.getCol()].setCharacter(character);
-			System.out.println("Client: " + character.getRow() + ", " + character.getCol() + " Charater tillagd");
+			System.out.println("Client: " + character.getRow() + ", " + character.getCol() + " Character tillagd");
 			
 			characterMap.put(characterName, character);
 			for(ViewerListener listener: listeners){
 
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
-				listener.moveIcon(character.getName(), character.getRow(), character.getCol());
+				listener.moveIcon(character.getCharacterName(), character.getRow(), character.getCol());
 				
 				System.out.println("Client: flytta gubbe i viewer");
 			}

@@ -82,6 +82,8 @@ public class GameServer implements Runnable{
 		ObjectInputStream input;
 		ObjectOutputStream output;
 		private String sInput;
+		private String username;
+		private String character;
 		private int nbrOfPlayers;
 		private int playerid;
 		
@@ -103,61 +105,54 @@ public class GameServer implements Runnable{
 						sInput = (String)object;
 						if(sInput.equals("ENDTURN")){
 							clientsTurn(true);
-						}else if(sInput.equals("")){	
+						}else if(sInput.equals("set character")){
 							
-							this.output.writeObject("Choose character");
-							this.output.writeBoolean(svulloAvailable);
-							this.output.writeBoolean(tjoPangAvailable);
-							this.output.writeBoolean(theRatAvailable);
-							this.output.writeBoolean(hannibalAvailable);
-							this.output.writeBoolean(markisenAvailable);
-							this.output.writeBoolean(hookAvailable);
-							this.output.flush();
-						}else {
-							System.out.println("Server: Mottagit username");
-							clientMap.put(sInput, this);
-							clientMapid.put(id, sInput);
-							playerid = id;
-							id++;
-							ui.addUser(sInput);
 							
-							if(sInput.equals("Svullo")){
+							character = (String)input.readObject();
+							
+							if(character.equals("Svullo")){
 								svulloAvailable = false;
 							}
-							if(sInput.equals("TjoPang")){
+							if(character.equals("TjoPang")){
 								tjoPangAvailable = false;
 							}
-							if(sInput.equals("TheRat")){
+							if(character.equals("TheRat")){
 								theRatAvailable = false;
 							}
-							if(sInput.equals("Hannibal")){
+							if(character.equals("Hannibal")){
 								hannibalAvailable = false;
 							}
-							if(sInput.equals("Markisen")){
+							if(character.equals("Markisen")){
 								markisenAvailable = false;
 							}
-							if(sInput.equals("Hook")){
+							if(character.equals("Hook")){
 								hookAvailable = false;
 							}
-//							for (ClientHandler ch : clientMap.values()){
-//								ch.output.writeBoolean(svulloAvailable);
-//								ch.output.writeBoolean(tjoPangAvailable);
-//								ch.output.writeBoolean(theRatAvailable);
-//								ch.output.writeBoolean(hannibalAvailable);
-//								ch.output.writeBoolean(markisenAvailable);
-//								ch.output.writeBoolean(hookAvailable);
-//							}
-							
 							for (ClientHandler ch : clientMap.values()) {
-								
 								ch.output.writeObject("updateUserInfo");
 								ch.output.writeBoolean(svulloAvailable);
 								ch.output.writeBoolean(tjoPangAvailable);
 								ch.output.writeBoolean(theRatAvailable);
-								ch.output.writeBoolean(hannibalAvailable);
 								ch.output.writeBoolean(markisenAvailable);
+								ch.output.writeBoolean(hannibalAvailable);
 								ch.output.writeBoolean(hookAvailable);
+								ch.output.flush();
 								
+							}
+							
+							
+						}else {
+							System.out.println("Server: Mottagit username");
+							clientMap.put(sInput, this);
+							clientMapid.put(id, sInput);
+							this.username = sInput;
+							playerid = id;
+							id++;
+							ui.addUser(sInput);
+							
+							
+							for (ClientHandler ch : clientMap.values()) {
+																
 								for (int i = 1; i < clientMapid.size() + 1; i++) {
 							
 									System.out.println("Server: uppdaterar connectedUsers med: " + clientMapid.get(i));
@@ -167,9 +162,18 @@ public class GameServer implements Runnable{
 								}
 								ch.output.writeObject(null);
 								ch.output.flush();
-							
 								
 							}
+							
+							this.output.writeObject("Choose character");
+							this.output.writeBoolean(svulloAvailable);
+							this.output.writeBoolean(tjoPangAvailable);
+							this.output.writeBoolean(theRatAvailable);
+							this.output.writeBoolean(markisenAvailable);
+							this.output.writeBoolean(hannibalAvailable);
+							this.output.writeBoolean(hookAvailable);
+							this.output.flush();
+							
 						}
 
 					}
@@ -204,7 +208,6 @@ public class GameServer implements Runnable{
 							ch.output.writeObject(characterMap.get(clientMapid.get(counter)).getCol());
 							ch.output.flush();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -289,6 +292,7 @@ public class GameServer implements Runnable{
 			}
 			System.out.println("Server: Karaktär skapad namn: " + name + " Row: " + myCharacter.getRow() + " Col: " + myCharacter.getCol());
 			characterMap.put(name, myCharacter);
+			myCharacter.setCharacter(character);
 			updateCharPos(myCharacter);
 		}
 		

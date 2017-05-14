@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 public class Character implements Serializable{
 	private String name;
+	private String characterName;
 	private int row;
 	private int col;
 	private int sleeping;
@@ -41,6 +42,14 @@ public class Character implements Serializable{
 	 * Returns a int that tells how many turns this character is sleeping
 	 * @return int
 	 */
+	
+	public void setCharacter(String character){
+		this.characterName = character;
+	}
+	
+	public String getCharacterName(){
+		return this.characterName;
+	}
 	
 	public int sleeping(){
 		return sleeping;

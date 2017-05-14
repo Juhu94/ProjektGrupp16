@@ -39,7 +39,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 
 	private JPanel panel = new JPanel();
 	private JPanel leftPanel = new JPanel(new BorderLayout());
-	private JPanel leftGridPanel = new JPanel(new GridLayout(4, 1));
+	private JPanel leftGridPanel = new JPanel(new GridLayout(5, 1));
 	private JPanel rightPanel = new JPanel(new BorderLayout());
 	private JPanel centerPanel = new JPanel();
 	private JPanel flowPanel = new JPanel();
@@ -77,7 +77,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 
 	private JTextField serverIp = new JTextField("");
 	private JTextField serverPort = new JTextField("3520");
-	private JTextArea username = new JTextArea("");
+	private JTextField username = new JTextField("");
+	private JTextArea character = new JTextArea("");
 
 	private JButton bConnect = new JButton("Connect");
 	private JButton bDisconnect = new JButton("Disconnect");
@@ -183,12 +184,14 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		serverIp.setPreferredSize(new Dimension(180, 45));
 		serverPort.setBorder(BorderFactory.createTitledBorder("Server Port"));
 		username.setBorder(BorderFactory.createTitledBorder("Username"));
-		username.setEditable(false);
+		character.setBorder(BorderFactory.createTitledBorder("Character"));
+		character.setEditable(false);
 		infoArea.setEditable(false);
 		infoArea.setBorder(BorderFactory.createTitledBorder("Info ruta"));
 		leftGridPanel.add(serverIp);
 		leftGridPanel.add(serverPort);
 		leftGridPanel.add(username);
+		leftGridPanel.add(character);
 		leftGridPanel.add(bConnect);
 		leftPanel.add(leftGridPanel, BorderLayout.NORTH);
 		leftPanel.add(infoArea, BorderLayout.CENTER);
@@ -311,27 +314,27 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		switch (name) {
 		case "Svullo":
-			svullo.setLocation((col * 22), (row *20)-20);
+			svullo.setLocation((col * 22), (row *20)-25);
 			svullo.setVisible(true);
 			break;
 		case "TjoPang":
-			tjoPang.setLocation((col * 22), (row *20)-20);
+			tjoPang.setLocation((col * 22), (row *20)-25);
 			tjoPang.setVisible(true);
 			break;
 		case "TheRat":
-			theRat.setLocation((col * 22), (row *20)-20);
+			theRat.setLocation((col * 22), (row *20)-25);
 			theRat.setVisible(true);
 			break;
 		case "Hannibal":
-			hannibal.setLocation((col * 22), (row *20)-20);
+			hannibal.setLocation((col * 22), (row *20)-25);
 			hannibal.setVisible(true);
 			break;
 		case "Markisen":
-			markisen.setLocation((col * 22), (row *20)-20);
+			markisen.setLocation((col * 22), (row *20)-25);
 			markisen.setVisible(true);
 			break;
 		case "Hook":
-			hook.setLocation((col * 22), (row *20)-20);
+			hook.setLocation((col * 22), (row *20)-25);
 			hook.setVisible(true);
 			break;
 		default:
@@ -431,8 +434,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bConnect) {
-//			client.sendUsername(username.getText());
-//			frame.setTitle(username.getText());
+			client.setUsername(username.getText());
+			frame.setTitle(username.getText());
 			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()));
 			bConnect.setEnabled(false);
 		}
@@ -481,37 +484,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		}
 		if (e.getSource() == chooseChar){
 			
-			if(!username.equals("")){
-				client.setUsername(username.getText());
+			if(!character.getText().equals("")){
+				client.setCharacter(character.getText());
 				chooseCharFrame.setVisible(false);
-				
-			}
-			
-//			if(svulloBtn.hasFocus()){
-//				client.setUsername("Svullo");
-//				chooseCharFrame.setVisible(false);
-//				
-//			}
-//			if(theRatBtn.hasFocus()){
-//				client.setUsername("TheRat");
-//				chooseCharFrame.setVisible(false);
-//			}
-//			if(tjoPangBtn.hasFocus()){
-//				client.setUsername("TjoPang");
-//				chooseCharFrame.setVisible(false);
-//			}
-//			if(markisenBtn.hasFocus()){
-//				client.setUsername("Markisen");
-//				chooseCharFrame.setVisible(false);
-//			}
-//			if(hannibalBtn.hasFocus()){
-//				client.setUsername("Hannibal");
-//				chooseCharFrame.setVisible(false);
-//			}
-//			if(hookBtn.hasFocus()){
-//				client.setUsername("Hook");
-//				chooseCharFrame.setVisible(false);
-//			}
+			}	
 		}
 	}
 	@Override
@@ -535,56 +511,56 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 	}
 
-	@Override
+	
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
-	@Override
+	
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	
-	@Override
+	
 	public void mouseClicked(MouseEvent e) {
 		JLabel source = (JLabel)e.getSource();
 		
 		if(source.equals(svulloBtn)){
 			if(svulloBtn.isEnabled()){
 //				svulloBtn.requestFocus();
-				username.setText("Svullo");
+				character.setText("Svullo");
 			}
 		}
 		if(source.equals(theRatBtn)){
 			if(theRatBtn.isEnabled()){
 //				theRatBtn.requestFocus();
-				username.setText("TheRat");
+				character.setText("TheRat");
 			}
 		}
 		if(source.equals(tjoPangBtn)){
 			if(tjoPangBtn.isEnabled()){
 //				tjoPangBtn.requestFocus();
-				username.setText("TjoPang");
+				character.setText("TjoPang");
 			}
 		}
 		if(source.equals(markisenBtn)){
 			if(markisenBtn.isEnabled()){
 //				markisenBtn.requestFocus();
-				username.setText("Markisen");
+				character.setText("Markisen");
 			}
 		}
 		if(source.equals(hannibalBtn)){
 			if(hannibalBtn.isEnabled()){
 //				hannibalBtn.requestFocus();
-				username.setText("Hannibal");
+				character.setText("Hannibal");
 			}
 		}
 		if(source.equals(hookBtn)){
 			if(hookBtn.isEnabled()){
 //				hookBtn.requestFocus();
-				username.setText("Hook");
+				character.setText("Hook");
 			}
 		}
 		
@@ -592,25 +568,21 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -630,6 +602,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		markisenBtn.setEnabled(markisen);
 		hannibalBtn.setEnabled(hannibal);
 		hookBtn.setEnabled(hook);
+				
+		System.out.println("GUI: " + svullo);
+		System.out.println("GUI: " + tjoPang);
+		System.out.println("GUI: uppdaterat characterfönster" + username.getText());
 		
 	}
 
