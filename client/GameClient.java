@@ -255,7 +255,6 @@ public class GameClient implements Serializable{
 								
 							}
 						}else{
-							object = input.readObject();
 							for(ViewerListener listener: listeners){
 								System.out.println("Client: mottagit ny user/users uppdaterar \"ConnectedUserList\"");
 								listener.removeConnectedUsers();
