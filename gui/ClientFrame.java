@@ -428,6 +428,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			bRight.setEnabled(false);
 		} else if (buttons.equals("jump")){
 			bJump.setEnabled(true);
+		} else if (buttons.equals("disable jump")){
+			bJump.setEnabled(false);
 		}
 
 		// bUp.setEnabled(state);

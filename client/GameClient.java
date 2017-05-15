@@ -173,6 +173,9 @@ public class GameClient implements Serializable{
 			characterMap.get(username).setPos(characterMap.get(username).getRow() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].failRow(), 
 					characterMap.get(username).getCol() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].failCol());
 		}
+		for(ViewerListener listener: listeners){
+			listener.enableButtons("disable jump");
+		}
 		connection.setCharacter(username);
 	}
 	
