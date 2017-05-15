@@ -142,7 +142,7 @@ public class GameClient implements Serializable{
 			listener.updateViewer();
 		}
 		
-		if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName() == "Special"){
+		if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName().equals("Special")){
 			for(ViewerListener listener: listeners){
 				listener.enableButtons("jump");
 			}
