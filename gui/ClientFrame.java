@@ -65,7 +65,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JLabel markisenBtn = new JLabel(new ImageIcon("images/Markisen.png"));
 	private JLabel hookBtn = new JLabel(new ImageIcon("images/Hook.png"));
 	
-	private JButton chooseChar = new JButton("Choose");
+	private JButton chooseChar = new JButton("Connect");
 
 	private DefaultListModel model = new DefaultListModel();
 	private JList listUsers = new JList(model);
@@ -80,7 +80,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JTextField username = new JTextField("");
 	private JTextArea character = new JTextArea("");
 
-	private JButton bConnect = new JButton("Connect");
+	private JButton bConnect = new JButton("Choose caracter");
 	private JButton bDisconnect = new JButton("Disconnect");
 	private JButton bClose = new JButton("Close");
 
@@ -457,7 +457,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			client.throwDice();
 		}
 		if(e.getSource() == bJump) {
-	
+			client.jump();
 		}
 		if (e.getSource() == bShoot) {
 			client.shoot();

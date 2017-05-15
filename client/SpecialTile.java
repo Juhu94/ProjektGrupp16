@@ -5,8 +5,10 @@ package client;
  * Version 1.0
  */
 public class SpecialTile extends Tile{
-	private Tile success = null;
-	private Tile fail = null;
+	private int successRow;
+	private int successCol;
+	private int failRow;
+	private int failCol;
 	
 	public SpecialTile(){
 		super("Special", true, true, false);
@@ -17,8 +19,12 @@ public class SpecialTile extends Tile{
 	 * @return Tile
 	 */
 	
-	public Tile success(){
-		return success;
+	public int successRow(){
+		return successRow;
+	}
+	
+	public int successCol(){
+		return successCol;
 	}
 	
 	/**
@@ -26,8 +32,9 @@ public class SpecialTile extends Tile{
 	 * @param Tile
 	 */
 	
-	public void setSuccess(Tile tile){
-		success = tile;
+	public void setSuccess(int row, int col){
+		successRow = row;
+		successCol = col;
 	}
 	
 	/**
@@ -35,8 +42,12 @@ public class SpecialTile extends Tile{
 	 * @return Tile
 	 */
 	
-	public Tile fail(){
-		return fail;
+	public int failRow(){
+		return failRow;
+	}
+	
+	public int failCol(){
+		return failCol;
 	}
 	
 	/**
@@ -44,7 +55,8 @@ public class SpecialTile extends Tile{
 	 * @param Tile
 	 */
 	
-	public void setFail(Tile tile){
-		fail = tile;
+	public void setFail(int row, int col){
+		failRow = row;
+		failCol = col;
 	}
 }

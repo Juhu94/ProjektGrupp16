@@ -225,8 +225,12 @@ public class Tile {
 	 * @return Tile
 	 */
 	
-	public Tile success(){
-		return null;
+	public int successRow(){
+		return 0;
+	}
+	
+	public int successCol(){
+		return 0;
 	}
 	
 	/**
@@ -234,7 +238,7 @@ public class Tile {
 	 * @param Tile
 	 */
 	
-	public void setSuccess(Tile tile){
+	public void setSuccess(int row, int col){
 	}
 	
 	/**
@@ -242,8 +246,12 @@ public class Tile {
 	 * @return Tile
 	 */
 	
-	public Tile fail(){
-		return null;
+	public int failRow(){
+		return 0;
+	}
+	
+	public int failCol(){
+		return 0;
 	}
 	
 	/**
@@ -251,7 +259,7 @@ public class Tile {
 	 * @param Tile
 	 */
 	
-	public void setFail(Tile tile){
+	public void setFail(int row, int col){
 	}
 	
 }

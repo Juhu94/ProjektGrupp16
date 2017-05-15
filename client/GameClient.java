@@ -118,6 +118,15 @@ public class GameClient implements Serializable{
 		return false;
 	}
 	
+	public boolean jumpDice() {
+		Random rand = new Random();
+		int roll = rand.nextInt(6)+1;
+		if(roll == 1|| roll == 2 || roll == 3 || roll == 4){
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	* Method that disconnects the client from the server
 	*/
@@ -153,6 +162,18 @@ public class GameClient implements Serializable{
 				listener.enableButtons("shoot");
 			}
 		}
+	}
+	
+	public void jump(){
+		if (jumpDice()){
+			characterMap.get(username).setPos(characterMap.get(username).getRow() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].successRow(), 
+					characterMap.get(username).getCol() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].successCol());
+			
+		}else{
+			characterMap.get(username).setPos(characterMap.get(username).getRow() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].failRow(), 
+					characterMap.get(username).getCol() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].failCol());
+		}
+		connection.setCharacter(username);
 	}
 	
 	public void shoot(){
@@ -290,6 +311,15 @@ public class GameClient implements Serializable{
 			characterMap.get(target).shot();
 			try {
 				output.writeObject(characterMap.get(target));
+				output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void flushCharacter(client.Character character){
+			try{
+				output.writeObject(character);
 				output.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -521,65 +551,92 @@ public class GameClient implements Serializable{
 		}
 		
 		//------Special Tile---------------
-		map[2][10].setSuccess(map[2][13]);
-		map[2][10].setFail(map[6][11]);
-		map[2][12].setSuccess(map[2][10]);
-		map[2][12].setFail(map[6][11]);
-		map[2][13].setSuccess(map[2][15]);
-		map[2][13].setFail(map[6][14]);
-		map[2][15].setSuccess(map[2][12]);
-		map[2][15].setFail(map[6][14]);
-		map[4][25].setSuccess(map[6][25]);
-		map[4][25].setFail(map[5][25]);
-		map[6][25].setSuccess(map[4][25]);
-		map[6][25].setFail(map[5][25]);
-		map[6][27].setSuccess(map[6][29]);
-		map[6][27].setFail(map[5][28]);
-		map[6][29].setSuccess(map[6][27]);
-		map[6][29].setFail(map[5][28]);
-		map[12][2].setSuccess(map[15][2]);
-		map[12][2].setFail(map[13][2]);
-		map[14][2].setSuccess(map[12][2]);
-		map[14][2].setFail(map[13][2]);
-		map[12][6].setSuccess(map[14][6]);
-		map[12][6].setFail(map[13][6]);
-		map[14][6].setSuccess(map[12][6]);
-		map[14][6].setFail(map[13][6]);
-		map[15][2].setSuccess(map[17][2]);
-		map[15][2].setFail(map[16][2]);
-		map[17][2].setSuccess(map[14][2]);
-		map[17][2].setFail(map[16][2]);
-		map[15][11].setSuccess(map[17][11]);
-		map[15][11].setFail(map[16][11]);
-		map[17][11].setSuccess(map[15][11]);
-		map[17][11].setFail(map[16][11]);
-		map[16][19].setSuccess(map[16][21]);
-		map[16][19].setFail(map[16][20]);
-		map[16][21].setSuccess(map[16][19]);
-		map[16][21].setFail(map[16][19]);
-		map[16][33].setSuccess(map[16][36]);
-		map[16][33].setFail(map[16][34]);
-		map[16][35].setSuccess(map[16][33]);
-		map[16][35].setFail(map[16][34]);
-		map[16][36].setSuccess(map[16][38]);
-		map[16][36].setFail(map[16][37]);
-		map[16][38].setSuccess(map[16][35]);
-		map[16][38].setFail(map[16][37]);
-		map[18][9].setSuccess(map[18][11]);
-		map[18][9].setFail(map[18][10]);
-		map[18][11].setSuccess(map[18][9]);
-		map[18][11].setFail(map[18][10]);
-		map[19][19].setSuccess(map[21][19]);
-		map[19][19].setFail(map[20][19]);
-		map[21][19].setSuccess(map[19][19]);
-		map[21][19].setFail(map[20][19]);
-		map[18][25].setSuccess(map[20][25]);
-		map[18][25].setFail(map[19][25]);
-		map[27][28].setSuccess(map[27][30]);
-		map[27][28].setFail(map[27][29]);
-		map[27][30].setSuccess(map[27][28]);
-		map[27][30].setFail(map[27][29]);
+		map[2][10].setSuccess(0, 3);
+		map[2][10].setFail(4, 1);
 		
+		map[2][12].setSuccess(0, 2);
+		map[2][12].setFail(4, 1);
+		
+		map[2][13].setSuccess(0, 2);
+		map[2][13].setFail(4, 1);
+		
+		map[2][15].setSuccess(0, -3);
+		map[2][15].setFail(4, -1);
+		
+		map[4][25].setSuccess(2, 0);
+		map[4][25].setFail(1, 0);
+		
+		map[6][25].setSuccess(-2, 0);
+		map[6][25].setFail(-1, 0);
+		
+		map[6][27].setSuccess(0, 2);
+		map[6][27].setFail(-1, 1);
+		
+		map[6][29].setSuccess(0, -2);
+		map[6][29].setFail(-1, -1);
+		
+		map[12][2].setSuccess(3, 0);
+		map[12][2].setFail(1, 0);
+		
+		map[14][2].setSuccess(-2, 0);
+		map[14][2].setFail(-1, 0);
+		
+		map[12][6].setSuccess(2, 0);
+		map[12][6].setFail(1, 0);
+		
+		map[14][6].setSuccess(-2, 0);
+		map[14][6].setFail(-1, 0);
+		
+		map[15][2].setSuccess(2, 0);
+		map[15][2].setFail(1, 0);
+		
+		map[17][2].setSuccess(-3, 0);
+		map[17][2].setFail(-1, 0);
+		
+		map[15][11].setSuccess(2, 0);
+		map[15][11].setFail(1, 0);
+		
+		map[17][11].setSuccess(-2, 0);
+		map[17][11].setFail(-1, 0);
+		
+		map[16][19].setSuccess(0, 2);
+		map[16][19].setFail(0, 1);
+		
+		map[16][21].setSuccess(0, 2);
+		map[16][21].setFail(0, -2);
+		
+		map[16][33].setSuccess(0, 3);
+		map[16][33].setFail(0, 1);
+		
+		map[16][35].setSuccess(0, -2);
+		map[16][35].setFail(0, -1);
+		
+		map[16][36].setSuccess(0, 2);
+		map[16][36].setFail(0, 1);
+		
+		map[16][38].setSuccess(0, -3);
+		map[16][38].setFail(0, -1);
+		
+		map[18][9].setSuccess(0, 2);
+		map[18][9].setFail(0, 1);
+		
+		map[18][11].setSuccess(0, -2);
+		map[18][11].setFail(0, -1);
+		
+		map[19][19].setSuccess(2, 0);
+		map[19][19].setFail(1, 0);
+		
+		map[21][19].setSuccess(-2, 0);
+		map[21][19].setFail(-1, 0);
+		
+		map[18][25].setSuccess(2, 0);
+		map[18][25].setFail(-1, 0);
+		
+		map[27][28].setSuccess(0, 2);
+		map[27][28].setFail(0, 1);
+		
+		map[27][30].setSuccess(0, -2);
+		map[27][30].setFail(0, -1);
 		//------Boat------------------------
 		map[9][4].boatOn();
 		map[6][22].boatOn();
