@@ -393,12 +393,14 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			frame.requestFocus();
 			bMove.setEnabled(true);
 			bShoot.setEnabled(false);
+			bJump.setEnabled(false);
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
 			bLeft.setEnabled(false);
 			bRight.setEnabled(false);
 		} else if (buttons.equals("move")) {
 			bMove.setEnabled(false);
+			bJump.setEnabled(false);
 			bUp.setEnabled(true);
 			bDown.setEnabled(true);
 			bLeft.setEnabled(true);
@@ -425,6 +427,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			bDown.setEnabled(false);
 			bLeft.setEnabled(false);
 			bRight.setEnabled(false);
+		} else if (buttons.equals("jump")){
+			bJump.setEnabled(true);
 		}
 
 		// bUp.setEnabled(state);
