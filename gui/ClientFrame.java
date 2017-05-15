@@ -390,6 +390,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			bEndTurn.setEnabled(false);
 		}
 		if (buttons.equals("update")) {
+			frame.requestFocus();
 			bMove.setEnabled(true);
 			bShoot.setEnabled(false);
 			bUp.setEnabled(false);
@@ -453,12 +454,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			client.throwDice();
 		}
 		if(e.getSource() == bJump) {
-			System.exit(0);
+	
 		}
 		if (e.getSource() == bShoot) {
 			client.shoot();
 		}
 		if (e.getSource() == bEndTurn) {
+			frame.requestFocus();
 			client.endTurn();
 			enableButtons("disable all");
 		}
@@ -507,6 +509,16 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		}
 		if(code == KeyEvent.VK_ENTER){
 			client.endTurn();
+		}
+		if(code == KeyEvent.VK_SPACE){
+			if(bMove.isEnabled()) {
+				enableButtons("move");
+				client.throwDice();
+			}
+			else if(bEndTurn.isEnabled()){
+				client.endTurn();
+				enableButtons("disable all");
+			}
 		}
 		
 	}
