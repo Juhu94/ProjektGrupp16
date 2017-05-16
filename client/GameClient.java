@@ -97,7 +97,6 @@ public class GameClient implements Serializable{
 		steps = rand.nextInt(6) + 1;
 		for (ViewerListener listener : listeners) {
 			listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
-			listener.enableButtons("disable shoot");
 		}
 		System.out.println("Client: Tärning: " + steps);
 		return steps;
@@ -182,6 +181,9 @@ public class GameClient implements Serializable{
 	}
 	
 	public void shoot(){
+		for(ViewerListener listener: listeners){
+			listener.enableButtons("disable shoot");
+		}
 		if(shootDice()){
 		String targetName = lookingForAShot(characterMap.get(username)).get(0).getName();
 		map[characterMap.get(targetName).getRow()][characterMap.get(targetName).getCol()].moveCharacterToSleeping();
