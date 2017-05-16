@@ -165,6 +165,7 @@ public class GameClient implements Serializable{
 	}
 	
 	public void jump(){
+		map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].removeCharacter();
 		if (jumpDice()){
 			characterMap.get(username).setPos(characterMap.get(username).getRow() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].successRow(), 
 					characterMap.get(username).getCol() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].successCol());
