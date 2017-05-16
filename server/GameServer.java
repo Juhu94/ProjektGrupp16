@@ -204,8 +204,8 @@ public class GameServer implements Runnable{
 						String username = clientMapid.get(i);
 						ClientHandler ch = clientMap.get(username);
 						try {
-							ch.output.writeObject(characterMap.get(clientMapid.get(counter)).getRow());
-							ch.output.writeObject(characterMap.get(clientMapid.get(counter)).getCol());
+							ch.output.writeObject(characterMap.get(clientMapid.get(i)).getRow());
+							ch.output.writeObject(characterMap.get(clientMapid.get(i)).getCol());
 							ch.output.flush();
 						} catch (IOException e) {
 							e.printStackTrace();
