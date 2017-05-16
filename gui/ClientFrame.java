@@ -406,6 +406,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			bLeft.setEnabled(true);
 			bRight.setEnabled(true);
 		} else if(buttons.equals("disable move")){
+			bMove.setEnabled(false);
 			bUp.setEnabled(false);
 			bDown.setEnabled(false);
 			bLeft.setEnabled(false);
@@ -430,6 +431,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			bJump.setEnabled(true);
 		} else if (buttons.equals("disable jump")){
 			bJump.setEnabled(false);
+			
 		}
 
 		// bUp.setEnabled(state);

@@ -175,8 +175,9 @@ public class GameClient implements Serializable{
 		}
 		for(ViewerListener listener: listeners){
 			listener.enableButtons("disable jump");
+			listener.enableButtons("disable move");
 		}
-		connection.setCharacter(username);
+		connection.flushCharacter(characterMap.get(username));
 	}
 	
 	public void shoot(){
