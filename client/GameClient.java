@@ -148,6 +148,7 @@ public class GameClient implements Serializable{
 		shotTakenThisTurn = false;
 		for(ViewerListener listener: listeners){
 			listener.updateViewer();
+			listener.enableButtons("disable shoot");
 		}
 		
 		if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName().equals("Special")){
