@@ -200,12 +200,12 @@ public class GameServer implements Runnable{
 			while(characterMap.get(clientMapid.get(counter)).sleeping() > 0){
 				characterMap.get(clientMapid.get(counter)).passATurn();
 				if (characterMap.get(clientMapid.get(counter)).sleeping() == 0){
-					for(int i = 0; i < nbrOfPlayers; i++){
+					for(int i = 1; i <= nbrOfPlayers; i++){
 						String username = clientMapid.get(i);
 						ClientHandler ch = clientMap.get(username);
 						try {
-							ch.output.writeObject(characterMap.get(clientMapid.get(i)).getRow());
-							ch.output.writeObject(characterMap.get(clientMapid.get(i)).getCol());
+							ch.output.writeObject(characterMap.get(username).getRow());
+							ch.output.writeObject(characterMap.get(username).getCol());
 							ch.output.flush();
 						} catch (IOException e) {
 							e.printStackTrace();
