@@ -739,28 +739,28 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		if(source.equals(tjoPangTargetBtn)){
 			if(tjoPangTargetBtn.isEnabled()){
 //					this.target = "TjoPang";
-					this.target = theRatTargetBtn.getText();
+					this.target = tjoPangTargetBtn.getText();
 					System.out.println(target);
 			}
 		}
 		if(source.equals(markisenTargetBtn)){
 			if(markisenTargetBtn.isEnabled()){
 //					this.target = "Markisen";
-					this.target = theRatTargetBtn.getText();
+					this.target = markisenTargetBtn.getText();
 					System.out.println(target);
 			}
 		}
 		if(source.equals(hannibalTargetBtn)){
 			if(hannibalTargetBtn.isEnabled()){
 //					this.target = "Hannibal";
-					this.target = theRatTargetBtn.getText();
+					this.target = hannibalTargetBtn.getText();
 					System.out.println(target);
 			}
 		}
 		if(source.equals(hookTargetBtn)){
 			if(hookTargetBtn.isEnabled()){
 //					this.target = "Hook";
-					this.target = theRatTargetBtn.getText();
+					this.target = hookTargetBtn.getText();
 					System.out.println(target);
 			}
 		}
