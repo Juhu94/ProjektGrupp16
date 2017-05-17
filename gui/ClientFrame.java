@@ -138,6 +138,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		chooseTarget.setVisible(false);
 		chooseTarget.setLayout(new BorderLayout());
+		chooseTarget.setBackground(Color.WHITE);
 		targetChoices.setLayout(new FlowLayout());
 		targetChoices.setPreferredSize(new Dimension(300, 100));
 		chooseTarget.add(targetChoices, BorderLayout.CENTER);
@@ -682,89 +683,153 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 
 	
 	public void keyTyped(KeyEvent arg0) {
-		
-		
+
 	}
-	
-	
+
 	public void mouseClicked(MouseEvent e) {
-		JLabel source = (JLabel)e.getSource();
-		
-		if(source.equals(svulloBtn)){
-			if(svulloBtn.isEnabled()){
+		JLabel source = (JLabel) e.getSource();
+
+		if (source.equals(svulloBtn)) {
+			if (svulloBtn.isEnabled()) {
 				character.setText("Svullo");
 			}
 		}
-		if(source.equals(theRatBtn)){
-			if(theRatBtn.isEnabled()){
-				character.setText("TheRat");				
+		if (source.equals(theRatBtn)) {
+			if (theRatBtn.isEnabled()) {
+				character.setText("TheRat");
 			}
 		}
-		if(source.equals(tjoPangBtn)){
-			if(tjoPangBtn.isEnabled()){
+		if (source.equals(tjoPangBtn)) {
+			if (tjoPangBtn.isEnabled()) {
 				character.setText("TjoPang");
 			}
 		}
-		if(source.equals(markisenBtn)){
-			if(markisenBtn.isEnabled()){
+		if (source.equals(markisenBtn)) {
+			if (markisenBtn.isEnabled()) {
 				character.setText("Markisen");
 			}
 		}
-		if(source.equals(hannibalBtn)){
-			if(hannibalBtn.isEnabled()){
+		if (source.equals(hannibalBtn)) {
+			if (hannibalBtn.isEnabled()) {
 				character.setText("Hannibal");
 			}
 		}
-		if(source.equals(hookBtn)){
-			if(hookBtn.isEnabled()){
+		if (source.equals(hookBtn)) {
+			if (hookBtn.isEnabled()) {
 				character.setText("Hook");
 			}
 		}
-		
-		if(source.equals(svulloTargetBtn)){
-			if(svulloTargetBtn.isEnabled()){
-//				this.target = "Svullo";
+
+		if (source.equals(svulloTargetBtn)) {
+			if (svulloTargetBtn.isEnabled()) {
+				svulloTargetBtn.setBackground(Color.RED);
+				theRatTargetBtn.setBackground(Color.WHITE);
+				tjoPangTargetBtn.setBackground(Color.WHITE);
+				markisenTargetBtn.setBackground(Color.WHITE);
+				hannibalTargetBtn.setBackground(Color.WHITE);
+				hookTargetBtn.setBackground(Color.WHITE);
+				svulloTargetBtn.repaint();
+				theRatTargetBtn.repaint();
+				tjoPangTargetBtn.repaint();
+				markisenTargetBtn.repaint();
+				hannibalTargetBtn.repaint();
+				hookTargetBtn.repaint();
 				
 				this.target = svulloTargetBtn.getText();
 				System.out.println(target);
 			}
 		}
-		if(source.equals(theRatTargetBtn)){
-			if(theRatTargetBtn.isEnabled()){
-//				this.target = "TheRat";
+		if (source.equals(theRatTargetBtn)) {
+			if (theRatTargetBtn.isEnabled()) {
+				svulloTargetBtn.setBackground(Color.WHITE);
+				theRatTargetBtn.setBackground(Color.RED);
+				tjoPangTargetBtn.setBackground(Color.WHITE);
+				markisenTargetBtn.setBackground(Color.WHITE);
+				hannibalTargetBtn.setBackground(Color.WHITE);
+				hookTargetBtn.setBackground(Color.WHITE);
+				svulloTargetBtn.repaint();
+				theRatTargetBtn.repaint();
+				tjoPangTargetBtn.repaint();
+				markisenTargetBtn.repaint();
+				hannibalTargetBtn.repaint();
+				hookTargetBtn.repaint();
 				this.target = theRatTargetBtn.getText();
 				System.out.println(target);
 			}
 		}
-		if(source.equals(tjoPangTargetBtn)){
-			if(tjoPangTargetBtn.isEnabled()){
-//					this.target = "TjoPang";
-					this.target = tjoPangTargetBtn.getText();
-					System.out.println(target);
+		if (source.equals(tjoPangTargetBtn)) {
+			if (tjoPangTargetBtn.isEnabled()) {
+				svulloTargetBtn.setBackground(Color.WHITE);
+				theRatTargetBtn.setBackground(Color.WHITE);
+				tjoPangTargetBtn.setBackground(Color.RED);
+				markisenTargetBtn.setBackground(Color.WHITE);
+				hannibalTargetBtn.setBackground(Color.WHITE);
+				hookTargetBtn.setBackground(Color.WHITE);
+				svulloTargetBtn.repaint();
+				theRatTargetBtn.repaint();
+				tjoPangTargetBtn.repaint();
+				markisenTargetBtn.repaint();
+				hannibalTargetBtn.repaint();
+				hookTargetBtn.repaint();
+				this.target = tjoPangTargetBtn.getText();
+				System.out.println(target);
 			}
 		}
-		if(source.equals(markisenTargetBtn)){
-			if(markisenTargetBtn.isEnabled()){
-//					this.target = "Markisen";
-					this.target = markisenTargetBtn.getText();
-					System.out.println(target);
+		if (source.equals(markisenTargetBtn)) {
+			if (markisenTargetBtn.isEnabled()) {
+				svulloTargetBtn.setBackground(Color.WHITE);
+				theRatTargetBtn.setBackground(Color.WHITE);
+				tjoPangTargetBtn.setBackground(Color.WHITE);
+				markisenTargetBtn.setBackground(Color.RED);
+				hannibalTargetBtn.setBackground(Color.WHITE);
+				hookTargetBtn.setBackground(Color.WHITE);
+				svulloTargetBtn.repaint();
+				theRatTargetBtn.repaint();
+				tjoPangTargetBtn.repaint();
+				markisenTargetBtn.repaint();
+				hannibalTargetBtn.repaint();
+				hookTargetBtn.repaint();
+				this.target = markisenTargetBtn.getText();
+				System.out.println(target);
 			}
 		}
-		if(source.equals(hannibalTargetBtn)){
-			if(hannibalTargetBtn.isEnabled()){
-//					this.target = "Hannibal";
-					this.target = hannibalTargetBtn.getText();
-					System.out.println(target);
+		if (source.equals(hannibalTargetBtn)) {
+			if (hannibalTargetBtn.isEnabled()) {
+				svulloTargetBtn.setBackground(Color.WHITE);
+				theRatTargetBtn.setBackground(Color.WHITE);
+				tjoPangTargetBtn.setBackground(Color.WHITE);
+				markisenTargetBtn.setBackground(Color.WHITE);
+				hannibalTargetBtn.setBackground(Color.RED);
+				hookTargetBtn.setBackground(Color.WHITE);
+				svulloTargetBtn.repaint();
+				theRatTargetBtn.repaint();
+				tjoPangTargetBtn.repaint();
+				markisenTargetBtn.repaint();
+				hannibalTargetBtn.repaint();
+				hookTargetBtn.repaint();
+				this.target = hannibalTargetBtn.getText();
+				System.out.println(target);
 			}
 		}
-		if(source.equals(hookTargetBtn)){
-			if(hookTargetBtn.isEnabled()){
-//					this.target = "Hook";
-					this.target = hookTargetBtn.getText();
-					System.out.println(target);
+		if (source.equals(hookTargetBtn)) {
+			if (hookTargetBtn.isEnabled()) {
+				svulloTargetBtn.setBackground(Color.WHITE);
+				theRatTargetBtn.setBackground(Color.WHITE);
+				tjoPangTargetBtn.setBackground(Color.WHITE);
+				markisenTargetBtn.setBackground(Color.WHITE);
+				hannibalTargetBtn.setBackground(Color.WHITE);
+				hookTargetBtn.setBackground(Color.RED);
+				svulloTargetBtn.repaint();
+				theRatTargetBtn.repaint();
+				tjoPangTargetBtn.repaint();
+				markisenTargetBtn.repaint();
+				hannibalTargetBtn.repaint();
+				hookTargetBtn.repaint();
+				this.target = hookTargetBtn.getText();
+				System.out.println(target);
 			}
 		}
-		
+
 	}
 
 	@Override

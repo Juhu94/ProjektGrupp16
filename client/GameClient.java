@@ -157,7 +157,6 @@ public class GameClient implements Serializable{
 		shotTakenThisTurn = false;
 		for(ViewerListener listener: listeners){
 			listener.updateViewer();
-			listener.enableButtons("disable shoot");
 		}
 		
 		if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName().equals("Special")){
@@ -281,6 +280,20 @@ public class GameClient implements Serializable{
 						int row = (int)object;
 						int col =  (int)input.readObject();
 						map[row][col].removeSleepingChatacter();
+						
+						Character character = (Character)input.readObject();
+						if(character.sleeping() > 0){
+							for(ViewerListener listener: listeners){
+								listener.setIconSleep(character.getCharacterName(), false);
+							}
+						}
+						if(character.sleeping() == 0){
+							for(ViewerListener listener: listeners){
+								listener.setIconSleep(character.getCharacterName(), true);
+							}
+						}
+						updateCharacter(character);
+						
 					}
 	
 					else if (object instanceof client.Character){
@@ -363,6 +376,7 @@ public class GameClient implements Serializable{
 		}
 		
 		public void shootTarget(String target){
+			
 			characterMap.get(target).shot();
 			try {
 				output.writeObject(characterMap.get(target));

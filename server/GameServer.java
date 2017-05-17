@@ -197,16 +197,20 @@ public class GameServer implements Runnable{
 		 */
 		public void clientsTurn(boolean enableButtons){
 			nbrOfPlayers = clientMap.size();
-			while(characterMap.get(clientMapid.get(counter)).sleeping() > 0){
+			System.out.println("Server: sleeping variabeln: " + characterMap.get(clientMapid.get(counter)).sleeping());
+			while(characterMap.get(clientMapid.get(counter)).sleeping() != 0){
 				characterMap.get(clientMapid.get(counter)).passATurn();
 				if (characterMap.get(clientMapid.get(counter)).sleeping() == 0){
 					for(int i = 1; i <= nbrOfPlayers; i++){
 						String username = clientMapid.get(i);
 						ClientHandler ch = clientMap.get(username);
 						try {
+							System.out.println("SERVER: sleeping variabel: " + characterMap.get(clientMapid.get(counter)).sleeping() + " användare: " + username);
 							ch.output.writeObject(characterMap.get(username).getRow());
 							ch.output.writeObject(characterMap.get(username).getCol());
+							ch.output.writeObject(characterMap.get(username));
 							ch.output.flush();
+							
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

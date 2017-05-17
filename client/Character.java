@@ -27,7 +27,12 @@ public class Character implements Serializable{
 	}
 	
 	public void passATurn(){
-		this.sleeping--;
+		System.out.println("Character: sleeping variabeln: " + sleeping);
+		if(this.sleeping > 0){
+			this.sleeping--;
+		} else{
+			this.sleeping = 0;
+		}
 	}
 	
 	/**
