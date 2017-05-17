@@ -219,31 +219,24 @@ public class GameServer implements Runnable{
 					counter++;
 				}
 			}
-			if(counter == nbrOfPlayers){
-				String username = clientMapid.get(counter);
-				ClientHandler ch = clientMap.get(username);
-				try {
-					ch.output.writeObject("Enable buttons");
-					ch.output.writeBoolean(enableButtons);
-					ch.output.flush();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				counter = 1;
+			
+			
+			String username = clientMapid.get(counter);
+			ClientHandler ch = clientMap.get(username);
+			try {
+				ch.output.writeObject("Enable buttons");
+				ch.output.writeBoolean(enableButtons);
+				ch.output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			else{
-				String username = clientMapid.get(counter);
-				ClientHandler ch = clientMap.get(username);
-				try{
-					ch.output.writeObject("Enable buttons");
-					ch.output.writeBoolean(enableButtons);
-					ch.output.flush();
-				}catch(IOException e){
-					e.printStackTrace();
-				}
+
+			if (counter == nbrOfPlayers) {
+				counter = 1;
+			} else {
 				counter++;
 			}
+
 		}
 		
 		/**

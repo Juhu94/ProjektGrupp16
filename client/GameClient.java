@@ -38,6 +38,8 @@ public class GameClient implements Serializable{
 	private int[] tilePos = new int[2];
 	private Tile[][] map;
 	private HashMap<String, client.Character> characterMap = new HashMap<String, client.Character>(); 
+	private String character = "";
+	
 	
 	private boolean clientTurn = true;
 	private boolean shotTakenThisTurn;
@@ -58,6 +60,10 @@ public class GameClient implements Serializable{
 	
 	public void setCharacter(String character){
 		connection.setCharacter(character);
+		this.character = character;
+	}
+	public String getCharacter(){
+		return this.character;
 	}
 	
 	public void connect(String serverIp, int port){
@@ -111,6 +117,9 @@ public class GameClient implements Serializable{
 	public boolean shootDice() {
 		Random rand = new Random();
 		int roll = rand.nextInt(6)+1;
+		
+		System.out.println("Client: shootDice: " + roll);
+		
 		if(roll == 2 || roll == 6){
 			return true;
 		}
@@ -181,16 +190,44 @@ public class GameClient implements Serializable{
 		connection.flushCharacter(characterMap.get(username));
 	}
 	
-	public void shoot(){
-		for(ViewerListener listener: listeners){
+	public void shoot() {
+		Character target;
+
+		for (ViewerListener listener : listeners) {
 			listener.enableButtons("disable shoot");
 		}
-		if(shootDice()){
-		String targetName = lookingForAShot(characterMap.get(username)).get(0).getName();
-		map[characterMap.get(targetName).getRow()][characterMap.get(targetName).getCol()].moveCharacterToSleeping();
-		connection.shootTarget(targetName);
-		}
 		shotTakenThisTurn = true;
+		
+		
+		
+		if (!lookingForAShot(characterMap.get(username)).isEmpty()) {
+			System.out.println("Shot-attempt taken by: " + username);
+			for (int i = 0; i < lookingForAShot(characterMap.get(username)).size(); i++) {
+				for (ViewerListener listener : listeners) {
+					target = lookingForAShot(characterMap.get(username)).get(i);
+					
+					listener.setAvailableTarget(target.getCharacterName(), target.getName());
+				}
+			}
+
+			for (ViewerListener listener : listeners) {
+				listener.getTarget();
+			}
+		}
+	}
+	public void shoot(String character){
+		String targetName = "";
+		boolean dice = shootDice();
+		System.out.println("Shoot dice: " + dice + " for: " + username);
+
+		if (dice) {
+			targetName = character;
+			System.out.println("Shot taken by: " + username + " at: " + targetName);
+			
+			map[characterMap.get(targetName).getRow()][characterMap.get(targetName).getCol()].moveCharacterToSleeping();
+			connection.shootTarget(targetName);
+		}
+
 	}
 	
 	public void moveCharacter( String username, String direction){
@@ -248,6 +285,16 @@ public class GameClient implements Serializable{
 	
 					else if (object instanceof client.Character){
 						client.Character character = (client.Character) object;
+						if(character.sleeping() > 0){
+							for(ViewerListener listener: listeners){
+								listener.setIconSleep(character.getCharacterName(), false);
+							}
+						}
+						if(character.sleeping() == 0){
+							for(ViewerListener listener: listeners){
+								listener.setIconSleep(character.getCharacterName(), true);
+							}
+						}
 						updateCharacter(character);
 					}
 					else if (object instanceof String){

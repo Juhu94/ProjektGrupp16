@@ -14,4 +14,7 @@ public interface ViewerListener {
 	public void moveIcon(String name, int row, int col);
 	public void chooseCharFrame();
 	public void updateChooseCharFrame(boolean svullo, boolean tjoPang, boolean theRat, boolean markisen, boolean hannibal, boolean hook);
+	public void setAvailableTarget(String character, String username);
+	public void getTarget();
+	public void setIconSleep(String name, boolean sleeping);
 }

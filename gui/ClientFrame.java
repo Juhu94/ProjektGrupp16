@@ -48,6 +48,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JPanel inputRightPanel = new JPanel(new GridBagLayout());
 	private JPanel inputMiddlePanel = new JPanel(new GridBagLayout());
 	private JPanel charChoices = new JPanel();
+	private JPanel targetChoices = new JPanel();
+	
 	private JLayeredPane mapPane = new JLayeredPane();
 	private JLabel mapLabel = new JLabel();
 	
@@ -65,7 +67,15 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JLabel markisenBtn = new JLabel(new ImageIcon("images/Markisen.png"));
 	private JLabel hookBtn = new JLabel(new ImageIcon("images/Hook.png"));
 	
+	private JLabel svulloTargetBtn = new JLabel(new ImageIcon("images/Svullo.png"));
+	private JLabel tjoPangTargetBtn = new JLabel(new ImageIcon("images/TjoPang.png"));
+	private JLabel theRatTargetBtn = new JLabel(new ImageIcon("images/TheRat.png"));
+	private JLabel hannibalTargetBtn = new JLabel(new ImageIcon("images/Hannibal.png"));
+	private JLabel markisenTargetBtn = new JLabel(new ImageIcon("images/Markisen.png"));
+	private JLabel hookTargetBtn = new JLabel(new ImageIcon("images/Hook.png"));
+	
 	private JButton chooseChar = new JButton("Connect");
+	private JButton shootTarget = new JButton("shoot");
 
 	private DefaultListModel model = new DefaultListModel();
 	private JList listUsers = new JList(model);
@@ -88,17 +98,20 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JButton bRight = new JButton(">>");
 	private JButton bUp = new JButton("^");
 	private JButton bDown = new JButton("v");
-	private JButton bMove = new JButton("Move");
-	private JButton bShoot = new JButton("Shoot");
-	private JButton bEndTurn = new JButton("End turn");
-	private JButton bJump = new JButton("Jump");
+	private JButton bMove = new JButton("Move (Q)");
+	private JButton bShoot = new JButton("Shoot (E)");
+	private JButton bEndTurn = new JButton("End turn (R)");
+	private JButton bJump = new JButton("Jump (W)");
 
 	private JFrame frame = new JFrame("Client");
 	private JFrame chooseCharFrame = new JFrame("Choose character");
+	private JFrame chooseTarget = new JFrame("Choose target");
 
 	private ExtendedJLabel[][] boardArray = new ExtendedJLabel[41][47];
 
 	private GameClient client;
+	
+	private String target = "";
 	
 
 	public ClientFrame(GameClient client) {
@@ -123,12 +136,34 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		charChoices.add(hookBtn);
 		chooseCharFrame.add(chooseChar, BorderLayout.SOUTH);
 		
+		chooseTarget.setVisible(false);
+		chooseTarget.setLayout(new BorderLayout());
+		targetChoices.setLayout(new FlowLayout());
+		targetChoices.setPreferredSize(new Dimension(300, 100));
+		chooseTarget.add(targetChoices, BorderLayout.CENTER);
+		chooseTarget.add(shootTarget, BorderLayout.SOUTH);
+		targetChoices.add(svulloTargetBtn);
+		targetChoices.add(tjoPangTargetBtn);
+		targetChoices.add(theRatTargetBtn);
+		targetChoices.add(markisenTargetBtn);
+		targetChoices.add(hannibalTargetBtn);
+		targetChoices.add(hookTargetBtn);
+		
+		shootTarget.addActionListener(this);
+		
 		svulloBtn.setBounds(0, 0, 44, 80);
 		tjoPangBtn.setBounds(44, 0, 44, 80);
 		theRatBtn.setBounds(88, 0, 44, 80);
 		markisenBtn.setBounds(132, 0, 44, 80);
 		hannibalBtn.setBounds(176, 0, 44, 80);
 		hookBtn.setBounds(220, 0, 44, 80);
+		
+		svulloTargetBtn.addMouseListener(this);
+		tjoPangTargetBtn.addMouseListener(this);
+		theRatTargetBtn.addMouseListener(this);
+		markisenTargetBtn.addMouseListener(this);
+		hannibalTargetBtn.addMouseListener(this);
+		hookTargetBtn.addMouseListener(this);
 		
 		svulloBtn.addMouseListener(this);
 		tjoPangBtn.addMouseListener(this);
@@ -281,10 +316,43 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		frame.setLocationRelativeTo(null);
 		
 		chooseCharFrame.pack();
+		chooseTarget.pack();
 	}
 	
 	public void removeConnectedUsers(){
 		model.clear();
+	}
+	
+	public void setIconSleep(String name, boolean sleeping){
+		
+		switch (name) {
+		case "Svullo":
+			svullo.setEnabled(sleeping);
+			svullo.repaint();
+			break;
+		case "TjoPang":
+			tjoPang.setEnabled(sleeping);
+			tjoPang.repaint();
+			break;
+		case "TheRat":
+			theRat.setEnabled(sleeping);
+			theRat.repaint();
+			break;
+		case "Hannibal":
+			hannibal.setEnabled(sleeping);
+			hannibal.repaint();
+			break;
+		case "Markisen":
+			markisen.setEnabled(sleeping);
+			markisen.repaint();
+			break;
+		case "Hook":
+			hook.setEnabled(sleeping);
+			hook.repaint();
+			break;
+		default:
+			break;
+		}
 	}
 	
 	public void addConnectedUser(String name){
@@ -372,6 +440,38 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			break;
 		}
 	}
+	
+	public void setAvailableTarget(String character, String username){
+		switch(character){
+		case "Svullo":
+			svulloTargetBtn.setEnabled(true);
+			svulloTargetBtn.setText(username);
+			break;
+		case "TjoPang":
+			tjoPangTargetBtn.setEnabled(true);
+			tjoPangTargetBtn.setText(username);
+			break;
+		case "TheRat":
+			theRatTargetBtn.setEnabled(true);
+			theRatTargetBtn.setText(username);
+			break;
+		case "Hannibal":
+			hannibalTargetBtn.setEnabled(true);
+			hannibalTargetBtn.setText(username);
+			break;
+		case "Markisen":
+			markisenTargetBtn.setEnabled(true);
+			markisenTargetBtn.setText(username);
+			break;
+		case "Hook":
+			hookTargetBtn.setEnabled(true);
+			hookTargetBtn.setText(username);
+			break;
+		}
+	}
+	public void getTarget(){
+		chooseTarget.setVisible(true);		
+	}
 
 	/**
 	 * method to enable or disable all buttons
@@ -401,6 +501,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		} else if (buttons.equals("move")) {
 			bMove.setEnabled(false);
 			bJump.setEnabled(false);
+			bShoot.setEnabled(false);
 			bUp.setEnabled(true);
 			bDown.setEnabled(true);
 			bLeft.setEnabled(true);
@@ -442,10 +543,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bConnect) {
-			client.setUsername(username.getText());
-			frame.setTitle(username.getText());
-			client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()));
-			bConnect.setEnabled(false);
+			if (!username.getText().equals("")) {
+				client.setUsername(username.getText());
+				frame.setTitle(username.getText());
+				client.connect(serverIp.getText(), Integer.parseInt(serverPort.getText()));
+				bConnect.setEnabled(false);
+			}
 		}
 		if (e.getSource() == bDisconnect) {
 			enableButtons("disconnect");
@@ -464,6 +567,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			client.jump();
 		}
 		if (e.getSource() == bShoot) {
+			svulloTargetBtn.setEnabled(false);
+			tjoPangTargetBtn.setEnabled(false);
+			theRatTargetBtn.setEnabled(false);
+			markisenTargetBtn.setEnabled(false);
+			hannibalTargetBtn.setEnabled(false);
+			hookTargetBtn.setEnabled(false);
 			client.shoot();
 		}
 		if (e.getSource() == bEndTurn) {
@@ -498,6 +607,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 				chooseCharFrame.setVisible(false);
 			}	
 		}
+		if (e.getSource() == shootTarget) {
+			if (!target.equals("")) {
+				chooseTarget.setVisible(false);
+				client.shoot(target);
+			}
+		}
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -514,15 +629,44 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		if(code == KeyEvent.VK_RIGHT){
 			client.moveCharacter(username.getText(), "Right");
 		}
-		if(code == KeyEvent.VK_ENTER){
-			client.endTurn();
-		}
-		if(code == KeyEvent.VK_SPACE){
+//		if(code == KeyEvent.VK_ENTER){
+//			client.endTurn();
+//		}
+//		if(code == KeyEvent.VK_SPACE){
+//			if(bMove.isEnabled()) {
+//				enableButtons("move");
+//				client.throwDice();
+//			}
+//			else if(bEndTurn.isEnabled()){
+//				client.endTurn();
+//				enableButtons("disable all");
+//			}
+//		}
+		if(code == KeyEvent.VK_Q){
 			if(bMove.isEnabled()) {
 				enableButtons("move");
 				client.throwDice();
 			}
-			else if(bEndTurn.isEnabled()){
+		}
+		if(code == KeyEvent.VK_W){
+			if(bJump.isEnabled()) {
+				client.jump();
+			}
+		}
+		if(code == KeyEvent.VK_E){
+			if(bShoot.isEnabled()) {
+				svulloTargetBtn.setEnabled(false);
+				tjoPangTargetBtn.setEnabled(false);
+				theRatTargetBtn.setEnabled(false);
+				markisenTargetBtn.setEnabled(false);
+				hannibalTargetBtn.setEnabled(false);
+				hookTargetBtn.setEnabled(false);
+				
+				client.shoot();
+			}
+		}
+		if(code == KeyEvent.VK_R){
+			if(bEndTurn.isEnabled()) {
 				client.endTurn();
 				enableButtons("disable all");
 			}
@@ -548,38 +692,76 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		if(source.equals(svulloBtn)){
 			if(svulloBtn.isEnabled()){
-//				svulloBtn.requestFocus();
 				character.setText("Svullo");
 			}
 		}
 		if(source.equals(theRatBtn)){
 			if(theRatBtn.isEnabled()){
-//				theRatBtn.requestFocus();
-				character.setText("TheRat");
+				character.setText("TheRat");				
 			}
 		}
 		if(source.equals(tjoPangBtn)){
 			if(tjoPangBtn.isEnabled()){
-//				tjoPangBtn.requestFocus();
 				character.setText("TjoPang");
 			}
 		}
 		if(source.equals(markisenBtn)){
 			if(markisenBtn.isEnabled()){
-//				markisenBtn.requestFocus();
 				character.setText("Markisen");
 			}
 		}
 		if(source.equals(hannibalBtn)){
 			if(hannibalBtn.isEnabled()){
-//				hannibalBtn.requestFocus();
 				character.setText("Hannibal");
 			}
 		}
 		if(source.equals(hookBtn)){
 			if(hookBtn.isEnabled()){
-//				hookBtn.requestFocus();
 				character.setText("Hook");
+			}
+		}
+		
+		if(source.equals(svulloTargetBtn)){
+			if(svulloTargetBtn.isEnabled()){
+//				this.target = "Svullo";
+				
+				this.target = svulloTargetBtn.getText();
+				System.out.println(target);
+			}
+		}
+		if(source.equals(theRatTargetBtn)){
+			if(theRatTargetBtn.isEnabled()){
+//				this.target = "TheRat";
+				this.target = theRatTargetBtn.getText();
+				System.out.println(target);
+			}
+		}
+		if(source.equals(tjoPangTargetBtn)){
+			if(tjoPangTargetBtn.isEnabled()){
+//					this.target = "TjoPang";
+					this.target = theRatTargetBtn.getText();
+					System.out.println(target);
+			}
+		}
+		if(source.equals(markisenTargetBtn)){
+			if(markisenTargetBtn.isEnabled()){
+//					this.target = "Markisen";
+					this.target = theRatTargetBtn.getText();
+					System.out.println(target);
+			}
+		}
+		if(source.equals(hannibalTargetBtn)){
+			if(hannibalTargetBtn.isEnabled()){
+//					this.target = "Hannibal";
+					this.target = theRatTargetBtn.getText();
+					System.out.println(target);
+			}
+		}
+		if(source.equals(hookTargetBtn)){
+			if(hookTargetBtn.isEnabled()){
+//					this.target = "Hook";
+					this.target = theRatTargetBtn.getText();
+					System.out.println(target);
 			}
 		}
 		
@@ -621,10 +803,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		markisenBtn.setEnabled(markisen);
 		hannibalBtn.setEnabled(hannibal);
 		hookBtn.setEnabled(hook);
-				
-		System.out.println("GUI: " + svullo);
-		System.out.println("GUI: " + tjoPang);
-		System.out.println("GUI: uppdaterat characterfönster" + username.getText());
 		
 	}
 
