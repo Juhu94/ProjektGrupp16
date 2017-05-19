@@ -309,10 +309,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		bEndTurn.setEnabled(false);
 		bJump.setEnabled(false);
 		
-		
 		frame.add(panel);
 		frame.pack();
 		frame.addKeyListener(this);
+		frame.addMouseListener(this);
 		frame.setFocusable(true);
 		frame.setLocationRelativeTo(null);
 		
@@ -687,7 +687,14 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		JLabel source = (JLabel) e.getSource();
+		JLabel source = new JLabel();
+		JFrame mainFrame = new JFrame();
+		
+		if(e.getSource() instanceof JLabel){
+			source = (JLabel) e.getSource();
+		}else if(e.getSource() instanceof JFrame){
+			mainFrame = (JFrame)e.getSource();
+		}
 
 		if (source.equals(svulloBtn)) {
 			if (svulloBtn.isEnabled()) {
@@ -828,6 +835,9 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 				this.target = hookTargetBtn.getText();
 				System.out.println(target);
 			}
+		}
+		if(mainFrame.equals(frame)){
+			frame.requestFocus();
 		}
 
 	}
