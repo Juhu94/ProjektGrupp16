@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 
  * @author
- * Version 1.0
+ * Version 1.9
  *
  */
 public class Character implements Serializable{

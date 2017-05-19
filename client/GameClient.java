@@ -492,8 +492,10 @@ public class GameClient implements Serializable{
 			
 			map[oldRow][oldCol].removeCharacter();
 			System.out.println("Client: " + oldRow + ", " + oldCol + " Character borttagen");
-			map[character.getRow()][character.getCol()].setCharacter(character);
-			System.out.println("Client: " + character.getRow() + ", " + character.getCol() + " Character tillagd");
+			if (character.sleeping() == 0){
+				map[character.getRow()][character.getCol()].setCharacter(character);
+				System.out.println("Client: " + character.getRow() + ", " + character.getCol() + " Character tillagd");
+			}
 			
 			characterMap.put(characterName, character);
 			for(ViewerListener listener: listeners){
@@ -578,15 +580,15 @@ public class GameClient implements Serializable{
 	
 	//temp background
 	
-	public String getTile(int row, int col){
-		if(map[row][col].getBoat()){
-			return "ORANGE";
-		}else if (map[row][col].getRaft() || map[row][col].getCanon()){
-			return "BLACK";
-		} else {
-			return map[row][col].getName();
-		}
-	}
+//	public String getTile(int row, int col){
+//		if(map[row][col].getBoat()){
+//			return "ORANGE";
+//		}else if (map[row][col].getRaft() || map[row][col].getCanon()){
+//			return "BLACK";
+//		} else {
+//			return map[row][col].getName();
+//		}
+//	}
 
 	/**
 	 * Creates a map 
@@ -674,8 +676,8 @@ public class GameClient implements Serializable{
 		map[16][19].setSuccess(0, 2);
 		map[16][19].setFail(0, 1);
 		
-		map[16][21].setSuccess(0, 2);
-		map[16][21].setFail(0, -2);
+		map[16][21].setSuccess(0, -2);
+		map[16][21].setFail(0, -1);
 		
 		map[16][33].setSuccess(0, 3);
 		map[16][33].setFail(0, 1);
@@ -705,10 +707,10 @@ public class GameClient implements Serializable{
 		map[18][25].setFail(-1, 0);
 		
 		map[27][28].setSuccess(0, 2);
-		map[27][28].setFail(0, 1);
+		map[27][28].setFail(5, 1);
 		
 		map[27][30].setSuccess(0, -2);
-		map[27][30].setFail(0, -1);
+		map[27][30].setFail(5, -1);
 		//------Boat------------------------
 		map[9][4].boatOn();
 		map[6][22].boatOn();

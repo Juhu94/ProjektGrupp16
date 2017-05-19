@@ -177,7 +177,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		mapPane.setPreferredSize(new Dimension(1034, 820));
 		flowPanel.add(mapPane);
-		mapLabel.setIcon(new ImageIcon("images/mapNewConcept.png"));
+		mapLabel.setIcon(new ImageIcon("images/map.png"));
 		mapPane.add(centerPanel, new Integer(1));
 		mapPane.add(mapLabel, new Integer(2));
 		
@@ -412,35 +412,35 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	}
 	
 	
-	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol) {
-		boardArray[newRow][newCol].setBackground(Color.RED);
-		boardArray[newRow][newCol].repaint();
-		String colorOfTile = client.getTile(oldRow, oldCol);
-		switch (colorOfTile) {
-		case "Ground":
-			boardArray[oldRow][oldCol].setBackground(Color.GRAY);
-			break;
-		case "Water":
-			boardArray[oldRow][oldCol].setBackground(Color.BLUE);
-			break;
-		case "Jungle":
-			boardArray[oldRow][oldCol].setBackground(Color.GREEN);
-			break;
-		case "BLACK":
-			boardArray[oldRow][oldCol].setBackground(Color.BLACK);
-			break;
-		case "ORANGE":
-			boardArray[oldRow][oldCol].setBackground(Color.ORANGE);
-			break;
-			
-		case "Special":
-			boardArray[oldRow][oldCol].setBackground(Color.DARK_GRAY);
-			break;
-
-		default:
-			break;
-		}
-	}
+//	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol) {
+//		boardArray[newRow][newCol].setBackground(Color.RED);
+//		boardArray[newRow][newCol].repaint();
+//		String colorOfTile = client.getTile(oldRow, oldCol);
+//		switch (colorOfTile) {
+//		case "Ground":
+//			boardArray[oldRow][oldCol].setBackground(Color.GRAY);
+//			break;
+//		case "Water":
+//			boardArray[oldRow][oldCol].setBackground(Color.BLUE);
+//			break;
+//		case "Jungle":
+//			boardArray[oldRow][oldCol].setBackground(Color.GREEN);
+//			break;
+//		case "BLACK":
+//			boardArray[oldRow][oldCol].setBackground(Color.BLACK);
+//			break;
+//		case "ORANGE":
+//			boardArray[oldRow][oldCol].setBackground(Color.ORANGE);
+//			break;
+//			
+//		case "Special":
+//			boardArray[oldRow][oldCol].setBackground(Color.DARK_GRAY);
+//			break;
+//
+//		default:
+//			break;
+//		}
+//	}
 	
 	public void setAvailableTarget(String character, String username){
 		switch(character){

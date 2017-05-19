@@ -2,7 +2,7 @@ package client;
 /**
  * 
  * @author 
- * Version 1.0
+ * Version 1.9
  */
 public class Tile {
 	private boolean accessible;
@@ -40,6 +40,7 @@ public class Tile {
 //	}
 	
 	public void removeSleepingChatacter(){
+		character = sleepingCharacter;
 		sleepingCharacter = null;
 	}
 	
@@ -48,8 +49,7 @@ public class Tile {
 	 */
 	
 	public void moveCharacterToSleeping(){
-		Character tempChar = character;
-		sleepingCharacter = tempChar;
+		sleepingCharacter = character; 
 		character = null;
 	}
 	
