@@ -249,45 +249,45 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		inputRightPanel.add(bDisconnect);
 		inputRightPanel.add(bClose);
 
-		centerPanel.setLayout(new GridLayout(41, 47, 0, 0));
-		String s;
-		for (int i = 0; i < 41; i++) {
-			for (int j = 0; j < 47; j++) {
-				boardArray[i][j] = new ExtendedJLabel(i, j, Color.RED);
+//		centerPanel.setLayout(new GridLayout(41, 47, 0, 0));
+//		String s;
+//		for (int i = 0; i < 41; i++) {
+//			for (int j = 0; j < 47; j++) {
+//				boardArray[i][j] = new ExtendedJLabel(i, j, Color.RED);
 				//------------------------------------------------------TEMP
-				s = client.getTile(i, j);
-				switch (s) {
-				case "Ground":
-					boardArray[i][j].setBackground(Color.GRAY);
-					break;
-				case "Water":
-					boardArray[i][j].setBackground(Color.BLUE);
-					break;
-				case "Jungle":
-					boardArray[i][j].setBackground(Color.GREEN);
-					break;
-				case "BLACK":
-					boardArray[i][j].setBackground(Color.BLACK);
-					break;
-				case "ORANGE":
-					boardArray[i][j].setBackground(Color.ORANGE);
-					break;
-					
-				case "Special":
-					boardArray[i][j].setBackground(Color.DARK_GRAY);
-					break;
-
-				default:
-					break;
-				}
+//				s = client.getTile(i, j);
+//				switch (s) {
+//				case "Ground":
+//					boardArray[i][j].setBackground(Color.GRAY);
+//					break;
+//				case "Water":
+//					boardArray[i][j].setBackground(Color.BLUE);
+//					break;
+//				case "Jungle":
+//					boardArray[i][j].setBackground(Color.GREEN);
+//					break;
+//				case "BLACK":
+//					boardArray[i][j].setBackground(Color.BLACK);
+//					break;
+//				case "ORANGE":
+//					boardArray[i][j].setBackground(Color.ORANGE);
+//					break;
+//					
+//				case "Special":
+//					boardArray[i][j].setBackground(Color.DARK_GRAY);
+//					break;
+//
+//				default:
+//					break;
+//				}
 				//------------------------------------------------------
 				//boardArray[i][j].setBackground(Color.GRAY);
-				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
-				boardArray[i][j].setOpaque(true);
-				boardArray[i][j].setPreferredSize(new Dimension(22, 20));
-				centerPanel.add(boardArray[i][j]);
-			}
-		}
+//				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
+//				boardArray[i][j].setOpaque(true);
+//				boardArray[i][j].setPreferredSize(new Dimension(22, 20));
+//				centerPanel.add(boardArray[i][j]);
+//			}
+//		}
 		bDisconnect.addActionListener(this);
 		bConnect.addActionListener(this);
 		bClose.addActionListener(this);
@@ -412,7 +412,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	}
 	
 	
-//	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol) {
+	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol) {
 //		boardArray[newRow][newCol].setBackground(Color.RED);
 //		boardArray[newRow][newCol].repaint();
 //		String colorOfTile = client.getTile(oldRow, oldCol);
@@ -440,7 +440,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 //		default:
 //			break;
 //		}
-//	}
+	}
 	
 	public void setAvailableTarget(String character, String username){
 		switch(character){
