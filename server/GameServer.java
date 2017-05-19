@@ -199,16 +199,26 @@ public class GameServer implements Runnable{
 			nbrOfPlayers = clientMap.size();
 			System.out.println("Server: sleeping variabeln: " + characterMap.get(clientMapid.get(counter)).sleeping());
 			while(characterMap.get(clientMapid.get(counter)).sleeping() != 0){
-				characterMap.get(clientMapid.get(counter)).passATurn();
+				ClientHandler ch = clientMap.get(clientMapid.get(counter));
+				client.Character charr = characterMap.get(clientMapid.get(counter));
+				charr.passATurn();
+				try {
+					System.out.println("SERVER: Värde på counter i clientsTurn: " + counter);
+					System.out.println("SERVER: Character-objekt: " + charr);
+					ch.output.writeObject(charr);
+					ch.output.flush();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				if (characterMap.get(clientMapid.get(counter)).sleeping() == 0){
 					for(int i = 1; i <= nbrOfPlayers; i++){
 						String username = clientMapid.get(i);
-						ClientHandler ch = clientMap.get(username);
+						ch = clientMap.get(username);
 						try {
 							System.out.println("SERVER: sleeping variabel: " + characterMap.get(clientMapid.get(counter)).sleeping() + " användare: " + username);
 							ch.output.writeObject(characterMap.get(username).getRow());
 							ch.output.writeObject(characterMap.get(username).getCol());
-							ch.output.writeObject(characterMap.get(username));
+							ch.output.writeObject(charr);
 							ch.output.flush();
 							
 						} catch (IOException e) {
@@ -222,8 +232,7 @@ public class GameServer implements Runnable{
 				else{
 					counter++;
 				}
-			}
-			
+			} 
 			
 			String username = clientMapid.get(counter);
 			ClientHandler ch = clientMap.get(username);
@@ -240,6 +249,14 @@ public class GameServer implements Runnable{
 			} else {
 				counter++;
 			}
+			
+			
+//			try {
+//				ch.output.writeObject(characterMap.get(clientMapid.get(counter)));
+//				ch.output.flush();
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
 
 		}
 		

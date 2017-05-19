@@ -281,7 +281,7 @@ public class GameClient implements Serializable{
 						int col =  (int)input.readObject();
 						map[row][col].removeSleepingChatacter();
 						
-						Character character = (Character)input.readObject();
+						client.Character character = (client.Character)input.readObject();
 						if(character.sleeping() > 0){
 							for(ViewerListener listener: listeners){
 								listener.setIconSleep(character.getCharacterName(), false);
@@ -292,6 +292,7 @@ public class GameClient implements Serializable{
 								listener.setIconSleep(character.getCharacterName(), true);
 							}
 						}
+						System.out.println("CLIENT: mottaget Character-objekts sleeping: " + character.sleeping());
 						updateCharacter(character);
 						
 					}
@@ -308,6 +309,8 @@ public class GameClient implements Serializable{
 								listener.setIconSleep(character.getCharacterName(), true);
 							}
 						}
+						character.passATurn();
+						System.out.println("CLIENT: mottaget Character-objekts sleeping: " + character.sleeping());
 						updateCharacter(character);
 					}
 					else if (object instanceof String){
