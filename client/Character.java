@@ -64,6 +64,21 @@ public class Character implements Serializable{
 		return name;
 	}
 	
+	public int stealPieces(){
+		int mapPiecesTemp = this.mapPieces;
+		this.mapPieces = 0;
+		return mapPiecesTemp;
+	}
+	
+	public void givePieces(int Pieces){
+		this.mapPieces += Pieces;
+	}
+	
+	// Används ej! endast för system out print-testning!!!
+	public int getPieces(){
+		return this.mapPieces;
+	}
+	
 	/**
 	 * Sets the position of the character
 	 * @param int	row

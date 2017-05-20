@@ -35,6 +35,10 @@ public class Tile {
 		}
 	}
 	
+	public Character getSleepingCharacter(){
+		return this.sleepingCharacter;
+	}
+	
 //	public Character getSleepingCharacter(){
 //		return sleepingCharacter;
 //	}

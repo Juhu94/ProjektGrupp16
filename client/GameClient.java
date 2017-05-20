@@ -376,7 +376,7 @@ public class GameClient implements Serializable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		} 
 		
 		public void shootTarget(String target){
 			
@@ -475,6 +475,8 @@ public class GameClient implements Serializable{
 			System.out.println("Client: " +characterName + " hanteras");
 			int oldRow = 1;
 			int oldCol = 1;
+			int tempMapPieces = 1;
+			boolean mapPieceChange = false;
 			if(characterMap.containsKey(characterName) && !characterName.equals(username)){
 				if (characterMap.get(characterName).getRow() == character.getRow() && characterMap.get(characterName).getCol() == character.getCol()){ //Kollar om caratären har rört sig från senast
 					System.out.println("Client: \"" + characterName  + "\" uppdadters men har inte rört sig");
@@ -493,11 +495,19 @@ public class GameClient implements Serializable{
 			map[oldRow][oldCol].removeCharacter();
 			System.out.println("Client: " + oldRow + ", " + oldCol + " Character borttagen");
 			if (character.sleeping() == 0){
+				if(map[character.getRow()][character.getCol()].containsSleepingCharacter()){
+					tempMapPieces = map[character.getRow()][character.getCol()].getSleepingCharacter().stealPieces();
+					System.out.println("Client: Character \"" + character + "\" snodde " + character.getPieces() + " stycken kart-delar från Character \"" + map[character.getRow()][character.getCol()].getSleepingCharacter() +"\"!");
+					mapPieceChange = true;
+				}
 				map[character.getRow()][character.getCol()].setCharacter(character);
 				System.out.println("Client: " + character.getRow() + ", " + character.getCol() + " Character tillagd");
 			}
 			
 			characterMap.put(characterName, character);
+			if(mapPieceChange){
+				characterMap.get(characterName).givePieces(tempMapPieces);
+			}
 			for(ViewerListener listener: listeners){
 
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
