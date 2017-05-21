@@ -203,9 +203,23 @@ public class GameClient implements Serializable{
 				}
 			}else{
 				System.out.println("Client: " + username + " lyckades inte ta sig upp ur floden");
+				for(int i = 0; i < throwDice(); i++){
+					me.setPos(map[me.getRow()][me.getCol()].nextRow(), map[me.getRow()][me.getCol()].nextCol());
+					connection.flushCharacter(me);
+				}
+				for(ViewerListener listener: listeners){
+					listener.enableButtons("disable move");
+				}
 			}
 		}else{
 			System.out.println("Client: " + username + " kan inte ta sig upp ur floden");
+			for(int i = 0; i < throwDice(); i++){
+				me.setPos(map[me.getRow()][me.getCol()].nextRow(), map[me.getRow()][me.getCol()].nextCol());
+				connection.flushCharacter(me);
+			}
+			for(ViewerListener listener: listeners){
+				listener.enableButtons("disable move");
+			}
 		}
 	}
 
