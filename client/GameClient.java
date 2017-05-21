@@ -714,7 +714,10 @@ public class GameClient implements Serializable{
 		map[21][19].setFail(-1, 0);
 		
 		map[18][25].setSuccess(2, 0);
-		map[18][25].setFail(-1, 0);
+		map[18][25].setFail(1, 0);
+		
+		map[20][25].setSuccess(-2, 0);
+		map[20][25].setFail(-1, 0);
 		
 		map[27][28].setSuccess(0, 2);
 		map[27][28].setFail(5, 1);
