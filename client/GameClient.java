@@ -102,7 +102,7 @@ public class GameClient implements Serializable{
 		Random rand = new Random();
 		steps = rand.nextInt(6) + 1;
 		for (ViewerListener listener : listeners) {
-			listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
+			listener.updateInfoRutaSteps("Antal steg: " + String.valueOf(steps));
 		}
 		System.out.println("Client: Tärning: " + steps);
 		return steps;
@@ -148,37 +148,77 @@ public class GameClient implements Serializable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Method to enable buttons in ClientFrame
-	 * @param enableButtons boolean
+	 * 
+	 * @param enableButtons
+	 *            boolean
 	 */
-	public void enableButtons(boolean enableButtons){
+	public void enableButtons(boolean enableButtons) {
 		shotTakenThisTurn = false;
-		for(ViewerListener listener: listeners){
-			listener.updateViewer();
-		}
-		
-		if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName().equals("Special")){
-			for(ViewerListener listener: listeners){
-				listener.enableButtons("jump");
+		if (!map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName().equals("Water")) {
+			for (ViewerListener listener : listeners) {
+				listener.updateViewer();
 			}
-		}
 
-		if (!lookingForAShot(characterMap.get(username)).isEmpty()){
-			for(ViewerListener listener: listeners){
-				listener.enableButtons("shoot");
+			if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName()
+					.equals("Special")) {
+				for (ViewerListener listener : listeners) {
+					listener.enableButtons("jump");
+				}
 			}
+
+			if (!lookingForAShot(characterMap.get(username)).isEmpty()) {
+				for (ViewerListener listener : listeners) {
+					listener.enableButtons("shoot");
+				}
+			}
+		} else {
+			inWater();
 		}
 	}
-	
-	public void jump(){
-		map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].removeCharacter();
-		if (jumpDice()){
-			characterMap.get(username).setPos(characterMap.get(username).getRow() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].successRow(), 
-					characterMap.get(username).getCol() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].successCol());
-			
+
+	public void inWater() {
+		Character me = characterMap.get(username);
+		boolean canJump = false;
+		if (map[me.getRow() - 1][me.getCol()].getAccessible()) {
+			canJump = true;
+		}
+		if (map[me.getRow() + 1][me.getCol()].getAccessible()) {
+			canJump = true;
+		}
+		if (map[me.getRow()][me.getCol() - 1].getAccessible()) {
+			canJump = true;
+		}
+		if (map[me.getRow()][me.getCol() + 1].getAccessible()) {
+			canJump = true;
+		}
+		
+		if(canJump){
+			if(jumpDice()){
+				System.out.println("Client: " + username + " lyckades ta sig upp ur floden");
+				for(ViewerListener listener: listeners){
+					listener.enableButtons("update");
+				}
+			}else{
+				System.out.println("Client: " + username + " lyckades inte ta sig upp ur floden");
+			}
 		}else{
+			System.out.println("Client: " + username + " kan inte ta sig upp ur floden");
+		}
+	}
+
+	public void jump() {
+		map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].removeCharacter();
+		if (jumpDice()) {
+			characterMap.get(username).setPos(characterMap.get(username).getRow()
+					+ map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].successRow(),
+					characterMap.get(username).getCol()
+							+ map[characterMap.get(username).getRow()][characterMap.get(username).getCol()]
+									.successCol());
+
+		} else {
 			characterMap.get(username).setPos(characterMap.get(username).getRow() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].failRow(), 
 					characterMap.get(username).getCol() + map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].failCol());
 		}
@@ -233,7 +273,7 @@ public class GameClient implements Serializable{
 		if(steps > 0){
 			connection.moveChar( characterMap.get(username), direction);
 			for (ViewerListener listener : listeners) {
-				listener.updateInfoRuta("Antal steg: " + String.valueOf(steps));
+				listener.updateInfoRutaSteps("Antal steg: " + String.valueOf(steps));
 			}
 		}
 	}
@@ -633,6 +673,112 @@ public class GameClient implements Serializable{
 				map[temp][i % 47] = new SpecialTile();
 			}
 		}
+		
+		//------Water Tile-----------------
+		map[5][25].setNext(0, 1);
+		map[5][26].setNext(0, 1);
+		map[5][27].setNext(0, 1);
+		map[4][27].setNext(1, 1); //
+		map[5][28].setNext(1, 0);
+		map[6][28].setNext(4, 0);
+		map[10][28].setNext(0, 1);
+		map[10][29].setNext(0, 1);
+		map[10][30].setNext(0, 1);
+		map[10][31].setNext(1, 0);
+		map[11][31].setNext(1, 0);
+		map[12][31].setNext(0, 1);
+		map[12][32].setNext(1, 0);
+		map[13][32].setNext(0, 1);
+		map[13][33].setNext(1, 0);
+		map[14][33].setNext(0, 1);
+		map[14][34].setNext(1, 0);
+		map[15][34].setNext(1, 0);
+		map[16][34].setNext(1, 0);
+		map[17][34].setNext(1, 0);
+		map[17][35].setNext(1, -1); //
+		map[17][36].setNext(0, -1); //
+		map[17][37].setNext(0, -1); //
+		map[16][37].setNext(1, 0); //
+		map[18][34].setNext(0, -1);
+		map[18][33].setNext(1, 0);
+		map[19][33].setNext(0, -1);
+		map[19][32].setNext(0, -1);
+		map[19][31].setNext(-1, 0);
+		map[18][31].setNext(0, -1);
+		map[18][30].setNext(1, -1);
+		map[19][29].setNext(0, -1);
+		map[19][28].setNext(0, -1);
+		map[19][27].setNext(0, -1);
+		map[19][26].setNext(0, -1);
+		map[19][25].setNext(0, -1);
+		map[19][24].setNext(0, -1);
+		map[19][23].setNext(0, -1);
+		map[19][22].setNext(0, -1);
+		map[18][22].setNext(1, 0); //-
+		map[17][22].setNext(1, 0); //-
+		map[17][23].setNext(0, -1); //
+		map[17][22].setNext(-1, 0); //
+		map[16][22].setNext(-1, 0); //
+		map[15][22].setNext(-1, 0); //
+		map[14][22].setNext(-1, 0); //
+		map[13][22].setNext(0, -1); //
+		map[13][21].setNext(-1, 0); //
+		map[12][21].setNext(0, -1); //
+		map[12][20].setNext(-1, 0); //
+		map[11][20].setNext(0, -1); //
+		map[11][19].setNext(0, -1); //
+		map[11][18].setNext(1, 0); //
+		map[12][18].setNext(0, -1); //
+		map[12][17].setNext(0, -1); //
+		map[12][16].setNext(1, 0); //
+		map[13][16].setNext(0, -1); //
+		map[13][15].setNext(1, 0); //
+		map[14][15].setNext(0, -1); //
+		map[14][14].setNext(1, 0); //
+		map[15][14].setNext(0, -1); //
+		map[15][13].setNext(0, -1); //
+		map[15][12].setNext(1, -1); //
+		map[19][21].setNext(0, -1);
+		map[19][20].setNext(1, 0);
+		map[20][20].setNext(0, -1);
+		map[20][19].setNext(0, -1);
+		map[20][18].setNext(1, 0);
+		map[21][18].setNext(0, -1);
+		map[21][17].setNext(1, 0);
+		map[22][17].setNext(0, -1);
+		map[22][16].setNext(0, -1);
+		map[22][15].setNext(0, -1);
+		map[22][14].setNext(0, -1);
+		map[22][13].setNext(-1, 0);
+		map[21][13].setNext(0, -1);
+		map[21][12].setNext(0, -1);
+		map[21][11].setNext(-1, 0);
+		map[20][11].setNext(-1, 0);
+		map[19][11].setNext(0, -1);
+		map[19][10].setNext(-1, 0);
+		map[18][10].setNext(-1, 0);
+		map[17][10].setNext(0, -1);
+		map[17][9].setNext(0, -1);
+		map[17][8].setNext(-1, 0);
+		map[16][8].setNext(0, -1);
+		map[16][7].setNext(-1, 0);
+		map[15][7].setNext(-1, 0);
+		map[14][7].setNext(-1, 0);
+		map[13][7].setNext(0, -1);
+		map[13][6].setNext(0, -1);
+		map[13][5].setNext(1, 0);
+		map[14][5].setNext(0, -1);
+		map[14][4].setNext(0, -1);
+		map[14][3].setNext(1, 0);
+		map[13][3].setNext(0, -1); //
+		map[13][2].setNext(0, -1); //
+		map[13][1].setNext(0, -1); //
+		map[13][0].setNext(0, -1); //
+		map[15][3].setNext(1, 0);
+		map[16][3].setNext(0, -1);
+		map[16][2].setNext(0, -1);
+		map[16][1].setNext(0, -1);
+		map[16][0].setNext(0, -1);
 		
 		//------Special Tile---------------
 		map[2][10].setSuccess(0, 3);

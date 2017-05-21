@@ -224,6 +224,17 @@ public class Tile {
 		return boat;
 	}
 	
+	public void setNext(int row, int col){	
+	}
+	
+	public int nextRow(){
+		return 0;
+	}
+	
+	public int nextCol(){
+		return 0;
+	}
+	
 	/**
 	 * Returns the tile the character will get to if its a good roll
 	 * @return Tile

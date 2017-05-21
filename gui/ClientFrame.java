@@ -83,6 +83,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			+ "Skriv in serverns ip och port ovanför.\n" + "Skriv också in ett användarnamn du vill använda\n"
 			+ "----------------------------------------------------------------------\n"
 			+ "Antal steg:   \n"
+			+ "----------------------------------------------------------------------\n"
+			+ "Antal kartbitar:  \n"
 			+ "----------------------------------------------------------------------\n");
 
 	private JTextField serverIp = new JTextField("");
@@ -374,8 +376,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		enableButtons("update");
 	}
 
-	public void updateInfoRuta(String text) {
-//		infoArea.append(text + "\n");
+	public void updateInfoRutaSteps(String text) {
+		infoArea.replaceRange(text, 190, 203);
+	}
+	public void updateInfoRutaMap(String text) {
 		infoArea.replaceRange(text, 190, 203);
 	}
 	
