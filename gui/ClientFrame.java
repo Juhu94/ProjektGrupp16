@@ -162,6 +162,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		charChoices.add(hookBtn);
 		chooseCharFrame.add(chooseChar, BorderLayout.SOUTH);
 		
+		svulloTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		tjoPangTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		theRatTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		markisenTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		hannibalTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		hookTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		
 		svulloTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		tjoPangTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		theRatTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -173,7 +180,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		chooseTarget.setLayout(new BorderLayout());
 		chooseTarget.setBackground(Color.WHITE);
 		targetChoices.setLayout(new FlowLayout());
-		targetChoices.setPreferredSize(new Dimension(300, 100));
+		targetChoices.setPreferredSize(new Dimension(400, 150));
 		chooseTarget.add(targetChoices, BorderLayout.CENTER);
 		chooseTarget.add(shootTarget, BorderLayout.SOUTH);
 		targetChoices.add(svulloTargetBtn);
@@ -184,6 +191,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		targetChoices.add(hookTargetBtn);
 		
 		shootTarget.addActionListener(this);
+		
+		svulloTargetBtn.setBounds(0, 0, 44, 120);
+		tjoPangTargetBtn.setBounds(44, 0, 44, 120);
+		theRatTargetBtn.setBounds(88, 0, 44, 120);
+		markisenTargetBtn.setBounds(132, 0, 44, 120);
+		hannibalTargetBtn.setBounds(176, 0, 44, 120);
+		hookTargetBtn.setBounds(220, 0, 44, 120);
 		
 		svulloBtn.setBounds(0, 0, 44, 80);
 		tjoPangBtn.setBounds(44, 0, 44, 80);
