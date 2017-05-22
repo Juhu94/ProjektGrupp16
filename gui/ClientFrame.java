@@ -170,12 +170,18 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		markisenTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		hannibalTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		hookTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		svulloTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		tjoPangTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		theRatTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		markisenTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		hannibalTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		hookTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		chooseTarget.setVisible(false);
 		chooseTarget.setLayout(new BorderLayout());
 		chooseTarget.setBackground(Color.WHITE);
 		targetChoices.setLayout(new FlowLayout());
-		targetChoices.setPreferredSize(new Dimension(300, 100));
+		targetChoices.setPreferredSize(new Dimension(400, 120)); 
 		chooseTarget.add(targetChoices, BorderLayout.CENTER);
 		chooseTarget.add(shootTarget, BorderLayout.SOUTH);
 		targetChoices.add(svulloTargetBtn);
