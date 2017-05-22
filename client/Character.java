@@ -36,6 +36,21 @@ public class Character implements Serializable{
 	}
 	
 	/**
+	 * Give him the treasure
+	 */
+	
+	public void giveTreasure(){
+		hasTreasure = true;
+	}
+	
+	/**
+	 * Take away his treasure
+	 */
+	public void takeTreasure(){
+		hasTreasure = false;
+	}
+	
+	/**
 	 * Makes this character wounded for 4 turns
 	 */
 	
