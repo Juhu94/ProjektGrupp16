@@ -305,6 +305,7 @@ public class GameClient implements Serializable{
 		boolean markisen;
 		boolean hannibal;
 		boolean hook;
+		private int treasurePos;
 		
 		public Connection(String ipAddress, int port){
 			this.ipAddress = ipAddress;
@@ -372,9 +373,67 @@ public class GameClient implements Serializable{
 						if(object.equals("Enable buttons")){
 							boolean enableButtons = input.readBoolean();
 							enableButtons(enableButtons);
-						}
-						
-						else if(object.equals("Choose character")){
+						}else if(object.equals("treasure position")){
+							this.treasurePos = (int)input.readObject();
+							switch(treasurePos){
+							case 1:
+								map[2][12].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 2, 12, input.readBoolean());
+								}
+								break;
+							case 2:
+								map[14][9].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 14, 9, input.readBoolean());
+								}
+								break;
+							case 3:
+								map[31][9].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 31, 9, input.readBoolean());
+								}
+								break;
+							case 4:
+								map[31][20].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 31, 20, input.readBoolean());
+								}
+								break;
+							case 5:
+								map[16][22].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 16, 22, input.readBoolean());
+								}
+								break;
+							case 6:
+								map[2][27].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 2, 27, input.readBoolean());
+								}
+								break;
+							case 7:
+								map[7][31].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 7, 31, input.readBoolean());
+								}
+								break;
+							case 8:
+								map[15][31].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 15, 31, input.readBoolean());
+								}
+								break;
+							case 9:
+								map[29][33].treasureOn();
+								for(ViewerListener listener: listeners){
+									listener.moveIcon("Treasure", 29, 33, input.readBoolean());
+								}
+								break;	
+							}
+							
+							
+						}else if(object.equals("Choose character")){
 							for(ViewerListener listener: listeners){
 								svullo = input.readBoolean();
 								tjoPang = input.readBoolean();
