@@ -59,6 +59,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JLabel hannibal = new JLabel(new ImageIcon(new ImageIcon("images/Hannibal.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
 	private JLabel markisen = new JLabel(new ImageIcon(new ImageIcon("images/Markisen.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
 	private JLabel hook = new JLabel(new ImageIcon(new ImageIcon("images/Hook.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
+	private JLabel treasure = new JLabel(new ImageIcon(new ImageIcon("images/Treasure.png").getImage().getScaledInstance(22, 20, Image.SCALE_SMOOTH)));
 	
 	private JLabel svulloBtn = new JLabel(new ImageIcon("images/Svullo.png"));
 	private JLabel tjoPangBtn = new JLabel(new ImageIcon("images/TjoPang.png"));
@@ -183,12 +184,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		mapPane.add(centerPanel, new Integer(1));
 		mapPane.add(mapLabel, new Integer(2));
 		
-		mapPane.add(svullo, new Integer(3));
-		mapPane.add(tjoPang, new Integer(4));
-		mapPane.add(theRat, new Integer(5));
-		mapPane.add(markisen, new Integer(6));
-		mapPane.add(hannibal, new Integer(7));
-		mapPane.add(hook, new Integer(8));
+		mapPane.add(treasure, new Integer(3));
+		mapPane.add(svullo, new Integer(4));
+		mapPane.add(tjoPang, new Integer(5));
+		mapPane.add(theRat, new Integer(6));
+		mapPane.add(markisen, new Integer(7));
+		mapPane.add(hannibal, new Integer(8));
+		mapPane.add(hook, new Integer(9));
 		
 		centerPanel.setBounds(0, 0, 1034, 820);
 		mapLabel.setBounds(0, 0, 1034, 820);
@@ -199,6 +201,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		markisen.setVisible(false);
 		hannibal.setVisible(false);
 		hook.setVisible(false);
+		treasure.setVisible(false);
 		
 		theRat.setBounds(0, 0, 22, 40);
 		tjoPang.setBounds(0, 0, 22, 40);
@@ -206,6 +209,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		markisen.setBounds(0, 0, 22, 40);
 		hannibal.setBounds(0, 0, 22, 40);
 		hook.setBounds(0, 0, 22, 40);
+		treasure.setBounds(0, 0, 22, 20);
 
 		panel.setLayout(new BorderLayout());
 		panel.add(inputPanel, BorderLayout.SOUTH);
@@ -383,7 +387,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		infoArea.replaceRange(text, 190, 203);
 	}
 	
-	public void moveIcon(String name, int row, int col){
+	public void moveIcon(String name, int row, int col, boolean visible){
 		
 		switch (name) {
 		case "Svullo":
@@ -409,6 +413,14 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		case "Hook":
 			hook.setLocation((col * 22)-4, (row *20)-25);
 			hook.setVisible(true);
+			break;
+		case "Treasure":
+			treasure.setLocation((col * 22), (row * 20));
+			treasure.setVisible(visible);
+			if(visible){
+				System.out.println("ClientFrame: Visar skatten för " + client.getCharacter() + "!!!");
+			}
+			
 			break;
 		default:
 			break;
