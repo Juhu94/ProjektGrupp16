@@ -420,6 +420,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 //			hook.setEnabled(sleeping);
 			hook.repaint();
 			break;
+		case "Treasure":
+			if(!sleeping){
+				treasure.setVisible(false);
+			} else{
+				treasure.setVisible(true);
+			}
+			break;
 		default:
 			break;
 		}
