@@ -182,6 +182,11 @@ public class GameClient implements Serializable{
 					listener.setIconSleep("Treasure", false);
 				}
 			}
+			
+			if(characterMap.get(username).hasTreasure() && map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getBoat()){
+				connection.victory();
+				System.out.println("Client: " + username + " har vunnigt!");
+			}
 		} else {
 			inWater();
 		}
@@ -505,6 +510,16 @@ public class GameClient implements Serializable{
 					e.printStackTrace();
 					Thread.currentThread().stop();					
 				}
+			}
+		}
+		
+		public void victory(){
+			try {
+				output.writeObject("victory");
+				output.writeObject(username);
+				output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		

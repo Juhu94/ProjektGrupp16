@@ -50,6 +50,10 @@ public class Character implements Serializable{
 		hasTreasure = false;
 	}
 	
+	public boolean hasTreasure(){
+		return hasTreasure;
+	}
+	
 	/**
 	 * Makes this character wounded for 4 turns
 	 */
