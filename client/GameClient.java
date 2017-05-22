@@ -879,14 +879,14 @@ public class GameClient implements Serializable{
 		map[14][4].setNext(0, -1);
 		map[14][3].setNext(1, 0);
 		map[13][3].setNext(0, -1); //
-		map[13][2].setNext(0, -1); //
-		map[13][1].setNext(0, -1); //
-		map[13][0].setNext(0, -1); //
+		map[13][2].setNext(-1, 0); //
+//		map[13][1].setNext(0, -1); //
+//		map[13][0].setNext(0, -1); //
 		map[15][3].setNext(1, 0);
 		map[16][3].setNext(0, -1);
-		map[16][2].setNext(0, -1);
-		map[16][1].setNext(0, -1);
-		map[16][0].setNext(0, -1);
+		map[16][2].setNext(1, 0);
+//		map[16][1].setNext(0, -1);
+//		map[16][0].setNext(0, -1);
 		
 		//------Special Tile---------------
 		map[2][10].setSuccess(0, 3);
