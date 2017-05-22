@@ -182,6 +182,9 @@ public class GameClient implements Serializable{
 	public void inWater() {
 		Character me = characterMap.get(username);
 		boolean canJump = false;
+		Random rand = new Random();
+		int dice = rand.nextInt(6)+1;
+		
 		if (map[me.getRow() - 1][me.getCol()].getAccessible()) {
 			canJump = true;
 		}
@@ -196,27 +199,28 @@ public class GameClient implements Serializable{
 		}
 		
 		if(canJump){
+			System.out.println("Client: " + username + " befinner sig på " + me.getRow() + ", " + me.getCol());
 			if(jumpDice()){
 				System.out.println("Client: " + username + " lyckades ta sig upp ur floden");
 				for(ViewerListener listener: listeners){
 					listener.enableButtons("update");
 				}
 			}else{
-				System.out.println("Client: " + username + " lyckades inte ta sig upp ur floden");
-				for(int i = 0; i < throwDice(); i++){
-					me.setPos(map[me.getRow()][me.getCol()].nextRow(), map[me.getRow()][me.getCol()].nextCol());
-					connection.flushCharacter(me);
+				System.out.println("Client: " + username + " lyckades inte ta sig upp ur floden och flyter med floden " + dice + " rutor" );
+				for(int i = 0; i < dice; i++){
+					me.setPos(me.getRow() + map[me.getRow()][me.getCol()].nextRow(),me.getCol() + map[me.getRow()][me.getCol()].nextCol());
 				}
+				connection.flushCharacter(me);
 				for(ViewerListener listener: listeners){
 					listener.enableButtons("disable move");
 				}
 			}
 		}else{
-			System.out.println("Client: " + username + " kan inte ta sig upp ur floden");
-			for(int i = 0; i < throwDice(); i++){
-				me.setPos(map[me.getRow()][me.getCol()].nextRow(), map[me.getRow()][me.getCol()].nextCol());
-				connection.flushCharacter(me);
+			System.out.println("Client: " + username + " kan inte ta sig upp ur floden och flyter med floden " + dice + " rutor");
+			for(int i = 0; i < dice; i++){
+				me.setPos(me.getRow() + map[me.getRow()][me.getCol()].nextRow(),me.getCol() + map[me.getRow()][me.getCol()].nextCol());
 			}
+			connection.flushCharacter(me);
 			for(ViewerListener listener: listeners){
 				listener.enableButtons("disable move");
 			}
@@ -804,28 +808,28 @@ public class GameClient implements Serializable{
 		map[19][22].setNext(0, -1);
 		map[18][22].setNext(1, 0); //-
 		map[17][22].setNext(1, 0); //-
-		map[17][23].setNext(0, -1); //
-		map[17][22].setNext(-1, 0); //
-		map[16][22].setNext(-1, 0); //
-		map[15][22].setNext(-1, 0); //
-		map[14][22].setNext(-1, 0); //
-		map[13][22].setNext(0, -1); //
-		map[13][21].setNext(-1, 0); //
-		map[12][21].setNext(0, -1); //
-		map[12][20].setNext(-1, 0); //
-		map[11][20].setNext(0, -1); //
-		map[11][19].setNext(0, -1); //
-		map[11][18].setNext(1, 0); //
-		map[12][18].setNext(0, -1); //
-		map[12][17].setNext(0, -1); //
-		map[12][16].setNext(1, 0); //
-		map[13][16].setNext(0, -1); //
-		map[13][15].setNext(1, 0); //
-		map[14][15].setNext(0, -1); //
-		map[14][14].setNext(1, 0); //
-		map[15][14].setNext(0, -1); //
-		map[15][13].setNext(0, -1); //
-		map[15][12].setNext(1, -1); //
+		map[17][21].setNext(0, -1); //
+		map[17][20].setNext(-1, 0); //
+		map[16][20].setNext(-1, 0); //
+		map[15][20].setNext(-1, 0); //
+		map[14][20].setNext(-1, 0); //
+		map[13][20].setNext(0, -1); //
+		map[13][19].setNext(-1, 0); //
+		map[12][19].setNext(0, -1); //
+		map[12][18].setNext(-1, 0); //
+		map[11][18].setNext(0, -1); //
+		map[11][17].setNext(0, -1); //
+		map[11][16].setNext(1, 0); //
+		map[12][16].setNext(0, -1); //
+		map[12][15].setNext(0, -1); //
+		map[12][14].setNext(1, 0); //
+		map[13][14].setNext(0, -1); //
+		map[13][13].setNext(1, 0); //
+		map[14][13].setNext(0, -1); //
+		map[14][12].setNext(1, 0); //
+		map[15][12].setNext(0, -1); //
+		map[15][11].setNext(0, -1); //
+		map[15][10].setNext(1, -1); //
 		map[19][21].setNext(0, -1);
 		map[19][20].setNext(1, 0);
 		map[20][20].setNext(0, -1);
