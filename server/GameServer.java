@@ -74,9 +74,11 @@ public class GameServer implements Runnable{
 		System.out.println("Server: starta spelet på servern "+id);
 		for(int i = 1; i < id; i++){
 			clientMap.get(clientMapid.get(i)).createCharacter(clientMapid.get(i));
+			clientMap.get(clientMapid.get(i)).startCountdown();
 		}
 		clientMap.get(clientMapid.get(1)).clientsTurn(true);;
 	}
+	
 	
 	private class ClientHandler extends Thread{
 		private Socket socket;
@@ -87,6 +89,7 @@ public class GameServer implements Runnable{
 		private String character;
 		private int nbrOfPlayers;
 		private int playerid;
+		private CountDown cd = new CountDown(this);
 		
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
@@ -105,6 +108,7 @@ public class GameServer implements Runnable{
 					if(object instanceof String){
 						sInput = (String)object;
 						if(sInput.equals("ENDTURN")){
+							cd.suspend();
 							clientsTurn(true);
 						}else if(sInput.equals("set character")){
 							
@@ -211,6 +215,50 @@ public class GameServer implements Runnable{
 				}
 			}
 		}
+		
+		public void startCountdown(){
+			cd.start();
+		}
+		
+		private class CountDown extends Thread{
+			private int counter;
+			private ClientHandler clienthandeler;
+			
+			public CountDown(ClientHandler ch){
+				clienthandeler = ch;
+				counter = 60;
+			}
+			
+			public void run(){
+				while(!Thread.interrupted()){
+					try {
+						this.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					counter--;
+					if(counter == 0){
+						clienthandeler.timeout();
+					}
+				}
+				
+			}
+			
+			public void reset(){
+				counter = 60;
+			}
+		}
+		
+		public void timeout(){
+			System.out.println("Srever: Time out");
+			try {
+				output.writeObject("time out");
+				output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		/**
 		 * Method to enable the buttons for the next player
 		 * goes through the number of players and when it reaches
@@ -262,6 +310,8 @@ public class GameServer implements Runnable{
 				ch.output.writeObject("Enable buttons");
 				ch.output.writeBoolean(enableButtons);
 				ch.output.flush();
+				ch.cd.resume();
+				ch.cd.reset();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
