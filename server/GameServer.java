@@ -40,6 +40,7 @@ public class GameServer implements Runnable{
 	
 	private int counter = 1;
 	private int id = 1;
+	private int treasurePos = 0;
 	
 	public GameServer(int port, ServerFrame ui){
 		this.ui = ui;
@@ -141,6 +142,27 @@ public class GameServer implements Runnable{
 							}
 							
 							
+						}else if(sInput.equals("show treasure")){
+							int player;
+							if(counter == 1){
+								player = clientMap.size();
+							}else{
+								player = counter -1;
+							}
+							if(treasurePos == 0){
+								Random rand = new Random();
+								treasurePos = rand.nextInt(9)+1;
+							}
+							for (ClientHandler ch : clientMap.values()){
+								ch.output.writeObject("treasure position");
+								ch.output.writeObject(treasurePos);
+								if(ch == clientMap.get(clientMapid.get(player))){
+									ch.output.writeBoolean(true);
+								} else{
+									ch.output.writeBoolean(false);
+								}
+								ch.output.flush();
+							}
 						}else {
 							System.out.println("Server: Mottagit username");
 							clientMap.put(sInput, this);
