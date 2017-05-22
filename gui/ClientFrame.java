@@ -70,7 +70,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JLabel markisen = new JLabel(markisenIcon);
 	private JLabel hook = new JLabel(hookIcon);
 	private JLabel treasure = new JLabel(treasureIcon);
-	private JLabel winner = new JLabel();
+	private JLabel winner = new JLabel("Winner", SwingConstants.CENTER);
 	
 	private ImageIcon svulloSleeping = new ImageIcon(new ImageIcon("images/WoundedSvullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
 	private ImageIcon tjoPangSleeping = new ImageIcon(new ImageIcon("images/WoundedTjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
@@ -148,7 +148,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		this.client = client;
 		client.addListeners(this);
 
-		Font font = new Font("Goudy Old Style", Font.BOLD, 35);
+		Font font = new Font("Goudy Old Style", Font.BOLD, 70);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -180,7 +180,9 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		markisenTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
 		hannibalTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
 		hookTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
-		
+//		winner.setVerticalTextPosition(SwingConstants.CENTER);
+//		winner.setHorizontalTextPosition(SwingConstants.CENTER);
+
 		chooseTarget.setVisible(false);
 		chooseTarget.setLayout(new BorderLayout());
 		chooseTarget.setBackground(Color.WHITE);
@@ -234,7 +236,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		mapPane.add(markisen, new Integer(7));
 		mapPane.add(hannibal, new Integer(8));
 		mapPane.add(hook, new Integer(9));
-		mapPane.add(winner, new Integer(10));
+		mapPane.add(winner, new Integer(10), JLabel.CENTER);
 		
 		centerPanel.setBounds(0, 0, 1034, 820);
 		mapLabel.setBounds(0, 0, 1034, 820);
@@ -247,6 +249,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		hook.setVisible(false);
 		treasure.setVisible(false);
 		winner.setVisible(false);
+		winner.setForeground(Color.RED);
 		
 		winner.setFont(font);
 		
@@ -258,6 +261,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		hook.setBounds(0, 0, 22, 40);
 		treasure.setBounds(0, 0, 22, 20);
 		winner.setBounds(0, 0, 1034, 820);
+		
 		
 		panel.setLayout(new BorderLayout());
 		panel.add(inputPanel, BorderLayout.SOUTH);
@@ -376,6 +380,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	
 	public void showVictory(String winner){
 		this.winner.setText("Winner is: \n" + winner);
+		this.winner.setVisible(true);
 	}
 	
 	public void removeConnectedUsers(){

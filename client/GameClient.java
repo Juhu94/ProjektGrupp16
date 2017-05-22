@@ -400,6 +400,7 @@ public class GameClient implements Serializable{
 							boolean enableButtons = input.readBoolean();
 							enableButtons(enableButtons);
 						}else if(object.equals("winner")){
+							System.out.println("VI HAR EN VINNARE!!");
 							for(ViewerListener listener: listeners){
 								listener.showVictory((String)input.readObject());
 							}
@@ -716,11 +717,8 @@ public class GameClient implements Serializable{
 				
 				System.out.println("Client: flytta gubbe i viewer");
 			}
-			if (character.getCharacterName().equals(username) && steps == 0) {
-				System.out.println("Client: disable buttons"); 
-				for (ViewerListener listener : listeners) {
-					listener.enableButtons("disable move");
-				}
+			if (character.getName().equals(username) && steps == 0) {
+				
 				System.out.println("can take a shot: " + !lookingForAShot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
 				if (!lookingForAShot(characterMap.get(username)).isEmpty() && !shotTakenThisTurn){
 					for(ViewerListener listener: listeners){
