@@ -184,7 +184,9 @@ public class GameClient implements Serializable{
 		boolean canJump = false;
 		Random rand = new Random();
 		int dice = rand.nextInt(6)+1;
-		
+		for (ViewerListener listener : listeners) {
+			listener.setWaterIcon(me.getCharacterName());
+		}
 		if (map[me.getRow() - 1][me.getCol()].getAccessible()) {
 			canJump = true;
 		}
@@ -201,6 +203,7 @@ public class GameClient implements Serializable{
 		if(canJump){
 			System.out.println("Client: " + username + " befinner sig på " + me.getRow() + ", " + me.getCol());
 			if(jumpDice()){
+				
 				System.out.println("Client: " + username + " lyckades ta sig upp ur floden");
 				for(ViewerListener listener: listeners){
 					listener.enableButtons("update");
@@ -879,14 +882,14 @@ public class GameClient implements Serializable{
 		map[14][4].setNext(0, -1);
 		map[14][3].setNext(1, 0);
 		map[13][3].setNext(0, -1); //
-		map[13][2].setNext(-1, 0); //
-//		map[13][1].setNext(0, -1); //
-//		map[13][0].setNext(0, -1); //
+		map[13][2].setNext(0, -1); //
+		map[13][1].setNext(0, -1); //
+		map[13][0].setNext(0, -1); //
 		map[15][3].setNext(1, 0);
 		map[16][3].setNext(0, -1);
-		map[16][2].setNext(1, 0);
-//		map[16][1].setNext(0, -1);
-//		map[16][0].setNext(0, -1);
+		map[16][2].setNext(0, -1);
+		map[16][1].setNext(0, -1);
+		map[16][0].setNext(0, -1);
 		
 		//------Special Tile---------------
 		map[2][10].setSuccess(0, 3);
