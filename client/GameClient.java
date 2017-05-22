@@ -339,7 +339,7 @@ public class GameClient implements Serializable{
 					if(object instanceof Integer){
 						int row = (int)object;
 						int col =  (int)input.readObject();
-						map[row][col].removeSleepingChatacter();
+						map[row][col].removeSleepingCharacter();
 						
 						client.Character character = (client.Character)input.readObject();
 						if(character.sleeping() > 0){
@@ -359,6 +359,7 @@ public class GameClient implements Serializable{
 	
 					else if (object instanceof client.Character){
 						client.Character character = (client.Character) object;
+						character.passATurn();
 						if(character.sleeping() > 0){
 							for(ViewerListener listener: listeners){
 								listener.setIconSleep(character.getCharacterName(), false);
@@ -369,7 +370,6 @@ public class GameClient implements Serializable{
 								listener.setIconSleep(character.getCharacterName(), true);
 							}
 						}
-						character.passATurn();
 						System.out.println("CLIENT: mottaget Character-objekts sleeping: " + character.sleeping());
 						updateCharacter(character);
 					}
@@ -468,8 +468,9 @@ public class GameClient implements Serializable{
 							for(ViewerListener listener: listeners){
 								listener.enableButtons("time out");
 							}
-						}
-						else{
+						}else if(object.equals("steal pieces")){
+							characterMap.get(input.readObject()).setPieces(0);
+						}else{
 							for(ViewerListener listener: listeners){
 								System.out.println("Client: mottagit ny user/users uppdaterar \"ConnectedUserList\"");
 								listener.removeConnectedUsers();
@@ -612,9 +613,9 @@ public class GameClient implements Serializable{
 			boolean mapPieceChange = false;
 			if(characterMap.containsKey(characterName) && !characterName.equals(username)){
 				if (characterMap.get(characterName).getRow() == character.getRow() && characterMap.get(characterName).getCol() == character.getCol()){ //Kollar om caratären har rört sig från senast
-					System.out.println("Client: \"" + characterName  + "\" uppdadters men har inte rört sig");
+					System.out.println("Client: \"" + characterName  + "\" uppdaterats men har inte rört sig");
 				}else if(map[character.getRow()][character.getCol()].containsCharacter()){
-					System.out.println("Client: Tilen \"" + characterName  + "\" lämnar innehåller en skadad karaktär");
+					System.out.println("Client: Tilen som \"" + characterName  + "\" går till innehåller en skadad karaktär");
 				}else{
 					oldRow = characterMap.get(characterName).getRow();
 					oldCol = characterMap.get(characterName).getCol();
@@ -630,10 +631,16 @@ public class GameClient implements Serializable{
 			if (character.sleeping() == 0){
 				if(map[character.getRow()][character.getCol()].containsSleepingCharacter()){
 					tempMapPieces = map[character.getRow()][character.getCol()].getSleepingCharacter().stealPieces();
-					if(map[character.getRow()][character.getCol()].getSleepingCharacter().getName().equals(username)){
-						characterMap.get(username).setPieces(0);
+					try {
+						output.writeObject("pieces stolen");
+						output.writeObject(map[character.getRow()][character.getCol()].getSleepingCharacter().getName());
+						output.flush();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 					System.out.println("Client: Character \"" + character + "\" snodde " + character.getPieces() + " stycken kart-delar från Character \"" + map[character.getRow()][character.getCol()].getSleepingCharacter() +"\"!");
+					System.out.println("Client: " +map[character.getRow()][character.getCol()].getSleepingCharacter()+ " har " +map[character.getRow()][character.getCol()].getSleepingCharacter().getPieces()+ " kartdelar kvar");
+					System.out.println("                     " + characterMap.get(username).getCharacterName() + " har " + tempMapPieces + "!");
 					mapPieceChange = true;
 				}
 				map[character.getRow()][character.getCol()].setCharacter(character);
@@ -710,8 +717,8 @@ public class GameClient implements Serializable{
 			break;
 		case "DOWN":
 			if(map[me.getRow() + 1][me.getCol()].getAccessible()){
-				if(map[me.getRow() + 1][me.getCol() - 1].containsCharacter()){
-					if (map[me.getRow() + 1][me.getCol() - 1].getCharacter().sleeping() < 1){
+				if(map[me.getRow() + 1][me.getCol()].containsCharacter()){
+					if (map[me.getRow() + 1][me.getCol()].getCharacter().sleeping() < 1){
 						ret = false;
 					}else{
 						ret = true;

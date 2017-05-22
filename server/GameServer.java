@@ -167,7 +167,16 @@ public class GameServer implements Runnable{
 								}
 								ch.output.flush();
 							}
+						}else if(sInput.equals("pieces stolen")){
+							client.Character tempChar = characterMap.get((String)input.readObject());
+							tempChar.setPieces(0);
+							for (ClientHandler ch : clientMap.values()){
+								ch.output.writeObject("steal pieces");
+								ch.output.writeObject(tempChar.getName());
+								ch.output.flush();
+							}
 						}else {
+						
 							System.out.println("Server: Mottagit username");
 							clientMap.put(sInput, this);
 							clientMapid.put(id, sInput);
@@ -222,10 +231,10 @@ public class GameServer implements Runnable{
 		
 		private class CountDown extends Thread{
 			private int counter;
-			private ClientHandler clienthandeler;
+			private ClientHandler clienthandler;
 			
 			public CountDown(ClientHandler ch){
-				clienthandeler = ch;
+				clienthandler = ch;
 				counter = 60;
 			}
 			
@@ -238,7 +247,7 @@ public class GameServer implements Runnable{
 					}
 					counter--;
 					if(counter == 0){
-						clienthandeler.timeout();
+						clienthandler.timeout();
 					}
 				}
 				

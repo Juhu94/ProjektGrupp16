@@ -43,7 +43,7 @@ public class Tile {
 //		return sleepingCharacter;
 //	}
 	
-	public void removeSleepingChatacter(){
+	public void removeSleepingCharacter(){
 		character = sleepingCharacter;
 		sleepingCharacter = null;
 	}
