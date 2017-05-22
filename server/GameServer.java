@@ -182,7 +182,7 @@ public class GameServer implements Runnable{
 								ch.output.writeObject(winner);
 								ch.output.flush();
 							}
-							closeSocket();
+				
 						}else {
 						
 							System.out.println("Server: Mottagit username");

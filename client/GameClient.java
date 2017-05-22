@@ -403,6 +403,8 @@ public class GameClient implements Serializable{
 							for(ViewerListener listener: listeners){
 								listener.showVictory((String)input.readObject());
 							}
+							
+							disconnect();
 						}	
 						else if(object.equals("treasure position")){
 						
