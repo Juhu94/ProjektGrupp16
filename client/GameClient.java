@@ -643,7 +643,7 @@ public class GameClient implements Serializable{
 			for(ViewerListener listener: listeners){
 
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
-				listener.moveIcon(character.getCharacterName(), character.getRow(), character.getCol());
+				listener.moveIcon(character.getCharacterName(), character.getRow(), character.getCol(), true);
 				
 				System.out.println("Client: flytta gubbe i viewer");
 			}
