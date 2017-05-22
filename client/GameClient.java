@@ -184,6 +184,9 @@ public class GameClient implements Serializable{
 		boolean canJump = false;
 		Random rand = new Random();
 		int dice = rand.nextInt(6)+1;
+				
+		map[me.getRow()][me.getCol()].removeCharacter();
+		
 		for (ViewerListener listener : listeners) {
 			listener.setWaterIcon(me.getCharacterName());
 		}
