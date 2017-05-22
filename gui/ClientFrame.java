@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import client.GameClient;
 
@@ -53,13 +54,35 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JLayeredPane mapPane = new JLayeredPane();
 	private JLabel mapLabel = new JLabel();
 	
-	private JLabel svullo = new JLabel(new ImageIcon(new ImageIcon("images/Svullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
-	private JLabel tjoPang = new JLabel(new ImageIcon(new ImageIcon("images/TjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
-	private JLabel theRat = new JLabel(new ImageIcon(new ImageIcon("images/TheRat.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
-	private JLabel hannibal = new JLabel(new ImageIcon(new ImageIcon("images/Hannibal.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
-	private JLabel markisen = new JLabel(new ImageIcon(new ImageIcon("images/Markisen.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
-	private JLabel hook = new JLabel(new ImageIcon(new ImageIcon("images/Hook.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH)));
-	private JLabel treasure = new JLabel(new ImageIcon(new ImageIcon("images/Treasure.png").getImage().getScaledInstance(22, 20, Image.SCALE_SMOOTH)));
+	private ImageIcon svulloIcon = new ImageIcon(new ImageIcon("images/Svullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon tjoPangIcon = new ImageIcon(new ImageIcon("images/TjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon theRatIcon = new ImageIcon(new ImageIcon("images/TheRat.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon hannibalIcon = new ImageIcon(new ImageIcon("images/Hannibal.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon markisenIcon = new ImageIcon(new ImageIcon("images/Markisen.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon hookIcon = new ImageIcon(new ImageIcon("images/Hook.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon treasureIcon = new ImageIcon(new ImageIcon("images/Treasure.png").getImage().getScaledInstance(22, 20, Image.SCALE_SMOOTH));
+	
+	private JLabel svullo = new JLabel(svulloIcon);
+	private JLabel tjoPang = new JLabel(tjoPangIcon);
+	private JLabel theRat = new JLabel(theRatIcon);
+	private JLabel hannibal = new JLabel(hannibalIcon);
+	private JLabel markisen = new JLabel(markisenIcon);
+	private JLabel hook = new JLabel(hookIcon);
+	private JLabel treasure = new JLabel(treasureIcon);
+	
+	private ImageIcon svulloSleeping = new ImageIcon(new ImageIcon("images/WoundedSvullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon tjoPangSleeping = new ImageIcon(new ImageIcon("images/WoundedTjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon theRatSleeping = new ImageIcon(new ImageIcon("images/WoundedTheRat.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon hannibalSleeping = new ImageIcon(new ImageIcon("images/WoundedHannibal.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon markisenSleeping = new ImageIcon(new ImageIcon("images/WoundedMarkisen.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon hookSleeping = new ImageIcon(new ImageIcon("images/WoundedHook.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	
+	private ImageIcon svulloDrowning = new ImageIcon(new ImageIcon("images/DrowningSvullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon tjoPangDrowning = new ImageIcon(new ImageIcon("images/DrowningTjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon theRatDrowning = new ImageIcon(new ImageIcon("images/DrowningTheRat.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon hannibalDrowning = new ImageIcon(new ImageIcon("images/DrowningHannibal.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon markisenDrowning = new ImageIcon(new ImageIcon("images/DrowningMarkisen.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
+	private ImageIcon hookDrowning = new ImageIcon(new ImageIcon("images/DrowningHook.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
 	
 	private JLabel svulloBtn = new JLabel(new ImageIcon("images/Svullo.png"));
 	private JLabel tjoPangBtn = new JLabel(new ImageIcon("images/TjoPang.png"));
@@ -138,6 +161,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		charChoices.add(hannibalBtn);
 		charChoices.add(hookBtn);
 		chooseCharFrame.add(chooseChar, BorderLayout.SOUTH);
+		
+		svulloTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		tjoPangTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		theRatTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		markisenTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		hannibalTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		hookTargetBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		
 		chooseTarget.setVisible(false);
 		chooseTarget.setLayout(new BorderLayout());
@@ -334,27 +364,90 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		switch (name) {
 		case "Svullo":
-			svullo.setEnabled(sleeping);
+			if(!sleeping){
+				svullo.setIcon(svulloSleeping);
+			} else{
+				svullo.setIcon(svulloIcon);
+			}
+//			svullo.setEnabled(sleeping);
 			svullo.repaint();
 			break;
 		case "TjoPang":
-			tjoPang.setEnabled(sleeping);
+			if(!sleeping){
+				tjoPang.setIcon(tjoPangSleeping);
+			} else{
+				tjoPang.setIcon(tjoPangIcon);
+			}
+//			tjoPang.setEnabled(sleeping);
 			tjoPang.repaint();
 			break;
 		case "TheRat":
-			theRat.setEnabled(sleeping);
+			if(!sleeping){
+				theRat.setIcon(theRatSleeping);
+			} else{
+				theRat.setIcon(theRatIcon);
+			}
+//			theRat.setEnabled(sleeping);
 			theRat.repaint();
 			break;
 		case "Hannibal":
-			hannibal.setEnabled(sleeping);
+			if(!sleeping){
+				hannibal.setIcon(hannibalSleeping);
+			} else{
+				hannibal.setIcon(hannibalIcon);
+			}
+//			hannibal.setEnabled(sleeping);
 			hannibal.repaint();
 			break;
 		case "Markisen":
-			markisen.setEnabled(sleeping);
+			if(!sleeping){
+				markisen.setIcon(markisenSleeping);
+			} else{
+				markisen.setIcon(markisenIcon);
+			}
+//			markisen.setEnabled(sleeping);
 			markisen.repaint();
 			break;
 		case "Hook":
-			hook.setEnabled(sleeping);
+			if(!sleeping){
+				hook.setIcon(hookSleeping);
+			} else{
+				hook.setIcon(hookIcon);
+			}
+//			hook.setEnabled(sleeping);
+			hook.repaint();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void setWaterIcon(String name){
+		
+		switch (name) {
+		case "Svullo":
+			svullo.setIcon(svulloDrowning);
+			svullo.repaint();
+			break;
+		case "TjoPang":
+			tjoPang.setIcon(tjoPangDrowning);
+			tjoPang.repaint();
+			break;
+		case "TheRat":
+			
+			theRat.setIcon(theRatDrowning);
+			theRat.repaint();
+			break;
+		case "Hannibal":
+			hannibal.setIcon(hannibalDrowning);
+			hannibal.repaint();
+			break;
+		case "Markisen":
+			markisen.setIcon(markisenDrowning);
+			markisen.repaint();
+			break;
+		case "Hook":
+			hook.setIcon(hookDrowning);
 			hook.repaint();
 			break;
 		default:
@@ -464,26 +557,32 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		case "Svullo":
 			svulloTargetBtn.setEnabled(true);
 			svulloTargetBtn.setText(username);
+			chooseTarget.pack();
 			break;
 		case "TjoPang":
 			tjoPangTargetBtn.setEnabled(true);
 			tjoPangTargetBtn.setText(username);
+			chooseTarget.pack();
 			break;
 		case "TheRat":
 			theRatTargetBtn.setEnabled(true);
 			theRatTargetBtn.setText(username);
+			chooseTarget.pack();
 			break;
 		case "Hannibal":
 			hannibalTargetBtn.setEnabled(true);
 			hannibalTargetBtn.setText(username);
+			chooseTarget.pack();
 			break;
 		case "Markisen":
 			markisenTargetBtn.setEnabled(true);
 			markisenTargetBtn.setText(username);
+			chooseTarget.pack();
 			break;
 		case "Hook":
 			hookTargetBtn.setEnabled(true);
 			hookTargetBtn.setText(username);
+			chooseTarget.pack();
 			break;
 		}
 	}
