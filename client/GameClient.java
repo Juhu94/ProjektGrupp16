@@ -582,6 +582,18 @@ public class GameClient implements Serializable{
 				}
 			}
 		}
+		public void showTreasure(boolean status){
+			try {
+				if(status){
+					System.out.println("Visar skatten");
+					output.writeObject("show treasure");
+					output.flush();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		public void updateCharacter(client.Character character){
 			String characterName = character.getName();
@@ -620,6 +632,9 @@ public class GameClient implements Serializable{
 			characterMap.put(characterName, character);
 			if(mapPieceChange){
 				characterMap.get(characterName).givePieces(tempMapPieces);
+				if(characterMap.get(characterName).getPieces() == characterMap.size()){
+					showTreasure(true);
+				}
 			}
 			for(ViewerListener listener: listeners){
 
