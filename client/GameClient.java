@@ -40,7 +40,6 @@ public class GameClient implements Serializable{
 	private HashMap<String, client.Character> characterMap = new HashMap<String, client.Character>(); 
 	private String character = "";
 	
-	
 	private boolean clientTurn = true;
 	private boolean shotTakenThisTurn;
 	private Connection connection;
@@ -48,7 +47,8 @@ public class GameClient implements Serializable{
 	private int steps;
 	private int oldColThis;
 	private int oldRowThis;
-
+	private int tempMapPieces = 1;
+	
 	public GameClient(){
 		System.out.println("Klient Startad");
 		map = createMap();
@@ -609,7 +609,6 @@ public class GameClient implements Serializable{
 			System.out.println("Client: " +characterName + " hanteras");
 			int oldRow = 1;
 			int oldCol = 1;
-			int tempMapPieces = 1;
 			boolean mapPieceChange = false;
 			if(characterMap.containsKey(characterName) && !characterName.equals(username)){
 				if (characterMap.get(characterName).getRow() == character.getRow() && characterMap.get(characterName).getCol() == character.getCol()){ //Kollar om caratären har rört sig från senast
