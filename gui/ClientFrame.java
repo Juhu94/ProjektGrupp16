@@ -109,6 +109,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			+ "Antal steg:   \n"
 			+ "----------------------------------------------------------------------\n"
 			+ "Antal kartbitar:  \n"
+			+ "----------------------------------------------------------------------\n"
+			+ "Skatten befinner sig hos:                     \n"
 			+ "----------------------------------------------------------------------\n");
 
 	private JTextField serverIp = new JTextField("");
@@ -207,10 +209,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		hookBtn.addMouseListener(this);
 		chooseChar.addActionListener(this);
 		
+		flowPanel.setBackground(Color.BLUE);
 		
 		mapPane.setPreferredSize(new Dimension(1034, 820));
 		flowPanel.add(mapPane);
-		flowPanel.setBackground(Color.BLUE);
 		mapLabel.setIcon(new ImageIcon("images/map.png"));
 		mapPane.add(centerPanel, new Integer(1));
 		mapPane.add(mapLabel, new Integer(2));
@@ -480,6 +482,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	}
 	public void updateInfoRutaMap(String text) {
 		infoArea.replaceRange(text, 292, 293);
+	}
+	
+	public void updateInfoRutaTreasure(String text) {
+		infoArea.replaceRange(text, 392, 412);
 	}
 	
 	public void moveIcon(String name, int row, int col, boolean visible){

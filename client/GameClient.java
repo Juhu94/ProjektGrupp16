@@ -173,6 +173,12 @@ public class GameClient implements Serializable{
 					listener.enableButtons("shoot");
 				}
 			}
+			
+			if(map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getTreasure()){
+				map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].treasureOff();
+				characterMap.get(username).giveTreasure();
+				System.out.println("Client: " + username + " har tagit upp skatten");
+			}
 		} else {
 			inWater();
 		}
@@ -629,6 +635,9 @@ public class GameClient implements Serializable{
 			if (character.sleeping() == 0){
 				if(map[character.getRow()][character.getCol()].containsSleepingCharacter()){
 					tempMapPieces = map[character.getRow()][character.getCol()].getSleepingCharacter().stealPieces();
+					map[character.getRow()][character.getCol()].getSleepingCharacter().takeTreasure();
+					character.giveTreasure();
+					System.out.println("Client: " + characterName + " har tagit upp skatten");
 					try {
 						output.writeObject("pieces stolen");
 						output.writeObject(map[character.getRow()][character.getCol()].getSleepingCharacter().getName());
@@ -653,6 +662,9 @@ public class GameClient implements Serializable{
 				}
 			}
 			
+//			for (ViewerListener listener : listeners) {
+//				listener.updateInfoRutaTreasure(username);
+//			}
 			
 			for(ViewerListener listener: listeners){
 				
