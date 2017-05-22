@@ -70,13 +70,17 @@ public class Character implements Serializable{
 		return mapPiecesTemp;
 	}
 	
-	public void givePieces(int Pieces){
-		this.mapPieces += Pieces;
+	public void givePieces(int pieces){
+		this.mapPieces += pieces;
 	}
 	
 	// Används ej! endast för system out print-testning!!!
 	public int getPieces(){
 		return this.mapPieces;
+	}
+	
+	public void setPieces(int pieces){
+		this.mapPieces = pieces;
 	}
 	
 	/**
