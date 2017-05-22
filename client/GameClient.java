@@ -464,7 +464,12 @@ public class GameClient implements Serializable{
 								listener.updateChooseCharFrame(svullo, tjoPang, theRat, markisen, hannibal, hook);
 								
 							}
-						}else{
+						}else if(object.equals("time out")){
+							for(ViewerListener listener: listeners){
+								listener.enableButtons("time out");
+							}
+						}
+						else{
 							for(ViewerListener listener: listeners){
 								System.out.println("Client: mottagit ny user/users uppdaterar \"ConnectedUserList\"");
 								listener.removeConnectedUsers();
@@ -595,7 +600,6 @@ public class GameClient implements Serializable{
 					output.flush();
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

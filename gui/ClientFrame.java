@@ -551,6 +551,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		} else if (buttons.equals("disable jump")){
 			bJump.setEnabled(false);
 			
+		}else if(buttons.equals("time out")){
+			bEndTurn.setEnabled(true);
 		}
 
 		// bUp.setEnabled(state);
