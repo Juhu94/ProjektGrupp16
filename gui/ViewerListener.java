@@ -12,7 +12,7 @@ public interface ViewerListener {
 	public void enableButtons(String text);
 	public void addConnectedUser(String namn);
 	public void removeConnectedUsers();
-	public void moveIcon(String name, int row, int col);
+	public void moveIcon(String name, int row, int col, boolean visible);
 	public void chooseCharFrame();
 	public void updateChooseCharFrame(boolean svullo, boolean tjoPang, boolean theRat, boolean markisen, boolean hannibal, boolean hook);
 	public void setAvailableTarget(String character, String username);
