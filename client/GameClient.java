@@ -546,6 +546,9 @@ public class GameClient implements Serializable{
 				if (checkMove(character, "RIGHT")){
 					character.setPos(oldRowThis, oldColThis + 1);
 					steps--;
+					for(ViewerListener listener: listeners){
+						listener.enableButtons("disable all");
+					}
 				}else{
 					repaintCharacter = false;
 					System.out.println("Client: Väg blockerad");
@@ -555,6 +558,9 @@ public class GameClient implements Serializable{
 				if (checkMove(character, "LEFT")){
 					character.setPos(oldRowThis, oldColThis - 1);
 					steps--;
+					for(ViewerListener listener: listeners){
+						listener.enableButtons("disable all");
+					}
 				}else{
 					repaintCharacter = false;
 					System.out.println("Client: Väg blockerad");
@@ -564,6 +570,9 @@ public class GameClient implements Serializable{
 				if (checkMove(character, "UP")){
 					character.setPos(oldRowThis - 1, oldColThis);
 					steps--;
+					for(ViewerListener listener: listeners){
+						listener.enableButtons("disable all");
+					}
 				}else{
 					repaintCharacter = false;
 					System.out.println("Client: Väg blockerad");
@@ -573,6 +582,9 @@ public class GameClient implements Serializable{
 				if (checkMove(character, "DOWN")){
 					character.setPos(oldRowThis + 1, oldColThis);
 					steps--;
+					for(ViewerListener listener: listeners){
+						listener.enableButtons("disable all");
+					}
 				}else{
 					repaintCharacter = false;
 					System.out.println("Client: Väg blockerad");
@@ -625,6 +637,11 @@ public class GameClient implements Serializable{
 					oldCol = characterMap.get(characterName).getCol();
 				}
 			}else if(characterMap.containsKey(characterName) && characterName.equals(username)){
+				for(ViewerListener listener: listeners){
+					if(steps > 0){
+						listener.enableButtons("move");
+					}
+				}
 				oldRow = oldRowThis;
 				oldCol = oldColThis;
 				
