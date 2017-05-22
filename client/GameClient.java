@@ -399,7 +399,13 @@ public class GameClient implements Serializable{
 						if(object.equals("Enable buttons")){
 							boolean enableButtons = input.readBoolean();
 							enableButtons(enableButtons);
-						}else if(object.equals("treasure position")){
+						}else if(object.equals("winner")){
+							for(ViewerListener listener: listeners){
+								listener.showVictory((String)input.readObject());
+							}
+						}	
+						else if(object.equals("treasure position")){
+						
 							this.treasurePos = (int)input.readObject();
 							switch(treasurePos){
 							case 1:

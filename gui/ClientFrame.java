@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -69,6 +70,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	private JLabel markisen = new JLabel(markisenIcon);
 	private JLabel hook = new JLabel(hookIcon);
 	private JLabel treasure = new JLabel(treasureIcon);
+	private JLabel winner = new JLabel();
 	
 	private ImageIcon svulloSleeping = new ImageIcon(new ImageIcon("images/WoundedSvullo.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
 	private ImageIcon tjoPangSleeping = new ImageIcon(new ImageIcon("images/WoundedTjoPang.png").getImage().getScaledInstance(22, 40, Image.SCALE_SMOOTH));
@@ -146,6 +148,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		this.client = client;
 		client.addListeners(this);
 
+		Font font = new Font("Goudy Old Style", Font.BOLD, 35);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(new BorderLayout());
@@ -230,6 +234,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		mapPane.add(markisen, new Integer(7));
 		mapPane.add(hannibal, new Integer(8));
 		mapPane.add(hook, new Integer(9));
+		mapPane.add(winner, new Integer(10));
 		
 		centerPanel.setBounds(0, 0, 1034, 820);
 		mapLabel.setBounds(0, 0, 1034, 820);
@@ -241,6 +246,9 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		hannibal.setVisible(false);
 		hook.setVisible(false);
 		treasure.setVisible(false);
+		winner.setVisible(false);
+		
+		winner.setFont(font);
 		
 		theRat.setBounds(0, 0, 22, 40);
 		tjoPang.setBounds(0, 0, 22, 40);
@@ -249,7 +257,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		hannibal.setBounds(0, 0, 22, 40);
 		hook.setBounds(0, 0, 22, 40);
 		treasure.setBounds(0, 0, 22, 20);
-
+		winner.setBounds(0, 0, 1034, 820);
+		
 		panel.setLayout(new BorderLayout());
 		panel.add(inputPanel, BorderLayout.SOUTH);
 		panel.add(flowPanel, BorderLayout.CENTER);
@@ -363,6 +372,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		chooseCharFrame.pack();
 		chooseTarget.pack();
+	}
+	
+	public void showVictory(String winner){
+		this.winner.setText("Winner is: \n" + winner);
 	}
 	
 	public void removeConnectedUsers(){

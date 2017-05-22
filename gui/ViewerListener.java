@@ -20,4 +20,5 @@ public interface ViewerListener {
 	public void getTarget();
 	public void setIconSleep(String name, boolean sleeping);
 	public void setWaterIcon(String name);
+	public void showVictory(String winner);
 }
