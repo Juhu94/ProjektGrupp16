@@ -210,6 +210,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		
 		mapPane.setPreferredSize(new Dimension(1034, 820));
 		flowPanel.add(mapPane);
+		flowPanel.setBackground(Color.BLUE);
 		mapLabel.setIcon(new ImageIcon("images/map.png"));
 		mapPane.add(centerPanel, new Integer(1));
 		mapPane.add(mapLabel, new Integer(2));
