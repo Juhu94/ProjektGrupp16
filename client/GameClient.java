@@ -45,8 +45,8 @@ public class GameClient implements Serializable{
 	private Connection connection;
 	
 	private int steps;
-	private int oldColThis;
-	private int oldRowThis;
+	private int oldColThis = 2;
+	private int oldRowThis = 2;
 	private int tempMapPieces = 1;
 	
 	public GameClient(){
@@ -162,8 +162,7 @@ public class GameClient implements Serializable{
 				listener.updateViewer();
 			}
 
-			if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName()
-					.equals("Special")) {
+			if (map[characterMap.get(username).getRow()][characterMap.get(username).getCol()].getName().equals("Special")) {
 				for (ViewerListener listener : listeners) {
 					listener.enableButtons("jump");
 				}
@@ -184,12 +183,14 @@ public class GameClient implements Serializable{
 		boolean canJump = false;
 		Random rand = new Random();
 		int dice = rand.nextInt(6)+1;
-				
+		
+		System.out.println("Client: removing " + me.getRow() + ", " + me.getCol());
 		map[me.getRow()][me.getCol()].removeCharacter();
 		
 		for (ViewerListener listener : listeners) {
 			listener.setWaterIcon(me.getCharacterName());
 		}
+		
 		if (map[me.getRow() - 1][me.getCol()].getAccessible()) {
 			canJump = true;
 		}
@@ -582,20 +583,11 @@ public class GameClient implements Serializable{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			
+			}	
 			map[oldRowThis][oldColThis].removeCharacter();
-			
-			if (steps == 0) {
-				System.out.println("Client: disable buttons"); 
-				for (ViewerListener listener : listeners) {
+			if(steps == 0){
+				for(ViewerListener listener: listeners){
 					listener.enableButtons("disable move");
-				}
-				System.out.println("can take a shot: " + !lookingForAShot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
-				if (!lookingForAShot(characterMap.get(username)).isEmpty() && !shotTakenThisTurn){
-					for(ViewerListener listener: listeners){
-						listener.enableButtons("shoot");
-					}
 				}
 			}
 		}
@@ -614,8 +606,8 @@ public class GameClient implements Serializable{
 		public void updateCharacter(client.Character character){
 			String characterName = character.getName();
 			System.out.println("Client: " +characterName + " hanteras");
-			int oldRow = 1;
-			int oldCol = 1;
+			int oldRow = 2;
+			int oldCol = 2;
 			boolean mapPieceChange = false;
 			if(characterMap.containsKey(characterName) && !characterName.equals(username)){
 				if (characterMap.get(characterName).getRow() == character.getRow() && characterMap.get(characterName).getCol() == character.getCol()){ //Kollar om caratären har rört sig från senast
@@ -668,6 +660,18 @@ public class GameClient implements Serializable{
 				listener.moveIcon(character.getCharacterName(), character.getRow(), character.getCol(), true);
 				
 				System.out.println("Client: flytta gubbe i viewer");
+			}
+			if (character.getCharacterName().equals(username) && steps == 0) {
+				System.out.println("Client: disable buttons"); 
+				for (ViewerListener listener : listeners) {
+					listener.enableButtons("disable move");
+				}
+				System.out.println("can take a shot: " + !lookingForAShot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
+				if (!lookingForAShot(characterMap.get(username)).isEmpty() && !shotTakenThisTurn){
+					for(ViewerListener listener: listeners){
+						listener.enableButtons("shoot");
+					}
+				}
 			}
 		}
 			
@@ -1008,6 +1012,7 @@ public class GameClient implements Serializable{
 	public ArrayList<client.Character> lookingForAShot(client.Character character){
 		ArrayList<client.Character> charArray = new ArrayList<>();
 		int charInt = 0;
+		System.out.println("Client: LFS " + character.getRow() + ", " + character.getCol());
 		int row = character.getRow() - 1;
 		int col = character.getCol() - 1;
 		//Up to the left
