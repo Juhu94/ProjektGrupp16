@@ -630,6 +630,9 @@ public class GameClient implements Serializable{
 			if (character.sleeping() == 0){
 				if(map[character.getRow()][character.getCol()].containsSleepingCharacter()){
 					tempMapPieces = map[character.getRow()][character.getCol()].getSleepingCharacter().stealPieces();
+					if(map[character.getRow()][character.getCol()].getSleepingCharacter().getName().equals(username)){
+						characterMap.get(username).setPieces(0);
+					}
 					System.out.println("Client: Character \"" + character + "\" snodde " + character.getPieces() + " stycken kart-delar från Character \"" + map[character.getRow()][character.getCol()].getSleepingCharacter() +"\"!");
 					mapPieceChange = true;
 				}
