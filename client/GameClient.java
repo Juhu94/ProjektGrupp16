@@ -292,6 +292,7 @@ public class GameClient implements Serializable{
 			connection.moveChar( characterMap.get(username), direction);
 			for (ViewerListener listener : listeners) {
 				listener.updateInfoRutaSteps("Antal steg: " + String.valueOf(steps));
+				listener.updateInfoRutaMap(String.valueOf(characterMap.get(username).getPieces()));
 			}
 		}
 	}
@@ -640,8 +641,10 @@ public class GameClient implements Serializable{
 					showTreasure(true);
 				}
 			}
+			
+			
 			for(ViewerListener listener: listeners){
-
+				
 				listener.paintCharacter(character.getRow(), character.getCol(), oldRow, oldCol);
 				listener.moveIcon(character.getCharacterName(), character.getRow(), character.getCol(), true);
 				
