@@ -882,21 +882,21 @@ public class GameClient implements Serializable{
 		map[14][4].setNext(0, -1);
 		map[14][3].setNext(1, 0);
 		map[13][3].setNext(0, -1); //
-		map[13][2].setNext(0, -1); //
-		map[13][1].setNext(0, -1); //
-		map[13][0].setNext(0, -1); //
+		map[13][2].setNext(-1, 0); //
+//		map[13][1].setNext(0, -1); //
+//		map[13][0].setNext(0, -1); //
 		map[15][3].setNext(1, 0);
 		map[16][3].setNext(0, -1);
-		map[16][2].setNext(0, -1);
-		map[16][1].setNext(0, -1);
-		map[16][0].setNext(0, -1);
+		map[16][2].setNext(1, 0);
+//		map[16][1].setNext(0, -1);
+//		map[16][0].setNext(0, -1);
 		
 		//------Special Tile---------------
 		map[2][10].setSuccess(0, 3);
 		map[2][10].setFail(4, 1);
 		
-		map[2][12].setSuccess(0, 2);
-		map[2][12].setFail(4, 1);
+		map[2][12].setSuccess(0, -2);
+		map[2][12].setFail(4, -1);
 		
 		map[2][13].setSuccess(0, 2);
 		map[2][13].setFail(4, 1);
@@ -911,10 +911,10 @@ public class GameClient implements Serializable{
 		map[6][25].setFail(-1, 0);
 		
 		map[6][27].setSuccess(0, 2);
-		map[6][27].setFail(-1, 1);
+		map[6][27].setFail(0, 1);
 		
 		map[6][29].setSuccess(0, -2);
-		map[6][29].setFail(-1, -1);
+		map[6][29].setFail(0, -1);
 		
 		map[12][2].setSuccess(3, 0);
 		map[12][2].setFail(1, 0);
