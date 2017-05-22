@@ -382,9 +382,10 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 
 	public void updateInfoRutaSteps(String text) {
 		infoArea.replaceRange(text, 190, 203);
+		
 	}
 	public void updateInfoRutaMap(String text) {
-		infoArea.replaceRange(text, 190, 203);
+		infoArea.replaceRange(text, 292, 293);
 	}
 	
 	public void moveIcon(String name, int row, int col, boolean visible){
