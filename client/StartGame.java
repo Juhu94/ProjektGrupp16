@@ -14,7 +14,7 @@ public class StartGame {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new MenuFrame(new ImageIcon("images/yoda.jpg"));
+				new MenuFrame(new ImageIcon("images/bg.jpg"));
 			}
 		});
 	}
