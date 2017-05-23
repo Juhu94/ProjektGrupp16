@@ -717,7 +717,7 @@ public class GameClient implements Serializable{
 				
 				System.out.println("Client: flytta gubbe i viewer");
 			}
-			if (character.getName().equals(username) && steps == 0) {
+			if (character.getName().equals(username) && steps == 0 && character.sleeping() == 0) {
 				
 				System.out.println("can take a shot: " + !lookingForAShot(characterMap.get(username)).isEmpty() + " & " +!shotTakenThisTurn );
 				if (!lookingForAShot(characterMap.get(username)).isEmpty() && !shotTakenThisTurn){
