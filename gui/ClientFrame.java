@@ -22,7 +22,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -34,7 +33,7 @@ import client.GameClient;
 /**
  * 
  * @author Julian Hultgren, Erik Johansson, Simon Börjesson, Lukas Persson
- * Version 1.2
+ * Version 2.0
  *
  */
 public class ClientFrame extends JPanel implements ActionListener, ViewerListener,KeyListener, MouseListener {
@@ -143,6 +142,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	
 	private String target = "";
 	
+	/**
+	 * Constructor that sets up the visual for the client
+	 * 
+	 * @param 	GameClient	client
+	 */
+	
 
 	public ClientFrame(GameClient client) {
 		this.client = client;
@@ -180,8 +185,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		markisenTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
 		hannibalTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
 		hookTargetBtn.setHorizontalTextPosition(SwingConstants.CENTER);
-//		winner.setVerticalTextPosition(SwingConstants.CENTER);
-//		winner.setHorizontalTextPosition(SwingConstants.CENTER);
 
 		chooseTarget.setVisible(false);
 		chooseTarget.setLayout(new BorderLayout());
@@ -307,45 +310,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		inputRightPanel.add(bDisconnect);
 		inputRightPanel.add(bClose);
 
-//		centerPanel.setLayout(new GridLayout(41, 47, 0, 0));
-//		String s;
-//		for (int i = 0; i < 41; i++) {
-//			for (int j = 0; j < 47; j++) {
-//				boardArray[i][j] = new ExtendedJLabel(i, j, Color.RED);
-				//------------------------------------------------------TEMP
-//				s = client.getTile(i, j);
-//				switch (s) {
-//				case "Ground":
-//					boardArray[i][j].setBackground(Color.GRAY);
-//					break;
-//				case "Water":
-//					boardArray[i][j].setBackground(Color.BLUE);
-//					break;
-//				case "Jungle":
-//					boardArray[i][j].setBackground(Color.GREEN);
-//					break;
-//				case "BLACK":
-//					boardArray[i][j].setBackground(Color.BLACK);
-//					break;
-//				case "ORANGE":
-//					boardArray[i][j].setBackground(Color.ORANGE);
-//					break;
-//					
-//				case "Special":
-//					boardArray[i][j].setBackground(Color.DARK_GRAY);
-//					break;
-//
-//				default:
-//					break;
-//				}
-				//------------------------------------------------------
-				//boardArray[i][j].setBackground(Color.GRAY);
-//				boardArray[i][j].setHorizontalAlignment(JLabel.CENTER);
-//				boardArray[i][j].setOpaque(true);
-//				boardArray[i][j].setPreferredSize(new Dimension(22, 20));
-//				centerPanel.add(boardArray[i][j]);
-//			}
-//		}
 		bDisconnect.addActionListener(this);
 		bConnect.addActionListener(this);
 		bClose.addActionListener(this);
@@ -378,14 +342,31 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		chooseTarget.pack();
 	}
 	
+	/**
+	 * Displays the name of the winner
+	 * 
+	 * @param	String	winner
+	 */
+	
 	public void showVictory(String winner){
 		this.winner.setText("Winner is: \n" + winner);
 		this.winner.setVisible(true);
 	}
 	
+	/**
+	 * Removes the names if the "ConnectedUsers" list
+	 */
+	
 	public void removeConnectedUsers(){
 		model.clear();
 	}
+	
+	/**
+	 * Change out the icon of a character to its sleeping form or back to normal
+	 * 
+	 * @param	String	name
+	 * @param	boolean sleeping
+	 */
 	
 	public void setIconSleep(String name, boolean sleeping){
 		
@@ -396,7 +377,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				svullo.setIcon(svulloIcon);
 			}
-//			svullo.setEnabled(sleeping);
 			svullo.repaint();
 			break;
 		case "TjoPang":
@@ -405,7 +385,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				tjoPang.setIcon(tjoPangIcon);
 			}
-//			tjoPang.setEnabled(sleeping);
 			tjoPang.repaint();
 			break;
 		case "TheRat":
@@ -414,7 +393,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				theRat.setIcon(theRatIcon);
 			}
-//			theRat.setEnabled(sleeping);
 			theRat.repaint();
 			break;
 		case "Hannibal":
@@ -423,7 +401,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				hannibal.setIcon(hannibalIcon);
 			}
-//			hannibal.setEnabled(sleeping);
 			hannibal.repaint();
 			break;
 		case "Markisen":
@@ -432,7 +409,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				markisen.setIcon(markisenIcon);
 			}
-//			markisen.setEnabled(sleeping);
 			markisen.repaint();
 			break;
 		case "Hook":
@@ -441,7 +417,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				hook.setIcon(hookIcon);
 			}
-//			hook.setEnabled(sleeping);
 			hook.repaint();
 			break;
 		case "Treasure":
@@ -455,6 +430,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			break;
 		}
 	}
+	
+	/**
+	 * Change out the icon of a character to its drowning form
+	 * 
+	 * @param	String	name
+	 */
 	
 	public void setWaterIcon(String name){
 		
@@ -489,19 +470,20 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		}
 	}
 	
+	/**
+	 * Adds a name to the "connectedUsers" list
+	 * 
+	 * @param	String	name
+	 */
+	
 	public void addConnectedUser(String name){
 		model.addElement(name);
-	}
-
-	public void updateViewer(ExtendedJLabel theLabel) {
-		theLabel.setBackground(Color.RED);
 	}
 
 	/**
 	 * Method to enable buttons
 	 * 
-	 * @param enableButtons
-	 *            boolean
+	 * @param 	boolean		enableButtons
 	 */
 	public void updateViewer() {
 		enableButtons("update");
@@ -559,36 +541,12 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		}
 	}
 	
-	
-	public void paintCharacter(int newRow, int newCol, int oldRow, int oldCol) {
-//		boardArray[newRow][newCol].setBackground(Color.RED);
-//		boardArray[newRow][newCol].repaint();
-//		String colorOfTile = client.getTile(oldRow, oldCol);
-//		switch (colorOfTile) {
-//		case "Ground":
-//			boardArray[oldRow][oldCol].setBackground(Color.GRAY);
-//			break;
-//		case "Water":
-//			boardArray[oldRow][oldCol].setBackground(Color.BLUE);
-//			break;
-//		case "Jungle":
-//			boardArray[oldRow][oldCol].setBackground(Color.GREEN);
-//			break;
-//		case "BLACK":
-//			boardArray[oldRow][oldCol].setBackground(Color.BLACK);
-//			break;
-//		case "ORANGE":
-//			boardArray[oldRow][oldCol].setBackground(Color.ORANGE);
-//			break;
-//			
-//		case "Special":
-//			boardArray[oldRow][oldCol].setBackground(Color.DARK_GRAY);
-//			break;
-//
-//		default:
-//			break;
-//		}
-	}
+	/**
+	 * Marks which character you are able to target
+	 * 
+	 * @param	String	character
+	 * @param	Srring	username
+	 */
 	
 	public void setAvailableTarget(String character, String username){
 		switch(character){
@@ -624,16 +582,21 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			break;
 		}
 	}
+	
+	/**
+	 * Shows you the box with targets
+	 */
+	
 	public void getTarget(){
 		chooseTarget.setVisible(true);		
 	}
 
 	/**
-	 * method to enable or disable all buttons
+	 * method to enable or disable specific buttons
 	 * 
-	 * @param state
-	 *            boolean
+	 * @param 	String		buttons
 	 */
+	
 	public void enableButtons(String buttons) {
 		if(buttons.equals("disable all")){
 			bMove.setEnabled(false);
@@ -691,12 +654,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		}else if(buttons.equals("time out")){
 			bEndTurn.setEnabled(true);
 		}
-
-		// bUp.setEnabled(state);
-		// bDown.setEnabled(state);
-		// bLeft.setEnabled(state);
-		// bRight.setEnabled(state);
 	}
+	
+	/**
+	 * Action listener
+	 * 
+	 * @param	ActionEvent e
+	 */
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bConnect) {
@@ -771,7 +735,13 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			}
 		}
 	}
-	@Override
+	
+	/**
+	 * Key Listener
+	 * 
+	 * @param	KeyEvent	e
+	 */
+	
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 		if(code == KeyEvent.VK_UP){
@@ -786,19 +756,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		if(code == KeyEvent.VK_RIGHT){
 			client.moveCharacter(username.getText(), "Right");
 		}
-//		if(code == KeyEvent.VK_ENTER){
-//			client.endTurn();
-//		}
-//		if(code == KeyEvent.VK_SPACE){
-//			if(bMove.isEnabled()) {
-//				enableButtons("move");
-//				client.throwDice();
-//			}
-//			else if(bEndTurn.isEnabled()){
-//				client.endTurn();
-//				enableButtons("disable all");
-//			}
-//		}
+		
 		if(code == KeyEvent.VK_Q){
 			if(bMove.isEnabled()) {
 				enableButtons("move");
@@ -830,17 +788,23 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		}
 		
 	}
-
 	
+	@Override
 	public void keyReleased(KeyEvent arg0) {
-		
+		// TODO Auto-generated method stub
 		
 	}
 
-	
+	@Override
 	public void keyTyped(KeyEvent arg0) {
-
+		// TODO Auto-generated method stub
+		
 	}
+	
+	/**
+	 * Mouse Listener
+	 * @param	MouseEvent	e
+	 */
 
 	public void mouseClicked(MouseEvent e) {
 		JLabel source = new JLabel();
@@ -1000,31 +964,44 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+		// TODO Auto-generated method stub
 	}
 
-	@Override
+	/**
+	 * Shows the choose character frame
+	 */
+	
 	public void chooseCharFrame() {
 		chooseCharFrame.setVisible(true);
 		
 	}
 
-	@Override
+	/**
+	 * Sets which characters is available
+	 * 
+	 * @param	boolean	svullo
+	 * @param	boolean	tjoPang
+	 * @param	boolean	theRat
+	 * @param	boolean	markisen
+	 * @param	boolean	hannibal
+	 * @param	boolean	hook
+	 */
+	
 	public void updateChooseCharFrame(boolean svullo, boolean tjoPang, boolean theRat, boolean markisen,
 			boolean hannibal, boolean hook) {
 		
@@ -1036,6 +1013,4 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		hookBtn.setEnabled(hook);
 		
 	}
-
-	
 }

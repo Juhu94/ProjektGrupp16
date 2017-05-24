@@ -1,31 +1,27 @@
 package gui;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.GroupLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import client.GameClient;
+
 /**
- * Klass som skapar meny fönstret för användaren. 
- * Användaren kan välja att klicka på tre knappar
- * Host: Skapar en spelserver som flera användare sedan kan ansluta till
- * Join: Ansluter till en befintlig spelserver
- * Quit: Avslutar applikationen
- * @author Julian Hultgren
- * Version 1.1
+ * Class that creates the menu window for the user. 
+ * The user can choose to click on three buttons
+ * Host: Creates a game server that multiple users can then connect to
+ * Join: Connect to an existing game server
+ * Quit: Exit application
+ * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
+ * Version 2.0
  *
  */
 public class MenuFrame implements ActionListener{
@@ -37,10 +33,9 @@ public class MenuFrame implements ActionListener{
 	private	JPanel panel = new JPanel(new GridLayout(4,1,10,10));
 	JFrame frame = new JFrame("Main Menu");
 	/**
-	 * Konstruktor som tar emot ett ImageIcon objekt.
-	 * Konstruktor bygger också upp menu rutan
-	 * @param icon
-	 * ImageIcon objektet skickas med som en parameter när en ny instans av klassen IconPanel skapas
+	 * Constructor who receives an ImageIcon object.
+	 * The constructor also builds the menu box
+	 * @param	ImageIcon	icon
 	 */
 	public MenuFrame(ImageIcon icon) {
 		
@@ -65,13 +60,14 @@ public class MenuFrame implements ActionListener{
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}	
+	
 	/**
-	 * Metod som anropas om en användaren klickar på någon av knapparna.
-	 * Metoden måste implementeras eftersom klassen implementeras interfacet ActionListener
-	 * Host: Skapar en spelserver som flera användare sedan kan ansluta till
-	 * Join: Ansluter till en befintlig spelserver
-	 * Quit: Avslutar applikationen
+	 * Method is called for when a user clicks on any of the buttons. 
+	 * Host: Creates a game server that multiple users can then join. 
+	 * Join: Connecting to an existing game server. 
+	 * Quit: Closes the application
 	 */
+	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == host) {
 			System.out.println("Någon har klickat på 'Host'"); //Kommentar för White box-testning - Julian Hultgren

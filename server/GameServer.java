@@ -3,23 +3,17 @@ package server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.text.AbstractDocument.BranchElement;
-
-import client.Tile;
 import gui.ServerFrame;
+
 /**
  * 
  * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
- * Version 0.7
+ * Version 2.0
  */
 public class GameServer implements Runnable{
 
@@ -42,6 +36,13 @@ public class GameServer implements Runnable{
 	private int id = 1;
 	private int treasurePos = 0;
 	
+	/**
+	 * Constructor starts up the server
+	 * 
+	 * @param 	int			port
+	 * @param	ServerFrame	ui
+	 */
+	
 	public GameServer(int port, ServerFrame ui){
 		this.ui = ui;
 		try{
@@ -51,6 +52,10 @@ public class GameServer implements Runnable{
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Starts the server thread
+	 */
 	
 	public void run() {
 		System.out.println("Server running...");
@@ -70,6 +75,10 @@ public class GameServer implements Runnable{
 		}		
 	}
 	
+	/**
+	 * Starts the game
+	 */
+	
 	public void startGame(){
 		System.out.println("Server: starta spelet på servern "+id);
 		for(int i = 1; i < id; i++){
@@ -78,6 +87,10 @@ public class GameServer implements Runnable{
 		}
 		clientMap.get(clientMapid.get(1)).clientsTurn(true);;
 	}
+	
+	/**
+	 * Inner class that handles the clients
+	 */
 	
 	
 	private class ClientHandler extends Thread{
@@ -91,6 +104,12 @@ public class GameServer implements Runnable{
 		private int playerid;
 		private CountDown cd = new CountDown(this);
 		
+		/**
+		 * Constructor starts up a output stream and a input stream
+		 * 
+		 * @param	Soket	socket
+		 */
+		
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			try {
@@ -100,6 +119,10 @@ public class GameServer implements Runnable{
 				e.printStackTrace();
 			}
 		}
+		
+		/**
+		 * Starts the "ClientHandeler" thread
+		 */
 		
 		public void run() {
 			while(socket.isConnected()){
@@ -233,18 +256,37 @@ public class GameServer implements Runnable{
 			}
 		}
 		
+		/**
+		 * Start the"Countdown" thread
+		 */
+		
 		public void startCountdown(){
 			cd.start();
 		}
+		
+		/**
+		 * Inner class that will send out a way to end your turn if you are stuck after 60 seconds
+		 *
+		 */
 		
 		private class CountDown extends Thread{
 			private int counter;
 			private ClientHandler clienthandler;
 			
+			/**
+			 * Constructor
+			 * 
+			 * @param	ClientHandler	ch
+			 */
+			
 			public CountDown(ClientHandler ch){
 				clienthandler = ch;
 				counter = 60;
 			}
+			
+			/**
+			 * Start the"Countdown" thread
+			 */
 			
 			public void run(){
 				while(!Thread.interrupted()){
@@ -261,10 +303,18 @@ public class GameServer implements Runnable{
 				
 			}
 			
+			/**
+			 * Resets the timer (to 60 seconds)
+			 */
+			
 			public void reset(){
 				counter = 60;
 			}
 		}
+		
+		/**
+		 * Sends a out a message to the client that it has timed out
+		 */
 		
 		public void timeout(){
 			System.out.println("Srever: Time out");
@@ -280,8 +330,10 @@ public class GameServer implements Runnable{
 		 * Method to enable the buttons for the next player
 		 * goes through the number of players and when it reaches
 		 * the number of players it goes back down to 1
-		 * @param enableButtons boolean
+		 * 
+		 * @param	boolean		enableButton
 		 */
+		
 		public void clientsTurn(boolean enableButtons){
 			nbrOfPlayers = clientMap.size();
 			System.out.println("Server: sleeping variabeln: " + characterMap.get(clientMapid.get(counter)).sleeping());
@@ -338,19 +390,12 @@ public class GameServer implements Runnable{
 			} else {
 				counter++;
 			}
-			
-			
-//			try {
-//				ch.output.writeObject(characterMap.get(clientMapid.get(counter)));
-//				ch.output.flush();
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
-
 		}
 		
 		/**
 		 * Creates a character and places it on a empty starting position
+		 * 
+		 * @param	String	name
 		 */
 
 		public synchronized void createCharacter(String name) {
@@ -402,8 +447,9 @@ public class GameServer implements Runnable{
 		/**
 		 * Checks if there is a character at the given position, returns true if
 		 * there is and false if there is not
-		 * @param row	int
-		 * @param col	int
+		 * 
+		 * @param row	int	row
+		 * @param col	int	col
 		 * @return 		boolean
 		 */
 
@@ -421,18 +467,17 @@ public class GameServer implements Runnable{
 					if (characterMap.get(userID).getRow() == row && characterMap.get(userID).getCol() == col) {
 						return true;
 					}
-				}
-				
-//				if (clientMapid.containsKey(i)) {
-//					userID = clientMapid.get(i);
-//					if (characterMap.get(userID).getRow() == row && characterMap.get(userID).getCol() == col) {
-//						return true;
-//					}
-//				}  
+				} 
 			}
 			System.out.println("Tilldelad plats");
 			return false;
 		}
+		
+		/**
+		 * Send out a character that has been change to all clients
+		 * 
+		 * @param	Character	charr
+		 */
 		
 		public void updateCharPos(client.Character charr) {
 			ArrayList<String> connectedUsers = new ArrayList<String>();
@@ -448,7 +493,11 @@ public class GameServer implements Runnable{
 				}
 			}
 		}
-
+		
+		/**
+		 * Closes the soket
+		 */
+		
 		public void closeSocket() {
 			try {
 				socket.close();
