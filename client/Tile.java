@@ -1,9 +1,11 @@
 package client;
+
 /**
  * 
- * @author 
- * Version 1.9
+ * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
+ * Version 2.0
  */
+
 public class Tile {
 	private boolean accessible;
 	private boolean seeThrough;
@@ -17,7 +19,12 @@ public class Tile {
 
 	
 	/**
-	 *Constructor
+	 * Constructor gives the basic information to the tile
+	 * 
+	 * @param 	String 	name
+	 * @param 	boolean	accessible
+	 * @param 	boolean	seethrough
+	 * @param 	boolean	treasure
 	 */
 	
 	public Tile(String name, boolean accessible, boolean seethrough, boolean treasure){
@@ -27,6 +34,11 @@ public class Tile {
 		this.treasure = treasure;
 	}
 	
+	/**
+	 * Returns true if their is a sleeping/wounded character on this tile
+	 * @return	boolean
+	 */
+	
 	public boolean containsSleepingCharacter(){
 		if(sleepingCharacter != null){
 			return true;
@@ -35,13 +47,18 @@ public class Tile {
 		}
 	}
 	
+	/**
+	 * Returns the character that occupies this tile
+	 * @return	Character
+	 */
+	
 	public Character getSleepingCharacter(){
 		return this.sleepingCharacter;
 	}
 	
-//	public Character getSleepingCharacter(){
-//		return sleepingCharacter;
-//	}
+	/**
+	 * removes the sleeping/wounded character on this tile
+	 */
 	
 	public void removeSleepingCharacter(){
 		character = sleepingCharacter;
@@ -150,7 +167,7 @@ public class Tile {
 	}
 	
 	/**
-	 * Plases a raft on this tile
+	 * Place a raft on this tile
 	 */
 	
 	public void raftOn(){
@@ -175,7 +192,7 @@ public class Tile {
 	}
 	
 	/**
-	 * Plases a canon on this tile
+	 * Place a canon on this tile
 	 */
 	
 	public void canonOn(){
@@ -200,7 +217,7 @@ public class Tile {
 	}
 	
 	/**
-	 * Plases a boat on this tile
+	 * Place a boat on this tile
 	 */
 	
 	public void boatOn(){
@@ -224,25 +241,47 @@ public class Tile {
 		return boat;
 	}
 	
+	/**
+	 * This method is a placeholder for waterTile
+	 * @param 	int		row
+	 * @param 	int		col
+	 */
+	
 	public void setNext(int row, int col){	
 	}
+	
+	/**
+	 * This method is a placeholder for waterTile
+	 * 
+	 * @return int
+	 */
 	
 	public int nextRow(){
 		return 0;
 	}
+	
+	/**
+	 * This method is a placeholder for waterTile
+	 * @return int
+	 */
 	
 	public int nextCol(){
 		return 0;
 	}
 	
 	/**
-	 * Returns the tile the character will get to if its a good roll
-	 * @return Tile
+	 * Returns the row the character will get to if its a good roll
+	 * @return int
 	 */
 	
 	public int successRow(){
 		return 0;
 	}
+	
+	/**
+	 * Returns the column the character will get to if its a good roll
+	 * @return int
+	 */
 	
 	public int successCol(){
 		return 0;
@@ -257,13 +296,18 @@ public class Tile {
 	}
 	
 	/**
-	 * Returns the tile the character will get to if its a bad roll
-	 * @return Tile
+	 * Returns the row the character will get to if its a bad roll
+	 * @return int
 	 */
 	
 	public int failRow(){
 		return 0;
 	}
+	
+	/**
+	 * Returns the column the character will get to if its a bad roll
+	 * @return int
+	 */
 	
 	public int failCol(){
 		return 0;

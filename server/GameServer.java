@@ -3,11 +3,18 @@ package server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument.BranchElement;
+
+import client.Tile;
 import gui.ServerFrame;
 
 /**
@@ -15,6 +22,7 @@ import gui.ServerFrame;
  * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
  * Version 2.0
  */
+
 public class GameServer implements Runnable{
 
 	private ServerSocket serverSocket;
@@ -300,7 +308,6 @@ public class GameServer implements Runnable{
 						clienthandler.timeout();
 					}
 				}
-				
 			}
 			
 			/**
@@ -390,6 +397,7 @@ public class GameServer implements Runnable{
 			} else {
 				counter++;
 			}
+
 		}
 		
 		/**
@@ -467,7 +475,7 @@ public class GameServer implements Runnable{
 					if (characterMap.get(userID).getRow() == row && characterMap.get(userID).getCol() == col) {
 						return true;
 					}
-				} 
+				}
 			}
 			System.out.println("Tilldelad plats");
 			return false;
@@ -497,7 +505,7 @@ public class GameServer implements Runnable{
 		/**
 		 * Closes the soket
 		 */
-		
+
 		public void closeSocket() {
 			try {
 				socket.close();

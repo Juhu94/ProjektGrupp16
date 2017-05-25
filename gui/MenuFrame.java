@@ -1,14 +1,19 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.GroupLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -24,6 +29,7 @@ import client.GameClient;
  * Version 2.0
  *
  */
+
 public class MenuFrame implements ActionListener{
 	private	IconPanel iconPanel;
 	private	JButton host = new JButton("Host");
@@ -32,11 +38,13 @@ public class MenuFrame implements ActionListener{
 	private GridBagLayout layout = new GridBagLayout();	
 	private	JPanel panel = new JPanel(new GridLayout(4,1,10,10));
 	JFrame frame = new JFrame("Main Menu");
+	
 	/**
 	 * Constructor who receives an ImageIcon object.
 	 * The constructor also builds the menu box
 	 * @param	ImageIcon	icon
 	 */
+	
 	public MenuFrame(ImageIcon icon) {
 		
 		iconPanel = new IconPanel(icon);

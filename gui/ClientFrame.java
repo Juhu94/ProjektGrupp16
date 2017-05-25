@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -30,12 +31,14 @@ import javax.swing.SwingConstants;
 
 import client.GameClient;
 
+
 /**
  * 
  * @author Julian Hultgren, Erik Johansson, Simon Börjesson, Lukas Persson
  * Version 2.0
  *
  */
+
 public class ClientFrame extends JPanel implements ActionListener, ViewerListener,KeyListener, MouseListener {
 
 	private JPanel panel = new JPanel();
@@ -147,7 +150,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	 * 
 	 * @param 	GameClient	client
 	 */
-	
 
 	public ClientFrame(GameClient client) {
 		this.client = client;
@@ -377,6 +379,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				svullo.setIcon(svulloIcon);
 			}
+//			svullo.setEnabled(sleeping);
 			svullo.repaint();
 			break;
 		case "TjoPang":
@@ -385,6 +388,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				tjoPang.setIcon(tjoPangIcon);
 			}
+//			tjoPang.setEnabled(sleeping);
 			tjoPang.repaint();
 			break;
 		case "TheRat":
@@ -393,6 +397,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				theRat.setIcon(theRatIcon);
 			}
+//			theRat.setEnabled(sleeping);
 			theRat.repaint();
 			break;
 		case "Hannibal":
@@ -401,6 +406,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				hannibal.setIcon(hannibalIcon);
 			}
+//			hannibal.setEnabled(sleeping);
 			hannibal.repaint();
 			break;
 		case "Markisen":
@@ -409,6 +415,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				markisen.setIcon(markisenIcon);
 			}
+//			markisen.setEnabled(sleeping);
 			markisen.repaint();
 			break;
 		case "Hook":
@@ -417,6 +424,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			} else{
 				hook.setIcon(hookIcon);
 			}
+//			hook.setEnabled(sleeping);
 			hook.repaint();
 			break;
 		case "Treasure":
@@ -479,27 +487,54 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	public void addConnectedUser(String name){
 		model.addElement(name);
 	}
-
+	
 	/**
 	 * Method to enable buttons
 	 * 
 	 * @param 	boolean		enableButtons
 	 */
+
+	public void updateViewer(ExtendedJLabel theLabel) {
+		theLabel.setBackground(Color.RED);
+	}
+
+	/**
+	 * Method to enable buttons
+	 * 
+	 * @param enableButtons
+	 *            boolean
+	 */
 	public void updateViewer() {
 		enableButtons("update");
 	}
+	
+	/**
+	 * Raplase the number of steps in "Inforuta"
+	 */
 
 	public void updateInfoRutaSteps(String text) {
-		infoArea.replaceRange(text, 190, 203);
-		
+		infoArea.replaceRange(text, 190, 203);	
 	}
+	
+	/**
+	 * Raplase the number of map pieces in "Inforuta"
+	 */
+	
 	public void updateInfoRutaMap(String text) {
 		infoArea.replaceRange(text, 292, 293);
 	}
 	
+	/**
+	 * Raplase the pesron that has the treasure in "Inforuta"
+	 */
+	
 	public void updateInfoRutaTreasure(String text) {
 		infoArea.replaceRange(text, 392, 412);
 	}
+	
+	/**
+	 * moves the given character to the given location
+	 */
 	
 	public void moveIcon(String name, int row, int col, boolean visible){
 		
@@ -592,7 +627,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	}
 
 	/**
-	 * method to enable or disable specific buttons
+	 * Method to enable or disable specific buttons
 	 * 
 	 * @param 	String		buttons
 	 */
@@ -657,9 +692,7 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	}
 	
 	/**
-	 * Action listener
-	 * 
-	 * @param	ActionEvent e
+	 * Action Listener
 	 */
 	
 	public void actionPerformed(ActionEvent e) {
@@ -735,11 +768,9 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 			}
 		}
 	}
-	
+
 	/**
 	 * Key Listener
-	 * 
-	 * @param	KeyEvent	e
 	 */
 	
 	public void keyPressed(KeyEvent e) {
@@ -756,7 +787,19 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		if(code == KeyEvent.VK_RIGHT){
 			client.moveCharacter(username.getText(), "Right");
 		}
-		
+//		if(code == KeyEvent.VK_ENTER){
+//			client.endTurn();
+//		}
+//		if(code == KeyEvent.VK_SPACE){
+//			if(bMove.isEnabled()) {
+//				enableButtons("move");
+//				client.throwDice();
+//			}
+//			else if(bEndTurn.isEnabled()){
+//				client.endTurn();
+//				enableButtons("disable all");
+//			}
+//		}
 		if(code == KeyEvent.VK_Q){
 			if(bMove.isEnabled()) {
 				enableButtons("move");
@@ -788,22 +831,19 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		}
 		
 	}
+
 	
-	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
+	
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	/**
-	 * Mouse Listener
-	 * @param	MouseEvent	e
+	 * Mouse listener
 	 */
 
 	public void mouseClicked(MouseEvent e) {
@@ -981,16 +1021,17 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 	}
-
+	
 	/**
 	 * Shows the choose character frame
 	 */
-	
+
+	@Override
 	public void chooseCharFrame() {
 		chooseCharFrame.setVisible(true);
 		
 	}
-
+	
 	/**
 	 * Sets which characters is available
 	 * 
@@ -1001,7 +1042,8 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 	 * @param	boolean	hannibal
 	 * @param	boolean	hook
 	 */
-	
+
+	@Override
 	public void updateChooseCharFrame(boolean svullo, boolean tjoPang, boolean theRat, boolean markisen,
 			boolean hannibal, boolean hook) {
 		
@@ -1013,4 +1055,6 @@ public class ClientFrame extends JPanel implements ActionListener, ViewerListene
 		hookBtn.setEnabled(hook);
 		
 	}
+
+	
 }

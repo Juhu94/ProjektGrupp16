@@ -4,6 +4,7 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 
 public interface ViewerListener {
+	public void updateViewer(ExtendedJLabel theLabel);
 	public void updateViewer();
 	public void updateInfoRutaSteps(String text);
 	public void updateInfoRutaMap(String text);

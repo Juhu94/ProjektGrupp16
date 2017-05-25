@@ -1,24 +1,33 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
 
-
-
+import client.GameClient;
 import server.GameServer;
 
 /**
@@ -36,12 +45,12 @@ public class ServerFrame extends JPanel implements ActionListener{
 	private JPanel flowPanel = new JPanel();
 	private JPanel inputPanel = new JPanel(new BorderLayout(50,0));
 	private JPanel inputcenterPanel = new JPanel(new FlowLayout());
-
 	private DefaultListModel model = new DefaultListModel();
 	private JList listUsers = new JList(model);
 	private JTextArea infoArea = new JTextArea();
 	private JButton bStartGame = new JButton("Starta spelomgång");
 	private JFrame frame = new JFrame("Server");
+	
 	private GameServer server = new GameServer(3520, this);
 	
 	private int counter = 0;
@@ -66,7 +75,7 @@ public class ServerFrame extends JPanel implements ActionListener{
 						+"-----------------------------------------------------------------------------------\n");
 
 			} catch (UnknownHostException e) {
-				e.printStackTrace();
+
 			}
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,11 +126,19 @@ public class ServerFrame extends JPanel implements ActionListener{
 	}
 	
 	/**
+	 * Adds text to the Info box
+	 */
+
+	public void updateInfoRuta(String text) {
+		infoArea.append(text+"\n");
+	}
+	
+	/**
 	 * Action listener
 	 */
-	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == bStartGame) {
+			//Anropa start metoden i GameClient
 			server.startGame();
 			bStartGame.setEnabled(false);
 		}
