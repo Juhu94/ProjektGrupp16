@@ -3,6 +3,13 @@ package gui;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
+/**
+ * 
+ * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
+ * Version 2.0
+ * 
+ */
+
 public interface ViewerListener {
 	public void updateViewer(ExtendedJLabel theLabel);
 	public void updateViewer();

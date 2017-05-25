@@ -1,9 +1,12 @@
 package client;
+
 /**
  * 
- * @author 
- * Version 1.0
+ * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
+ * Version 2.0
+ *
  */
+
 public class JungleTile extends Tile{
 	
 	/**

@@ -1,9 +1,12 @@
 package client;
+
 /**
  * 
- * @author 
- * Version 1.0
+ * @author Julian Hultgren, Lukas Persson, Erik Johansson, Simon Börjesson
+ * Version 2.0
+ *
  */
+
 public class SpecialTile extends Tile{
 	private int successRow;
 	private int successCol;
@@ -15,21 +18,27 @@ public class SpecialTile extends Tile{
 	}
 	
 	/**
-	 * Returns the tile the character will get to if its a good roll
-	 * @return Tile
+	 * Returns the row the character will get to if its a good roll
+	 * @return int
 	 */
 	
 	public int successRow(){
 		return successRow;
 	}
 	
+	/**
+	 * Returns the column the character will get to if its a good roll
+	 * @return int
+	 */
+	
 	public int successCol(){
 		return successCol;
 	}
 	
 	/**
-	 * Sets the tile the character will get to if success() get called
-	 * @param Tile
+	 * Sets the row and column the character will get to if success() get called
+	 * @param int row
+	 * @param int col
 	 */
 	
 	public void setSuccess(int row, int col){
@@ -38,21 +47,27 @@ public class SpecialTile extends Tile{
 	}
 	
 	/**
-	 * Returns the tile the character will get to if its a bad roll
-	 * @return Tile
+	 * Returns the row the character will get to if its a bad roll
+	 * @return int
 	 */
 	
 	public int failRow(){
 		return failRow;
 	}
 	
+	/**
+	 * Returns the column the character will get to if its a bad roll
+	 * @return int
+	 */
+	
 	public int failCol(){
 		return failCol;
 	}
 	
 	/**
-	 * Sets the tile the character will get to if fail() get called
-	 * @param Tile
+	 * Sets the row and column the character will get to if fail() get called
+	 * @param int row
+	 * @param int col
 	 */
 	
 	public void setFail(int row, int col){
